@@ -23,12 +23,12 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
 .l-wrapper{
     padding:10px 0px 60px 0px;
     overflow:hidden;
-    width:980px;
+    min-width:980px;
     display: block;
 }
 
 .l-container{
-    max-width:1000px;
+    min-width:980px;
     min-height: 100%;
     height:auto !important;
     height:100%;
@@ -118,3 +118,17 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
     color:#fff;
     font-weight: bolder;
 }
+
+.plank_logged{position: absolute; right: 10px; top:2px; border:1px solid #555;}
+
+ul.menu{display: table; clear: both;}
+ul.menu li{float:left;margin:3px;padding:3px;list-style: none}
+ul.menu li.current{}
+ul.menu li a{}
+ul.menu li.current a{}
+
+.block.publications_main{}
+
+.block.publications_main .publications{}
+.block.publications_main .publications .pub{ margin:10px;padding:10px;width: 980px;}
+.block.publications_main .publications .pub .foot .tags .tag{margin:0 10px 0 0}

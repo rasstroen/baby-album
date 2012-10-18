@@ -23,6 +23,66 @@ class PagesConfig {
                 ),
             ),
         ),
+        'user_profile_edit' => array(
+            'title' => 'Baby Album User Editing',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'user', 'action' => 'edit', 'mode' => 'profile'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
+        'edit_event' => array(
+            'title' => 'Baby Album Edit Event',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'album', 'action' => 'edit', 'mode' => 'event'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
+        'user_profile' => array(
+            'title' => 'Baby Album User',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'profile'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
+        'album' => array(
+            'title' => 'Baby Album Album',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'album', 'action' => 'list', 'mode' => 'events'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'admin' => array(
             'title' => 'Baby Album Admin',
             'layout' => 'two_columns',

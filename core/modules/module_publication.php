@@ -44,11 +44,15 @@ class module_publication extends module {
         $show_sortings = isset($opts['show_sortings']);
         $per_page = isset($opts['per_page']) ? $opts['per_page'] : 10;
         $per_page = min(100, max(1, (int) $per_page));
+
         $cond = new Conditions();
         $cond->setSorting(array('created' => array('order' => 'desc', 'title' => 'по дате')));
         $cond->setPaging(100000, $per_page);
 
         $where = array('1');
+        if(isset($opts['where']))
+            foreach($opts['where'] as $w)
+                $where[] = $w;
         $order = $cond->getSortingField() . ' ' . $cond->getSortingOrderSQL();
         $limit = $cond->getLimit();
 

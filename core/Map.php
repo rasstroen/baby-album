@@ -11,10 +11,6 @@ class Map {
      *
      */
 
-
-
-
-
     public static $map = array(
         'index' => array(
             '' => 'index',
@@ -22,11 +18,28 @@ class Map {
         'register' => array(
             '' => 'register',
         ),
+        'album' => array(
+            '%d' => array(
+                'edit' => 'album_edit',
+                '' => 'album',
+                'event' => array(
+                    '%d' => array(
+                        'edit' => 'edit_event',
+                    )
+                )
+            )
+        ),
         'publication' => array(
             '' => 'publications', // публикации
             '%d' => array(
                 '' => 'publication', // публикация
                 'edit' => 'publication_edit' // редактирование публикации
+            )
+        ),
+        'u' => array(
+            '%s' => array(
+                '' => 'user_profile',
+                'edit' => 'user_profile_edit'
             )
         ),
         'admin' => array(

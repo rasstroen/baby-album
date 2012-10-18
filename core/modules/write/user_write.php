@@ -14,6 +14,47 @@ class user_write extends write {
             case 'auth':
                 $this->auth();
                 break;
+            case 'edit':
+                $this->edit();
+                break;
+        }
+    }
+
+    function edit() {
+        if (isset($_FILES['userpic']) && !$_FILES['userpic']['error']) {
+            $result = ImageStore::store($_FILES['userpic']['tmp_name'], array('avatar_small' => '50x50x0', 'avatar_normal' => '100x100x0',), Config::MEDIA_TYPE_AVATAR);
+            foreach ($result['result']['file'] as $key => $file) {
+                if (isset($file['ID'])) {
+                    $id = $file['ID'];
+                    Database::query('UPDATE `user` SET `' . $key . '`=' . $id . ' WHERE `id`=' . CurrentUser::$id);
+                }
+            }
+        }
+
+        $fields_editable = array(
+            'first_name' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
+            'last_name' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
+            'middle_name' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
+            'nickname' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
+        );
+
+        $error = array();
+
+        foreach ($fields_editable as $fieldname => $pattern) {
+            if (isset($_POST[$fieldname])) {
+                if (preg_match($pattern, trim($_POST[$fieldname]))) {
+                    $to_update[] = $fieldname . '=' . Database::escape(trim($_POST[$fieldname]));
+                } else {
+                    $error[$fieldname] = 'Неправильный формат';
+                }
+            }
+        }
+        if (count($error)) {
+            Site::passWrite('error_edit', $error);
+            Site::passWrite('value_edit', $_POST);
+            return;
+        } else {
+            dpr($to_update);
         }
     }
 

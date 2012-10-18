@@ -14,6 +14,24 @@ class User {
         return $this->data['role'] == User::ROLE_ADMIN;
     }
 
+    function getAlbums(){
+        return Database::sql2array('SELECT * FROM `album` WHERE `user_id`='.$this->id);
+    }
+
+    function getAvatar($small = true) {
+        if ($small) {
+            $sizekey = 'avatar_small';
+            $image_id = $this->data[$sizekey];
+        } else {
+            $sizekey = 'avatar_normal';
+        }
+        $image_id = $this->data[$sizekey];
+        if (!$image_id)
+            return '';
+        $sub = substr(md5($image_id), 1, 4);
+        return 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_AVATAR . '/' . $sizekey . '/' . $sub . '/' . $image_id . '.jpg';
+    }
+
     function __construct($id, $data = false) {
         $this->id = $id;
         if ($data) {

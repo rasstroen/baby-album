@@ -11,7 +11,7 @@ class Users {
         return $users;
     }
 
-    function getByIdLoaded($user_id) {
+    public static function getByIdLoaded($user_id) {
         $data = Database::sql2row('SELECT * FROM `user` WHERE `id`=' . $user_id);
         if ($data) {
             return new User($user_id, $data);

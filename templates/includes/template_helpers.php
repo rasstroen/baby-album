@@ -8,17 +8,13 @@ global $config;
 
 function th_username($user) {
     $u = array();
-    $u[] = $user['last_name'];
-    $u[] = $user['middle_name'];
-    $u[] = $user['first_name'];
+    $u[] = $user['nickname'];
     return implode(' ', $u);
 }
 
 function input_error($data, $field, $form) {
     if (isset($data['write']['error_' . $form][$field])) {
-        ?>
-        <em class="error"><?php echo $data['write']['error_' . $form][$field]; ?></em>
-        <?php
+        ?><em class="error"><?php echo $data['write']['error_' . $form][$field]; ?></em><?php
     }
 }
 
