@@ -147,7 +147,7 @@ function tp_album_edit_event($data) {
                 <a href="<?php echo $event['pic_normal']; ?>">
                     <img src="<?php echo $event['pic_small']; ?>">
                 </a>
-                <a href="<?php echo $event['pic_orig']; ?>">
+                <a href="<?php echo $event['pic_big']; ?>">
                     скачать в большом размере
                 </a>
                 <a href="<?php echo $event['pic_orig']; ?>">
@@ -161,6 +161,13 @@ function tp_album_edit_event($data) {
 }
 
 function tp_album_list_events($data) {
+
+    $self = (CurrentUser::$id == $data['album']['user_id']);
+    if ($self) {
+        ?>
+        <a href="/album/<?php echo $data['album']['id'].'/event/0/edit'?>">Добавить событие</a>
+        <?php
+    }
     ?><div class="album">
         <?php
         foreach ($data['events'] as $event) {

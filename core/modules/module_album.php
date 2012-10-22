@@ -33,7 +33,7 @@ class module_album extends module {
 
     function getEditEvent() {
         $album_id = array_values(Site::$request_uri_array);
-        $album_id = $album_id[1];
+        $album_id = (int)$album_id[1];
         if (!$album_id) {
             header('Location: /');
             exit(0);
@@ -42,8 +42,7 @@ class module_album extends module {
         $event_id = array_values(Site::$request_uri_array);
         $event_id = $event_id[3];
         if (!$event_id) {
-            header('Location: /');
-            exit(0);
+            $event_id = 0;
         }
 
         $opts = array(
@@ -53,8 +52,16 @@ class module_album extends module {
             )
         );
         $data = $this->_list($opts);
+        if (!count($data['events']))
+            $data['events'] = array(
+                array(
+                    'template_id' => 1,
+                    'event_id'=>0,
+                    'album_id'=>$album_id)
+                );
 
-        return array('event' => array_pop($data['events']));
+        $ret = array('event' => array_pop($data['events']));
+        return $ret;
     }
 
     function getShowEvent() {
@@ -86,7 +93,7 @@ class module_album extends module {
     function getAlbumEvents() {
 
         $album_id = array_values(Site::$request_uri_array);
-        $album_id = $album_id[1];
+        $album_id = (int) $album_id[1];
         if (!$album_id) {
             header('Location: /');
             exit(0);
@@ -96,7 +103,9 @@ class module_album extends module {
                 'AE.`album_id`=' . $album_id
             )
         );
-        return $this->_list($opts);
+        $out = $this->_list($opts);
+        $out['album'] = Database::sql2row('SELECT * FROM `album` WHERE `id`=' . $album_id);
+        return $out;
     }
 
     function _list($opts = array()) {
