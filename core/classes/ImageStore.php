@@ -17,7 +17,7 @@ class ImageStore {
             $remove_old[$id] = 'remove_old[' . $id . ']=' . $id;
         }
         $url = 'http://img.pis.ec/rpc.php?method=upload&project_id=' . $media_type_id . '&' . implode('&', $sizes_) . '&remove_old=' . implode('&', $remove_old);
-        
+
         $result = self::curl($url, $path_to_exists_image, true);
         return $result;
     }
