@@ -13,6 +13,13 @@ class Config {
     const ALBUM_ITEM_TYPE_PARAMS = 2;
     const ALBUM_ITEM_TYPE_TEXT = 3;
 
+    public static $eyecolors = array(
+        1 => 'серые',
+        2 => 'синие',
+        3 => 'зелёные',
+        4 => 'карие',
+    );
+
     private static $config = array(
         'www_folder' => '',
         'static_path' => '/home/balbum.ru/static',

@@ -70,7 +70,7 @@ class Site {
         $data = self::$responseData;
         $config = self::$config;
         $write = self::$writePass;
-        $uri = array_keys(self::$request_uri_array);
+        $uri = array_values(self::$request_uri_array);
 
 
         $filename = Config::need('templates_root') . DIRECTORY_SEPARATOR . self::$config['layout'] . '.php';
@@ -143,12 +143,15 @@ class Site {
 
         $request_uri = $request_uri[0];
         $request_uri = explode('/', $request_uri);
+        
         $request_uri_array = array();
         foreach ($request_uri as $uripart) {
             $trimmed = trim($uripart);
-            if (trim($uripart) !== '')
-                $request_uri_array[$trimmed] = $trimmed;
+            
+            if ($trimmed !== '')
+                $request_uri_array[] = $trimmed;
         }
+        
 
         $cleared_request_uri = implode('/', $request_uri_array);
         if ($www_folder && strpos($cleared_request_uri, $www_folder) === 0) {

@@ -24,6 +24,7 @@ class Map {
                 '' => 'album',
                 'event' => array(
                     '%d' => array(
+                        '' => 'show_event',
                         'edit' => 'edit_event',
                     )
                 )
@@ -44,6 +45,12 @@ class Map {
         ),
         'admin' => array(
             '' => 'admin',
+            'templates' => array(
+                '' => 'admin_templates',
+                '%d' => array(
+                    'edit' => 'admin_template_edit'
+                ),
+            ),
             'event' => array(
                 '%d' => array(
                     'edit' => 'admin_event_edit',

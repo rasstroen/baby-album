@@ -11,6 +11,28 @@ class admin_write extends write {
             case 'edit_event':
                 $this->edit_event();
                 break;
+            case 'edit_template':
+                $this->edit_template();
+                break;
+        }
+    }
+
+    function edit_template() {
+        $id = (int) $_POST['id'];
+        $q = array();
+        foreach ($_POST['title'] as $field_id => $title) {
+            $type = $_POST['type'][$field_id];
+             $important = isset($_POST['important'][$field_id]) ? 1 : 0;
+            $field_id = is_numeric($field_id) ? $field_id : 'NULL';
+            $template_id = $id;
+            $pos = 0;
+            Database::query('REPLACE INTO `lib_event_templates_fields` SET
+                `field_id`=' . $field_id . ',
+                `template_id`=' . $template_id . ',
+                `pos`=' . $pos . ',
+                `type`=' . $type . ',
+                `important`=' . $important . ',
+                `title`=' . Database::escape($title) . '');
         }
     }
 

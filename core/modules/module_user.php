@@ -19,7 +19,7 @@ class module_user extends module {
     }
 
     function showProfile() {
-        $user_id = array_keys(Site::$request_uri_array);
+        $user_id = array_values(Site::$request_uri_array);
         $user_id = $user_id[1];
         if (!$user_id) {
             header('Location: /');

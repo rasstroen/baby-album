@@ -26,7 +26,7 @@ class module_publication extends module {
     }
 
     function showItem() {
-        $publication_id = array_keys(Site::$request_uri_array);
+        $publication_id = array_values(Site::$request_uri_array);
         $publication_id = (int) $publication_id[1];
         $data = $this->_list(array('where' => array('P.id=' . $publication_id)));
         Site::passTitle($data['publications'][$publication_id]['title']);
@@ -50,8 +50,8 @@ class module_publication extends module {
         $cond->setPaging(100000, $per_page);
 
         $where = array('1');
-        if(isset($opts['where']))
-            foreach($opts['where'] as $w)
+        if (isset($opts['where']))
+            foreach ($opts['where'] as $w)
                 $where[] = $w;
         $order = $cond->getSortingField() . ' ' . $cond->getSortingOrderSQL();
         $limit = $cond->getLimit();

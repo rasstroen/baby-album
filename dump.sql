@@ -59,9 +59,10 @@ CREATE TABLE `album_events` (
   `pic_small` int(11) NOT NULL,
   `pic_normal` int(11) NOT NULL,
   `pic_big` int(11) NOT NULL,
+  `pic_orig` int(10) unsigned NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `eventTime` int(10) unsigned NOT NULL,
+  `eventTime` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `eventTime` (`eventTime`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
@@ -73,7 +74,7 @@ CREATE TABLE `album_events` (
 
 LOCK TABLES `album_events` WRITE;
 /*!40000 ALTER TABLE `album_events` DISABLE KEYS */;
-INSERT INTO `album_events` VALUES (1,1,0,0,0,0,0,'','',0),(2,1,0,0,0,0,0,'','',0),(3,1,2,0,0,0,0,'','',0),(4,1,1,0,0,0,0,'','',0);
+INSERT INTO `album_events` VALUES (1,1,0,0,0,0,0,0,'','','0000-00-00 00:00:00'),(2,1,0,0,116,117,118,0,'','','0000-00-00 00:00:00'),(3,1,2,0,0,0,0,0,'','','0000-00-00 00:00:00'),(4,1,1,1350914539,209,210,211,212,'123123','','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `album_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -87,9 +88,9 @@ DROP TABLE IF EXISTS `album_events_fields`;
 CREATE TABLE `album_events_fields` (
   `event_id` int(11) NOT NULL,
   `field_id` int(11) NOT NULL,
-  `value_int` int(11) NOT NULL,
-  `value_varchar` varchar(255) NOT NULL,
-  `value_text` text NOT NULL,
+  `value_int` int(11) DEFAULT NULL,
+  `value_varchar` varchar(255) DEFAULT NULL,
+  `value_text` text,
   PRIMARY KEY (`event_id`,`field_id`),
   KEY `value_int` (`value_int`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -101,6 +102,7 @@ CREATE TABLE `album_events_fields` (
 
 LOCK TABLES `album_events_fields` WRITE;
 /*!40000 ALTER TABLE `album_events_fields` DISABLE KEYS */;
+INSERT INTO `album_events_fields` VALUES (4,5,NULL,'44567',NULL),(4,6,NULL,'4567кг',NULL),(4,8,NULL,'Лёнька',NULL),(4,9,4567,NULL,NULL),(4,10,457,NULL,NULL),(4,11,1,NULL,NULL),(4,19,NULL,'123123',NULL);
 /*!40000 ALTER TABLE `album_events_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,7 +126,7 @@ CREATE TABLE `lib_event_templates` (
 
 LOCK TABLES `lib_event_templates` WRITE;
 /*!40000 ALTER TABLE `lib_event_templates` DISABLE KEYS */;
-INSERT INTO `lib_event_templates` VALUES (1,'Рождение'),(3,'День рождения');
+INSERT INTO `lib_event_templates` VALUES (1,'Событие'),(2,'Рождение'),(3,'День рождения');
 /*!40000 ALTER TABLE `lib_event_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,8 +138,8 @@ DROP TABLE IF EXISTS `lib_event_templates_fields`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `lib_event_templates_fields` (
-  `field_id` int(11) NOT NULL,
-  `template_id` int(11) NOT NULL AUTO_INCREMENT,
+  `field_id` int(11) NOT NULL AUTO_INCREMENT,
+  `template_id` int(11) NOT NULL,
   `pos` tinyint(3) unsigned NOT NULL,
   `type` tinyint(3) unsigned NOT NULL,
   `important` tinyint(3) unsigned NOT NULL,
@@ -146,7 +148,7 @@ CREATE TABLE `lib_event_templates_fields` (
   UNIQUE KEY `template_id_2` (`template_id`,`type`),
   KEY `pos` (`pos`),
   KEY `template_id` (`template_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -155,7 +157,7 @@ CREATE TABLE `lib_event_templates_fields` (
 
 LOCK TABLES `lib_event_templates_fields` WRITE;
 /*!40000 ALTER TABLE `lib_event_templates_fields` DISABLE KEYS */;
-INSERT INTO `lib_event_templates_fields` VALUES (1,1,5,1,1,'Назвали'),(2,1,1,12,1,'Время рождения'),(3,1,3,8,1,'Вес'),(4,1,4,9,1,'Цвет глаз'),(5,1,2,10,1,'Рост'),(6,3,1,8,1,'Мой вес'),(7,3,2,10,1,'Мой рост');
+INSERT INTO `lib_event_templates_fields` VALUES (1,1,1,1,1,'Время'),(2,1,2,2,0,'Заголовок'),(3,1,3,3,0,'Описание'),(4,1,4,4,0,'Фотография'),(5,2,5,1,1,'Дата и время рождения'),(6,2,6,3,1,'Как это было?'),(7,2,7,4,0,'Фотография'),(8,2,8,5,0,'Как назвали?'),(9,2,9,6,1,'Вес счастья'),(10,2,10,7,1,'Рост счастья'),(11,2,11,8,0,'Цвет глазок радости'),(12,3,12,1,1,'Дата'),(13,3,13,3,1,'Опишите день'),(14,3,14,4,0,'Фотография'),(16,3,16,7,0,'Наш рост'),(17,3,17,6,0,'Наш вес'),(18,3,1,2,0,'Заголовок'),(19,2,1,2,0,'Заголовок');
 /*!40000 ALTER TABLE `lib_event_templates_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -172,7 +174,7 @@ CREATE TABLE `lib_event_templates_fields_types` (
   `type_name` varchar(22) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +183,7 @@ CREATE TABLE `lib_event_templates_fields_types` (
 
 LOCK TABLES `lib_event_templates_fields_types` WRITE;
 /*!40000 ALTER TABLE `lib_event_templates_fields_types` DISABLE KEYS */;
-INSERT INTO `lib_event_templates_fields_types` VALUES (1,'строка','string'),(2,'текст','text'),(3,'фотография','photo'),(4,'время','time'),(5,'дата и время','datetime'),(6,'дата','date'),(7,'вес в граммах','weight'),(8,'вес в килограммах','weightkg'),(9,'цвет глаз','eye'),(10,'рост в сантиметрах','height'),(12,'время события','eventTime'),(13,'описание события','description'),(14,'заголовок события','title');
+INSERT INTO `lib_event_templates_fields_types` VALUES (1,'eventTime','eventTime'),(2,'eventTitle','eventTitle'),(3,'eventDescription','description'),(4,'eventPhoto','photo'),(5,'имя ребёнка','name'),(6,'вес','weight'),(7,'рост','height'),(8,'цвет глаз','eyecolor');
 /*!40000 ALTER TABLE `lib_event_templates_fields_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,8 +201,6 @@ CREATE TABLE `lib_events` (
   `age_start_days` int(10) unsigned NOT NULL,
   `age_end_days` int(10) unsigned NOT NULL,
   `description` text NOT NULL,
-  `need_photo` tinyint(3) unsigned NOT NULL,
-  `need_description` tinyint(3) unsigned NOT NULL,
   `template_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   KEY `age_start_days` (`age_start_days`,`age_end_days`)
@@ -213,7 +213,7 @@ CREATE TABLE `lib_events` (
 
 LOCK TABLES `lib_events` WRITE;
 /*!40000 ALTER TABLE `lib_events` DISABLE KEYS */;
-INSERT INTO `lib_events` VALUES (1,'Рождение',0,0,31,'Этого события ждали долгие месяцы, и вот - это произошло! С днём рождения, малыш!',0,0,1),(2,'Выписка',0,0,31,'Наконец-то домой! Показываться родственникам и обживаться на новом месте.',0,0,0),(5,'Первые самостоятельные шаги',0,200,600,'За ручку мы уже находились, теперь - сами!',0,0,0),(6,'Держим головку',0,31,120,'Охх сколько всего интересного вокруг! Только успевай шеей крутить!',0,0,0),(7,'Первый день рождения',0,363,600,'Мне уже целый год! Сколько всего интересного за год успело произойти!',1,0,3),(8,'Первый раз сели',0,40,200,'Лежать надоело, сидеть - весело!',0,0,0),(9,'Первый раз засмеялись',0,55,150,'Рассмешили так рассмешили) Теперь буду смеяться без остановки!',0,0,0),(10,'Первое кормление',0,90,365,'Что это? Совсем не похоже на мамино молоко!',0,0,0),(11,'Стоим сами',0,210,400,'Сидеть, лежать... А я вот постою! А вам слабо?',0,0,0),(12,'Первый зуб',0,60,380,'Всё, вылез! Первый зубик, привет!',0,0,0),(13,'Первая игрушка',0,0,63,'Моя самая первая в жизни игрушка!',1,0,0),(14,'Я и мама',0,0,50,'Первая фотография с мамой',1,0,0),(15,'Я и папа',0,0,60,'Первая фотография с папой',1,0,0),(16,'Я и семья',0,5,90,'Первая семейная фотография',1,0,0),(17,'Танцую',0,100,450,'Вот как я танцую, завидуйте все!',0,0,0),(18,'Первый поход в поликлинику',0,30,180,'А там куча деток, и все с мамами! Вот где настоящее веселье!',0,0,0),(19,'Второй день рождения',0,720,800,'Мне уже два года! Вот как мы празднуем!',0,0,3),(20,'Моё первое слово, кроме \"мама\"',0,365,728,'',0,1,0);
+INSERT INTO `lib_events` VALUES (1,'Рождение',0,0,31,'Этого события ждали долгие месяцы, и вот - это произошло! С днём рождения, малыш!',2),(2,'Выписка',0,0,31,'Наконец-то домой! Показываться родственникам и обживаться на новом месте.',1),(5,'Первые самостоятельные шаги',0,200,600,'За ручку мы уже находились, теперь - сами!',1),(6,'Держим головку',0,31,120,'Охх сколько всего интересного вокруг! Только успевай шеей крутить!',1),(7,'Первый день рождения',0,363,600,'Мне уже целый год! Сколько всего интересного за год успело произойти!',3),(8,'Первый раз сели',0,40,200,'Лежать надоело, сидеть - весело!',1),(9,'Первый раз засмеялись',0,55,150,'Рассмешили так рассмешили) Теперь буду смеяться без остановки!',1),(10,'Первое кормление',0,90,365,'Что это? Совсем не похоже на мамино молоко!',1),(11,'Стоим сами',0,210,400,'Сидеть, лежать... А я вот постою! А вам слабо?',1),(12,'Первый зуб',0,60,380,'Всё, вылез! Первый зубик, привет!',1),(13,'Первая игрушка',0,0,63,'Моя самая первая в жизни игрушка!',1),(14,'Я и мама',0,0,50,'Первая фотография с мамой',1),(15,'Я и папа',0,0,60,'Первая фотография с папой',1),(16,'Я и семья',0,5,90,'Первая семейная фотография',1),(17,'Танцую',0,100,450,'Вот как я танцую, завидуйте все!',1),(18,'Первый поход в поликлинику',0,30,180,'А там куча деток, и все с мамами! Вот где настоящее веселье!',1),(19,'Второй день рождения',0,720,800,'Мне уже два года! Вот как мы празднуем!',3),(20,'Моё первое слово, кроме \"мама\"',0,365,728,'',1);
 /*!40000 ALTER TABLE `lib_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,7 +329,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'c09c58da1dd29917bd07a83fd44f65d1','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'Александрович',105,106,20),(9,'f6b3ccd5ea079bd4e4b44f368aa8598b','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'',0,0,20);
+INSERT INTO `user` VALUES (2,'c09c58da1dd29917bd07a83fd44f65d1','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'Александрович',105,106,20),(9,'712d94760e0bd7c33be3af3caf4fbafb','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'',0,0,20);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,4 +366,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-18 15:47:53
+-- Dump completed on 2012-10-22 16:03:18

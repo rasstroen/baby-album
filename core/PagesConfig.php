@@ -8,6 +8,21 @@ class PagesConfig {
     private static $pages = array(
         '404' => array(),
         // Главная
+        'admin_template_edit' => array(
+            'title' => 'Baby Album Admin Template Edit',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'admin', 'action' => 'edit', 'mode' => 'template'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'admin_event_edit' => array(
             'title' => 'Baby Album Admin Event Edit',
             'layout' => 'two_columns',
@@ -18,6 +33,21 @@ class PagesConfig {
             'blocks' => array(
                 'content' => array(
                     array('name' => 'admin', 'action' => 'edit', 'mode' => 'event'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
+        'show_event' => array(
+            'title' => 'Baby Album One Event',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'album', 'action' => 'show', 'mode' => 'event'),
                 ),
                 'sidebar' => array(
                 ),
@@ -78,6 +108,21 @@ class PagesConfig {
             'blocks' => array(
                 'content' => array(
                     array('name' => 'album', 'action' => 'list', 'mode' => 'events'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
+        'admin_templates' => array(
+            'title' => 'Baby Album Admin',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'admin', 'action' => 'list', 'mode' => 'templates'),
                 ),
                 'sidebar' => array(
                 ),

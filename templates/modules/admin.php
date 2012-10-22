@@ -17,6 +17,115 @@ function format_child_age_days_period($day1, $day2) {
     return $day1 . '-' . $day2 . ' дн';
 }
 
+function _th_draw_template_field($field, $is_new = false) {
+    global $field_types, $field_types_unused;
+    if (!$field_types) {
+        $field_types_unused = $field_types = Database::sql2array('SELECT * FROM `lib_event_templates_fields_types` ORDER BY id', 'id');
+    }
+
+    if ($is_new)
+        $field_types = $field_types_unused;
+
+    if ($is_new) {
+        $field = array(
+            'id' => 0,
+            'pos' => 0,
+            'name' => 'новое поле',
+            'title' => 'новое поле',
+            'important' => false,
+            'type_id' => 0
+        );
+    }
+    ?>
+    <tr>
+        <td><?php echo $field['pos']; ?></td>
+        <td>
+            <?php if (isset($field['id'])) { ?>
+                <select name="type[<?php echo $field['id'] ?>]">
+                    <?php
+                    foreach ($field_types as $id => $type) {
+                        if ($id == $field['type_id']) {
+                            unset($field_types_unused[$id]);
+                            $selected = "selected='selected'";
+                        }
+                        else
+                            $selected = "";
+                        ?>
+                        <option <?php echo $selected ?> value="<?php echo $type['id'] ?>"><?php echo $type['name'] ?></option>
+                        <?php
+                    }
+                    ?>
+                </select>
+            <?php } ?>
+        </td>
+        <td><input name="title[<?php echo $field['id'] ?>]" value="<?php echo $field['title']; ?>"></td>
+        <td>
+            <?php
+            $checked = false;
+            if ($field['important'])
+                $checked = 'checked="checked"';
+            ?>
+            <input name="important[<?php echo $field['id'] ?>]" type="checkbox" <?php echo $checked; ?> >
+        </td>
+    </tr>
+    <?php
+}
+
+function tp_admin_edit_template($data) {
+    draw_admin_menu();
+    $template = $data['template'];
+    ?><h2><?php echo $template['title']; ?></h2><?php
+    $fields_ = $template['fields'];
+    $fields = array();
+    foreach ($fields_ as $field) {
+        $fields[$field['type_name']] = array(
+            'type' => $field['type_name'],
+            'type_id' => $field['type'],
+            'important' => $field['important'],
+            'title' => $field['title'],
+            'id' => $field['field_id'],
+            'pos' => $field['pos']
+        );
+    }
+    ?><style>
+        .admin_temlates th,.admin_temlates td{text-align: center;padding:2px; vertical-align: middle}
+    </style>
+    <form method="post">
+        <input type="hidden" value="admin" name="writemodule">
+        <input type="hidden" value="edit_template" name="action">
+        <input type="hidden" value="<?php input_val($data, $template, 'id', 'edit_template') ?>" name="id">
+        <table border="1" cellpadding="0" cellspacing="1" class="admin_temlates">
+            <tr>
+                <td>позиция</td>
+                <td>тип поля</td>
+                <td>заголовок для пользователя</td>
+                <td>обязательно для заполнения</td>
+            </tr>
+            <?php
+            if (count($fields))
+                foreach ($fields as $field) {
+                    _th_draw_template_field($field);
+                }
+            ?>
+            <tr>
+                <td colspan="4">
+                    добавление поля
+                </td>
+            </tr>
+            <?php
+            _th_draw_template_field(array(), true);
+            ?>
+            <tr>
+                <td colspan="4">
+                    <input type="submit" value="Сохранить" />
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <?php
+}
+
 function tp_admin_edit_event($data) {
     $event = isset($data['events']) ? array_pop($data['events']) : array();
     ?>
@@ -61,16 +170,7 @@ function tp_admin_edit_event($data) {
                 <td><textarea name="description"><?php input_val($data, $event, 'description', 'edit_event') ?></textarea></td>
                 <td>Текст, который показывается при заполнении эвента, и в описании эвента</td>
             </tr>
-            <tr>
-                <td>Необходимо фото?<?php input_error($data, 'need_photo', 'edit_event'); ?></td>
-                <td><input value="<?php input_val($data, $event, 'need_photo', 'edit_event') ?>" name="need_photo"></td>
-                <td>1 или 0. Не даем сохранить эвент, пока не загружена фотка. Например, эвент "моя первая фотография" без фото - это фигня а не эвент.</td>
-            </tr>
-            <tr>
-                <td>Необходимо описание?<?php input_error($data, 'need_description', 'edit_event'); ?></td>
-                <td><input value="<?php input_val($data, $event, 'need_description', 'edit_event') ?>" name="need_description"></td>
-                <td>1 или 0. Не даем сохранить эвент, пока не нет описания. Например, эвент "текст моей первой песенки" без текста - это фигня а не эвент.</td>
-            </tr>
+
             <tr>
                 <td>Шаблон</td>
                 <td><select name="template_id">
@@ -110,6 +210,30 @@ function tp_admin_edit_event($data) {
     <?php
 }
 
+function tp_admin_list_templates($data) {
+    draw_admin_menu();
+    ?><h2>Шаблоны</h2>
+    <style>
+        .admin_temlates th,.admin_temlates td{text-align: center;padding:2px; vertical-align: middle}
+    </style>
+    <table border="1" cellpadding="0" cellspacing="1" class="admin_temlates">
+        <tr>
+            <td>id</td>
+            <td>название шаблона</td>
+        </tr>
+        <?php foreach ($data['templates'] as $id => $data) {
+            ?>
+            <tr>
+                <td><?php echo $id; ?></td>
+                <td><a href="/admin/templates/<?php echo $id; ?>/edit"><?php echo $data['title']; ?></a></td>
+            </tr>
+            <?php
+        }
+        ?>
+    </table>
+    <?php
+}
+
 function tp_admin_list_events($data) {
     draw_admin_menu();
     ?><h2>Эвенты</h2>
@@ -123,8 +247,7 @@ function tp_admin_list_events($data) {
             <th>пол</th>
             <th>возраст</th>
             <th>описание</th>
-            <th>фото необходимо</th>
-            <th>описание необходимо</th>
+
             <th>шаблон эвента</th>
             <th>управление</th>
         </tr>
@@ -136,8 +259,7 @@ function tp_admin_list_events($data) {
                 <td><?php echo ($event['male'] == 0) ? 'не важен' : ($event['male'] == 1 ? 'мальчик' : 'девочка'); ?></td>
                 <td><?php echo format_child_age_days_period($event['age_start_days'], $event['age_end_days']); ?></td>
                 <td><?php echo $event['description']; ?></td>
-                <td><?php echo $event['need_photo'] ? 'да' : 'нет'; ?></td>
-                <td><?php echo $event['need_description'] ? 'да' : 'нет'; ?></td>
+
                 <td><a href="/admin/templates/<?php echo $event['template_id']; ?>"><?php echo $event['template']; ?></a></td>
                 <td><a href="/admin/event/<?php echo $event['id']; ?>/edit">редактировать</a></td>
             </tr>
