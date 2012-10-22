@@ -48,7 +48,7 @@ class album_write extends write {
 
     function editEvent() {
         $error = array();
-        $album_id = (int)$_POST['album_id'];
+        $album_id = (int) $_POST['album_id'];
         if (isset($_POST['id'])) {
             $event_id = max(0, (int) $_POST['id']);
             $template_id = Database::sql2single('SELECT `template_id` FROM `album_events` AE
@@ -135,10 +135,14 @@ class album_write extends write {
                         Database::query('UPDATE `album_events` SET `' . $key . '`=' . $id . ' WHERE `id`=' . $event_id);
                     }
                 }
+            } else {
+                $error['photo'] = 'Недопустимый формат файла';
+                Site::passWrite('error_', $error);
+                Site::passWrite('value', $_POST);
             }
         }
 
-        header('Location: /album/'.$album_id.'/event/'.$event_id);
+        header('Location: /album/' . $album_id . '/event/' . $event_id);
     }
 
 }

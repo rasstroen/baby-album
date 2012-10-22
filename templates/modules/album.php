@@ -110,7 +110,7 @@ function tp_album_show_event($data) {
 
 function tp_album_edit_event($data) {
     $event = $data['event'];
-    $album_id = (int)$event['album_id'];
+    $album_id = (int) $event['album_id'];
     $values = $event;
     $fields = array();
     if ($event['template_id'])
@@ -120,7 +120,7 @@ function tp_album_edit_event($data) {
             <input type="hidden" value="album" name="writemodule">
             <input type="hidden" value="edit_event" name="action">
             <input type="hidden" value="<?php input_val($data, $values, 'id', 'edit_event') ?>" name="id">
-            <input type="hidden" value="<?php echo $album_id;?>" name="album_id">
+            <input type="hidden" value="<?php echo $album_id; ?>" name="album_id">
             <?php
             foreach ($fields as $field) {
                 _th_draw_editing_field($field, $data);
@@ -134,21 +134,38 @@ function tp_album_edit_event($data) {
     }
 
     function _th_draw_event_in_list($event) {
-        $self = CurrentUser::$id = $event['user_id'];
+        $self = (CurrentUser::$id == $event['user_id']);
             ?>
-    <div class="event">
+    <div class="event_one">
         <?php if ($self) {
             ?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
+        <div class="head">
+
+        </div>
+        <div class="body">
+            <div class="img">
+                <a href="<?php echo $event['pic_normal']; ?>">
+                    <img src="<?php echo $event['pic_small']; ?>">
+                </a>
+                <a href="<?php echo $event['pic_orig']; ?>">
+                    скачать в большом размере
+                </a>
+                <a href="<?php echo $event['pic_orig']; ?>">
+                    скачать оригинал
+                </a>
+            </div>
+        </div>
+        <div class="foot"></div>
     </div>
     <?php
 }
 
 function tp_album_list_events($data) {
     ?><div class="album">
-    <?php
-    foreach ($data['events'] as $event) {
-        _th_draw_event_in_list($event);
-    }
-    ?>
+        <?php
+        foreach ($data['events'] as $event) {
+            _th_draw_event_in_list($event);
+        }
+        ?>
     </div><?php
 }
