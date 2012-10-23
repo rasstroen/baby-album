@@ -169,7 +169,7 @@ function _th_show_my_baby_age($data) {
         $q[] = $years . ' ' . declOfNum($years, array('год', 'года', 'лет'));
     if ($months)
         $q[] = $months . ' ' . declOfNum($months, array('месяц', 'месяца', 'месяцев'));
-    if($months && $days)
+    if ($months && $days)
         $q[] = 'и';
     if ($days)
         $q[] = $days . ' ' . declOfNum($days, array('день', 'дня', 'дней'));
@@ -185,15 +185,29 @@ function _th_show_my_baby_age($data) {
     <?php
 }
 
+function _th_show_suggest($data) {
+    ?> <div class="suggest">
+        <h3>Возможно, вы забыли поделиться событием?</h3><?php
+    foreach ($data['suggest'] as $suggest) {
+        ?><div class="event">
+                <a href="/album/<?php echo $data['album']['id'] ?>/event/0/edit?eid=<?php echo $suggest['id']; ?>">"<?php echo $suggest['title']; ?>"</a>
+            </div><?php
+        }
+        ?></div><?php
+}
+
 function tp_album_show_suggest_event($data) {
     if (isset($data['age_days'])) {
         _th_show_my_baby_age($data);
+    }
+    if (isset($data['suggest'])) {
+        _th_show_suggest($data);
     }
 }
 
 function tp_album_edit_item($data) {
     $values = $data['album'];
-    ?><div class="album_edit">
+        ?><div class="album_edit">
         <h2>Изменение настроек альбома</h2>
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" value="album" name="writemodule">

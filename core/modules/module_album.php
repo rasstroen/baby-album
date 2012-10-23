@@ -49,6 +49,18 @@ class module_album extends module {
         }
         if ($data['album']['user_id'] == CurrentUser::$id) {
             $data['age_days'] = getAgeInDays($data['album']['birthDate']);
+            $age_end_days = $data['age_days']->days;
+            $suggest = Database::sql2array('SELECT LE.id, LE.`age_start_days` , LE.`age_end_days` , LE.title, LE.template_id
+FROM `lib_events` LE
+WHERE `age_end_days` <' . $age_end_days . '
+AND LE.id NOT
+IN (
+SELECT DISTINCT event_id
+FROM album_events
+WHERE album_id =' . $album_id . '
+)
+ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
+            $data['suggest'] = $suggest;
         }
         return $data;
     }
@@ -90,11 +102,17 @@ class module_album extends module {
             )
         );
         $data = $this->_list($opts);
+        $event_id = isset($_GET['eid']) ? $_GET['eid'] : 0;
+        if ($event_id) {
+            $template_id = max(1, (int) Database::sql2single('SELECT `template_id` FROM `lib_events` WHERE `id`=' . $event_id));
+        } else {
+            $template_id = 1;
+        }
         if (!count($data['events']))
             $data['events'] = array(
                 array(
-                    'template_id' => 1,
-                    'event_id' => 0,
+                    'template_id' => $template_id,
+                    'event_id' => $event_id,
                     'album_id' => $album_id)
             );
 
