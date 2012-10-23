@@ -25,10 +25,10 @@ function tp_user_edit_profile($data) {
             <div class="block">
                 <div class="head">Фотография профиля</div>
                 <div class="data">
-                    <div class="title">в формате JPG,PNG<?php input_error($data, 'first_name', 'edit'); ?></div>
+                    <div class="title">в формате JPG,PNG</div>
                     <div class="value">
                         <input name="userpic" type="file">
-                        <?php if ($values['avatar_small']) { ?>
+                        <?php if ($values['pic_small']) { ?>
                             <img src="<?php echo $user->getAvatar(true) ?>" />
                             <img src="<?php echo $user->getAvatar(false) ?>" />
                         <?php } ?>
@@ -93,9 +93,9 @@ function tp_user_show_top_menu($data) {
     $menu = array(
         '' => 'Главная',
         'publication' => 'Публикации',
-        'album' => 'Альбомы',
-        'blog' => 'Блоги',
-        'news' => 'Новости',
+        'albums' => 'Альбомы',
+        //'blog' => 'Блоги',
+        //'news' => 'Новости',
     );
 
     foreach ($menu as $key => $title) {

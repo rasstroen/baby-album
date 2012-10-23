@@ -54,7 +54,8 @@ class user_write extends write {
             Site::passWrite('value_edit', $_POST);
             return;
         } else {
-            dpr($to_update);
+            if (count($to_update))
+                Database::query('UPDATE `user` SET ' . implode(',', $to_update) . ' WHERE `id`=' . CurrentUser::$id);
         }
     }
 

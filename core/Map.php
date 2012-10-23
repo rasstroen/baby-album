@@ -18,6 +18,9 @@ class Map {
         'register' => array(
             '' => 'register',
         ),
+        'albums' => array(
+            '' => 'feed_albums',
+        ),
         'album' => array(
             '%d' => array(
                 'edit' => 'album_edit',

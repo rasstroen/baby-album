@@ -98,6 +98,21 @@ class PagesConfig {
                 ),
             ),
         ),
+        'feed_albums' => array(
+            'title' => 'Baby Album Albums Feed',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'album', 'action' => 'list', 'mode' => 'events_common_feed'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'album' => array(
             'title' => 'Baby Album Album',
             'layout' => 'two_columns',
@@ -108,6 +123,21 @@ class PagesConfig {
             'blocks' => array(
                 'content' => array(
                     array('name' => 'album', 'action' => 'list', 'mode' => 'events'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
+        'album_edit' => array(
+            'title' => 'Baby Album Album Edit',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'album', 'action' => 'edit', 'mode' => 'item'),
                 ),
                 'sidebar' => array(
                 ),

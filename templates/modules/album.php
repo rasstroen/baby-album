@@ -160,19 +160,64 @@ function tp_album_edit_event($data) {
     <?php
 }
 
-function tp_album_list_events($data) {
+function tp_album_edit_item($data) {
+    $values = $data['album'];
+    ?><div class="album_edit">
+        <h2>Изменение настроек альбома</h2>
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" value="album" name="writemodule">
+            <input type="hidden" value="edit_album" name="action">
+            <input type="hidden" value="<?php echo $values['id']; ?>" name="album_id">
+            <div class="head">Мой ребёнок</div>
+            <div class="data">
+                <div class="title">Имя <?php input_error($data, 'child_name', 'edit'); ?></div>
+                <div class="value">
+                    <input name="child_name" value="<?php input_val($data, $values, 'child_name', 'edit') ?>">
+                </div>
+            </div>
+            <div class="data">
+                <div class="title">Дата рождения <?php input_error($data, 'birthDate', 'edit'); ?></div>
+                <div class="value">
+                    <input name="birthDate" value="<?php input_val($data, $values, 'birthDate', 'edit') ?>">
+                </div>
+            </div>
+            <div class="data">
+                <div class="title">Обложка альбома</div>
+                <div class="value">
+                    <input name="cover" type="file">
+                    <?php if ($values['pic_small']) { ?>
+                        <img src="<?php echo $values['pic_normal']; ?>" />
+                    <?php } ?>
+                </div>
+            </div>
+            <div class="submit">
+                <input type="submit" value="сохранить">
+            </div>
+        </form>
+    </div>
 
-    $self = (CurrentUser::$id == $data['album']['user_id']);
-    if ($self) {
-        ?>
-        <a href="/album/<?php echo $data['album']['id'].'/event/0/edit'?>">Добавить событие</a>
-        <?php
-    }
-    ?><div class="album">
-        <?php
-        foreach ($data['events'] as $event) {
-            _th_draw_event_in_list($event);
-        }
-        ?>
-    </div><?php
+    <?php
 }
+
+function tp_album_list_events($data) {
+    ?>
+    <div id="album" class="album">
+        <?php
+        $self = (CurrentUser::$id == $data['album']['user_id']);
+        if ($self) {
+            ?>
+            <div class="owner">
+                <span><a href="/album/<?php echo $data['album']['id'] . '/edit' ?>">Настройки альбома</a></span>
+                <span><a href="/album/<?php echo $data['album']['id'] . '/event/0/edit' ?>">Добавить событие</a></span>
+            </div>
+            <?php
+        }
+        ?><div class="album">
+            <?php
+            foreach ($data['events'] as $event) {
+                _th_draw_event_in_list($event);
+            }
+            ?>
+        </div>
+    </div><?php
+    }

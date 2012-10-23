@@ -29,8 +29,14 @@ CREATE TABLE `album` (
   `createTime` int(10) unsigned NOT NULL,
   `updateTime` int(10) unsigned NOT NULL,
   `birthDate` date NOT NULL,
+  `private` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `pic_small` int(10) unsigned NOT NULL,
+  `pic_normal` int(10) unsigned NOT NULL,
+  `pic_big` int(10) unsigned NOT NULL,
+  `pic_orig` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
+  KEY `user_id` (`user_id`),
+  KEY `private` (`private`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,7 +46,7 @@ CREATE TABLE `album` (
 
 LOCK TABLES `album` WRITE;
 /*!40000 ALTER TABLE `album` DISABLE KEYS */;
-INSERT INTO `album` VALUES (1,2,'Лёнька',1350036783,1350036783,'2011-10-24');
+INSERT INTO `album` VALUES (1,2,'Лёнька',1350036783,1350036783,'2011-10-24',0,111,112,113,114);
 /*!40000 ALTER TABLE `album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -65,7 +71,7 @@ CREATE TABLE `album_events` (
   `eventTime` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `eventTime` (`eventTime`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +80,7 @@ CREATE TABLE `album_events` (
 
 LOCK TABLES `album_events` WRITE;
 /*!40000 ALTER TABLE `album_events` DISABLE KEYS */;
-INSERT INTO `album_events` VALUES (1,1,0,1350917687,81,82,83,84,'','','0000-00-00 00:00:00'),(2,1,0,1350917815,85,86,87,88,'','','0000-00-00 00:00:00'),(3,1,2,1350916356,33,34,35,36,'','','0000-00-00 00:00:00'),(4,1,1,1350916475,45,46,47,48,'123123','','0000-00-00 00:00:00');
+INSERT INTO `album_events` VALUES (1,1,0,1350917687,81,82,83,84,'','','0000-00-00 00:00:00'),(2,1,0,1350917815,85,86,87,88,'','','0000-00-00 00:00:00'),(3,1,2,1350916356,33,34,35,36,'','','0000-00-00 00:00:00'),(4,1,1,1350916475,45,46,47,48,'123123','','0000-00-00 00:00:00'),(5,1,0,1350918758,89,90,91,92,'','','0000-00-00 00:00:00');
 /*!40000 ALTER TABLE `album_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -102,7 +108,7 @@ CREATE TABLE `album_events_fields` (
 
 LOCK TABLES `album_events_fields` WRITE;
 /*!40000 ALTER TABLE `album_events_fields` DISABLE KEYS */;
-INSERT INTO `album_events_fields` VALUES (1,1,NULL,'789',NULL),(1,2,NULL,'',NULL),(1,3,NULL,'',NULL),(2,1,NULL,'5678',NULL),(2,2,NULL,'',NULL),(2,3,NULL,'',NULL),(3,1,NULL,'44567',NULL),(3,2,NULL,'',NULL),(3,3,NULL,'',NULL),(4,5,NULL,'44567',NULL),(4,6,NULL,'4567кг',NULL),(4,8,NULL,'Лёнька',NULL),(4,9,4567,NULL,NULL),(4,10,457,NULL,NULL),(4,11,1,NULL,NULL),(4,19,NULL,'123123',NULL);
+INSERT INTO `album_events_fields` VALUES (0,1,NULL,'12342314',NULL),(0,2,NULL,'',NULL),(0,3,NULL,'',NULL),(1,1,NULL,'789',NULL),(1,2,NULL,'',NULL),(1,3,NULL,'',NULL),(2,1,NULL,'5678',NULL),(2,2,NULL,'',NULL),(2,3,NULL,'',NULL),(3,1,NULL,'44567',NULL),(3,2,NULL,'',NULL),(3,3,NULL,'',NULL),(4,5,NULL,'44567',NULL),(4,6,NULL,'4567кг',NULL),(4,8,NULL,'Лёнька',NULL),(4,9,4567,NULL,NULL),(4,10,457,NULL,NULL),(4,11,1,NULL,NULL),(4,19,NULL,'123123',NULL);
 /*!40000 ALTER TABLE `album_events_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -329,7 +335,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'c09c58da1dd29917bd07a83fd44f65d1','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'Александрович',105,106,20),(9,'712d94760e0bd7c33be3af3caf4fbafb','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'',0,0,20);
+INSERT INTO `user` VALUES (2,'9bd4aeb2d6163137e2af36682efe9131','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'rasstroen',93,94,20),(9,'712d94760e0bd7c33be3af3caf4fbafb','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'',0,0,20);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,4 +372,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-22 16:58:28
+-- Dump completed on 2012-10-23 12:37:16

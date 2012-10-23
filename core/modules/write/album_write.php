@@ -11,6 +11,9 @@ class album_write extends write {
             case 'edit_event':
                 $this->editEvent();
                 break;
+            case 'edit_album':
+                $this->editAlbum();
+                break;
         }
     }
 
@@ -33,18 +36,31 @@ class album_write extends write {
         return $out;
     }
 
-    /*
-     * Array
-      (
-      [eventTitle] => Array
-      (
-      [type] => eventTitle
-      [important] => 0
-      [title] => Заголовок
-      [field_id] => 19
-      [pos] => 1
-      )
-     */
+    function editAlbum() {
+        $error = array();
+        $album_id = (int) $_POST['album_id'];
+        $old = Database::sql2row('SELECT pic_small,pic_normal,pic_big,pic_orig FROM `album` WHERE `id`=' . $album_id);
+        list($small, $normal, $big, $orig) = array_values($old);
+        if (isset($_FILES['cover'])) {
+            if (!$_FILES['cover']['error']) {
+                $result = ImageStore::store($_FILES['cover']['tmp_name'], array('pic_small' => '100x100x0', 'pic_normal' => '200x200x0', 'pic_big' => '450x450x1', 'pic_orig' => '0x0x1'), Config::MEDIA_TYPE_ALBUM_COVER
+                                , array($small, $normal, $big, $orig));
+                foreach ($result['result']['file'] as $key => $file) {
+                    if (isset($file['ID'])) {
+                        $id = $file['ID'];
+                        Database::query('UPDATE `album` SET `' . $key . '`=' . $id . ' WHERE `id`=' . $album_id);
+                    }
+                }
+            } else {
+                $error['photo'] = 'Недопустимый формат файла';
+                Site::passWrite('error_edit', $error);
+                Site::passWrite('value', $_POST);
+                return false;
+            }
+        }
+
+        header('Location: /album/' . $album_id);
+    }
 
     function editEvent() {
         $error = array();

@@ -4,6 +4,7 @@ class Config {
 
     const MEDIA_TYPE_AVATAR = 3;
     const MEDIA_TYPE_PHOTO = 4;
+    const MEDIA_TYPE_ALBUM_COVER = 5;
     //
     const USER_ROLE_UNVERIFIED = 0;
     const USER_ROLE_VERIFIED = 10;

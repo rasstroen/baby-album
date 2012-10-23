@@ -20,6 +20,9 @@ class module_album extends module {
                     case 'event':
                         return $this->getEditEvent();
                         break;
+                    case 'item':
+                        return $this->getEditAlbum();
+                        break;
                 }
             case 'show':
                 switch ($mode) {
@@ -31,9 +34,25 @@ class module_album extends module {
         }
     }
 
+    function getEditAlbum() {
+        $album_id = array_values(Site::$request_uri_array);
+        $album_id = (int) $album_id[1];
+        if (!$album_id) {
+            $album_id = 0;
+        }
+        $query = 'SELECT * FROM `album` WHERE `id`=' . $album_id . ' AND `user_id`=' . CurrentUser::$id;
+        $data['album'] = Database::sql2row($query);
+        foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
+            $sub = substr(md5($data['album'][$sizekey]), 1, 4);
+            $url = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
+            $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
+        }
+        return $data;
+    }
+
     function getEditEvent() {
         $album_id = array_values(Site::$request_uri_array);
-        $album_id = (int)$album_id[1];
+        $album_id = (int) $album_id[1];
         if (!$album_id) {
             header('Location: /');
             exit(0);
@@ -56,9 +75,9 @@ class module_album extends module {
             $data['events'] = array(
                 array(
                     'template_id' => 1,
-                    'event_id'=>0,
-                    'album_id'=>$album_id)
-                );
+                    'event_id' => 0,
+                    'album_id' => $album_id)
+            );
 
         $ret = array('event' => array_pop($data['events']));
         return $ret;
