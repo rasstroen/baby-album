@@ -6,6 +6,11 @@ global $write;
 global $data;
 global $config;
 
+function declOfNum($number, $titles) {
+    $cases = array(2, 0, 1, 1, 1, 2);
+    return $titles[($number % 100 > 4 && $number % 100 < 20) ? 2 : $cases[min($number % 10, 5)]];
+}
+
 function th_username($user) {
     $u = array();
     $u[] = $user['nickname'];

@@ -29,9 +29,28 @@ class module_album extends module {
                     case 'event':
                         return $this->getShowEvent();
                         break;
+                    case 'suggest_event':
+                        return $this->getSuggestEvent();
+                        break;
                 }
                 break;
         }
+    }
+
+    function getSuggestEvent() {
+        $album_id = array_values(Site::$request_uri_array);
+        $album_id = (int) $album_id[1];
+        $query = 'SELECT * FROM `album` WHERE `id`=' . $album_id . ' AND `user_id`=' . CurrentUser::$id;
+        $data['album'] = Database::sql2row($query);
+        foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
+            $sub = substr(md5($data['album'][$sizekey]), 1, 4);
+            $url = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
+            $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
+        }
+        if ($data['album']['user_id'] == CurrentUser::$id) {
+            $data['age_days'] = getAgeInDays($data['album']['birthDate']);
+        }
+        return $data;
     }
 
     function getEditAlbum() {

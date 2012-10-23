@@ -125,6 +125,7 @@ class PagesConfig {
                     array('name' => 'album', 'action' => 'list', 'mode' => 'events'),
                 ),
                 'sidebar' => array(
+                    array('name' => 'album', 'action' => 'show', 'mode' => 'suggest_event'),
                 ),
             ),
         ),

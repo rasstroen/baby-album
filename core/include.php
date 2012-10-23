@@ -9,6 +9,42 @@ $includePathes = array(
     $core_path . 'classes/folders',
     $core_path . 'classes/posts',
 );
+
+function getBdayToAge($bday, $case) {
+
+    list($year, $month, $day) = explode('-', $bday);
+    $datetime = new DateTime();
+    $datetime->setDate($year, $month, $day);
+
+    $datetime_now = new DateTime();
+    $datetime_now->setDate(date('Y'), date('m'), date('d'));
+
+    switch ($case) {
+        case 'days':
+            $ret = $datetime->diff($datetime_now, $absolute = true);
+            break;
+        case 'month':
+
+            break;
+        case 'year':
+
+            break;
+    }
+    return $ret;
+}
+
+function getAgeInDays($birth_date) {
+    return getBdayToAge($birth_date, 'days');
+}
+
+function getAgeInMonths($birth_date) {
+    return getBdayToAge($birth_date, 'month');
+}
+
+function getAgeInYears($birth_date) {
+    return getBdayToAge($birth_date, 'year');
+}
+
 require_once 'Log.php';
 set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR, $includePathes));
 
@@ -19,8 +55,8 @@ function __autoload($className) {
     Log::logHtml('class loaded [' . $className . ']');
 }
 
-function sort_by_post_time($a,$b){
-    return $a->data['time']<$b->data['time'];
+function sort_by_post_time($a, $b) {
+    return $a->data['time'] < $b->data['time'];
 }
 
 function htmlSubstr($html, $length) {

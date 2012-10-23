@@ -160,6 +160,37 @@ function tp_album_edit_event($data) {
     <?php
 }
 
+function _th_show_my_baby_age($data) {
+    $years = $data['age_days']->y;
+    $months = $data['age_days']->m;
+    $days = $data['age_days']->d;
+    $q = array();
+    if ($years)
+        $q[] = $years . ' ' . declOfNum($years, array('год', 'года', 'лет'));
+    if ($months)
+        $q[] = $months . ' ' . declOfNum($months, array('месяц', 'месяца', 'месяцев'));
+    if($months && $days)
+        $q[] = 'и';
+    if ($days)
+        $q[] = $days . ' ' . declOfNum($days, array('день', 'дня', 'дней'));
+    ?>
+    <div class="my_age">
+        <?php if ($data['album']['pic_small']) { ?>
+            <div class="photo">
+                <img src="<?php echo $data['album']['pic_small']; ?>" />
+            </div>
+        <?php } ?>
+        Мне уже <?php echo implode(' ', $q); ?>
+    </div>
+    <?php
+}
+
+function tp_album_show_suggest_event($data) {
+    if (isset($data['age_days'])) {
+        _th_show_my_baby_age($data);
+    }
+}
+
 function tp_album_edit_item($data) {
     $values = $data['album'];
     ?><div class="album_edit">
