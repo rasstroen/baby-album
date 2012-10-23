@@ -22,7 +22,7 @@ class admin_write extends write {
         $q = array();
         foreach ($_POST['title'] as $field_id => $title) {
             $type = $_POST['type'][$field_id];
-             $important = isset($_POST['important'][$field_id]) ? 1 : 0;
+            $important = isset($_POST['important'][$field_id]) ? 1 : 0;
             $field_id = is_numeric($field_id) ? $field_id : 'NULL';
             $template_id = $id;
             $pos = 0;
@@ -38,6 +38,7 @@ class admin_write extends write {
 
     function edit_event() {
         $id = $_POST['id'] ? $_POST['id'] : 'NULL';
+        $_POST['template_id'] = max(1, (int) $_POST['template_id']);
         Database::query('INSERT INTO `lib_events` SET
             `id` = ' . $id . ',
             `title`=' . Database::escape($_POST['title']) . ',
@@ -45,8 +46,7 @@ class admin_write extends write {
             `age_start_days`=' . Database::escape($_POST['age_start_days']) . ',
             `age_end_days`=' . Database::escape($_POST['age_end_days']) . ',
             `description`=' . Database::escape($_POST['description']) . ',
-            `need_photo`=' . Database::escape($_POST['need_photo']) . ',
-            `need_description`=' . Database::escape($_POST['need_description']) . ',
+            
             `template_id`=' . Database::escape($_POST['template_id']) . '
                 ON DUPLICATE KEY UPDATE
             `title`=' . Database::escape($_POST['title']) . ',
@@ -54,8 +54,7 @@ class admin_write extends write {
             `age_start_days`=' . Database::escape($_POST['age_start_days']) . ',
             `age_end_days`=' . Database::escape($_POST['age_end_days']) . ',
             `description`=' . Database::escape($_POST['description']) . ',
-            `need_photo`=' . Database::escape($_POST['need_photo']) . ',
-            `need_description`=' . Database::escape($_POST['need_description']) . ',
+            
             `template_id`=' . Database::escape($_POST['template_id']) . '
                 ');
         $id = ($id == 'NULL') ? Database::lastInsertId() : $id;

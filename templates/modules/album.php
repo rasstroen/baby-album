@@ -64,11 +64,17 @@ function _th_draw_editing_field($field, $data) {
                     <?php
                     break;
                 case 'eventTime':
-                    ?><input name="<?php echo $field['type'] ?>" value="<?php echo date('Y-m-d H:i',strtotime($field_value)) ?>">
+                    ?><input name="<?php echo $field['type'] ?>" value="<?php echo date('Y-m-d H:i', strtotime($field_value)) ?>">
                     <script>
                         $('input[name="<?php echo $field['type'] ?>"]').datetimepicker({
                             dateFormat:"yy-mm-dd",
-                            timeFormat: 'hh:mm'
+                            timeFormat: 'hh:mm',
+                            timeText: 'Время',
+                            hourText: 'Часы',
+                            minuteText: 'Минуты',
+                            secondText: 'Секунды',
+                            currentText: 'Сегодня',
+                            closeText: 'Закрыть'
                         });
                     </script>
                     <?php
@@ -235,13 +241,34 @@ function tp_album_edit_item($data) {
                 </div>
             </div>
             <div class="data">
+                <div class="title">Пол <?php input_error($data, 'sex', 'edit'); ?></div>
+                <div class="value">
+                    <label for="radio_m">мальчик</label>
+                    <input id="radio_m" type="radio" <?php if (input_val($data, $values, 'sex', 'edit', 1) == 1) echo 'checked="checked"'; ?> name="sex" value="1">
+                    <label for="radio_d">девочка</label>
+                    <input id="radio_d" type="radio" <?php if (input_val($data, $values, 'sex', 'edit', 1) == 2) echo 'checked="checked"'; ?> name="sex" value="2">
+                </div>
+            </div>
+            <div class="data">
                 <div class="title">Дата рождения <?php input_error($data, 'birthDate', 'edit'); ?></div>
                 <div class="value">
                     <input name="birthDate" value="<?php input_val($data, $values, 'birthDate', 'edit') ?>">
                 </div>
+                <script>
+                    $('input[name="birthDate"]').datepicker({
+                        dateFormat:"yy-mm-dd",
+                        timeFormat: 'hh:mm',
+                        timeText: 'Время',
+                        hourText: 'Часы',
+                        minuteText: 'Минуты',
+                        secondText: 'Секунды',
+                        currentText: 'Теперь',
+                        closeText: 'Закрыть'
+                    });
+                </script>
             </div>
             <div class="data">
-                <div class="title">Обложка альбома</div>
+                <div class="title">Фото малыша на обложку</div>
                 <div class="value">
                     <input name="cover" type="file">
                     <?php if ($values['pic_small']) { ?>

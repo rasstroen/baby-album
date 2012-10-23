@@ -41,7 +41,7 @@ class album_write extends write {
         $album_id = (int) $_POST['album_id'];
         $old = Database::sql2row('SELECT pic_small,pic_normal,pic_big,pic_orig FROM `album` WHERE `id`=' . $album_id);
         list($small, $normal, $big, $orig) = array_values($old);
-        if (isset($_FILES['cover'])) {
+        if (isset($_FILES['cover']) && $_FILES['cover']['tmp_name']) {
             if (!$_FILES['cover']['error']) {
                 $result = ImageStore::store($_FILES['cover']['tmp_name'], array('pic_small' => '100x100x0', 'pic_normal' => '200x200x0', 'pic_big' => '450x450x1', 'pic_orig' => '0x0x1'), Config::MEDIA_TYPE_ALBUM_COVER
                                 , array($small, $normal, $big, $orig));
@@ -59,7 +59,14 @@ class album_write extends write {
             }
         }
 
-        header('Location: /album/' . $album_id);
+        $fields = array('child_name', 'sex', 'birthDate', 'private');
+        $to_insert = array();
+        foreach ($fields as $f)
+            $to_insert[] = $f . '=' . Database::escape(trim(isset($_POST[$f]) ? $_POST[$f] : 0));
+        if (count($to_insert))
+            Database::query('INSERT INTO `album` SET id= ' . $album_id . ',' . implode(',', $to_insert) . ' ON DUPLICATE KEY UPDATE ' . implode(',', $to_insert));
+
+        //header('Location: /album/' . $album_id);
     }
 
     function editEvent() {
@@ -142,7 +149,7 @@ class album_write extends write {
 
         $old = Database::sql2row('SELECT pic_small,pic_normal,pic_big,pic_orig FROM `album_events` WHERE `id`=' . $event_id);
         list($small, $normal, $big, $orig) = array_values($old);
-        if (isset($_FILES['photo'])) {
+        if (isset($_FILES['photo']) && $_FILES['photo']['tmp_name']) {
             if (!$_FILES['photo']['error']) {
                 $result = ImageStore::store($_FILES['photo']['tmp_name'], array('pic_small' => '200x200x0', 'pic_normal' => '450x450x1', 'pic_big' => '1680x1680x1', 'pic_orig' => '0x0x1'), Config::MEDIA_TYPE_PHOTO
                                 , array($small, $normal, $big, $orig));
