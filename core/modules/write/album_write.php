@@ -95,6 +95,7 @@ class album_write extends write {
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',NULL,' . Database::escape(trim($_POST[$eventName])) . ',NULL)';
                         break;
                     case 'eventTime':
+                        $_POST[$eventName] = date('Y-m-d H:i:s', strtotime($_POST[$eventName]));
                         $q_[] = '`eventTime`=' . Database::escape(htmlspecialchars(trim($_POST[$eventName])));
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',NULL,' . Database::escape(trim($_POST[$eventName])) . ',NULL)';
                         break;

@@ -29,9 +29,11 @@ class Map {
                     '%d' => array(
                         '' => 'show_event',
                         'edit' => 'edit_event',
-                    )
+                    ),
+                    'new' => 'edit_event'
                 )
-            )
+            ),
+            'new' => 'album_edit',
         ),
         'publication' => array(
             '' => 'publications', // публикации

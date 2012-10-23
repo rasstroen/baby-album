@@ -233,9 +233,12 @@ class PagesConfig {
             'js' => array(
                 array('href' => '/static/js/jquery.min.js'),
                 array('href' => '/static/js/jquery.timeago.js'),
+                array('href' => '/static/js/jquery-ui.js'),
+                array('href' => '/static/js/jquery-ui-timepicker-addon.js'),
             ),
             'css' => array(
                 array('href' => '/static/css/style.css'),
+                array('href' => '/static/css/jquery-ui-1.8.16.custom.css'),
             ),
             'blocks' => array(
                 'header' => array(

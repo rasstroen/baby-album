@@ -90,7 +90,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         }
 
         $event_id = array_values(Site::$request_uri_array);
-        $event_id = $event_id[3];
+        $event_id = (int) $event_id[3];
         if (!$event_id) {
             $event_id = 0;
         }
@@ -103,14 +103,20 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         );
         $data = $this->_list($opts);
         $event_id = isset($_GET['eid']) ? $_GET['eid'] : 0;
+        if (!$event_id) {
+            $event_id = array_values(Site::$request_uri_array);
+            $event_id = (int) $event_id[4];
+        }
         if ($event_id) {
-            $template_id = max(1, (int) Database::sql2single('SELECT `template_id` FROM `lib_events` WHERE `id`=' . $event_id));
+            $event_data = Database::sql2row('SELECT * FROM `lib_events` WHERE `id`=' . $event_id);
+            $template_id = max(1, $event_data['template_id']);
         } else {
             $template_id = 1;
         }
         if (!count($data['events']))
             $data['events'] = array(
                 array(
+                    'event_title' => $event_data['title'],
                     'template_id' => $template_id,
                     'event_id' => $event_id,
                     'album_id' => $album_id)
@@ -172,7 +178,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $per_page = min(100, max(1, (int) $per_page));
 
         $cond = new Conditions();
-        $cond->setSorting(array('eventTime' => array('order' => 'desc', 'title' => 'по дате')));
+        $cond->setSorting(array('eventTime' => array('order' => 'desc', 'title' => 'по дате')), array('eventTime' => array('order' => 'desc', 'title' => 'по дате')));
         $cond->setPaging(100000, $per_page);
 
         $where = array('1');
@@ -182,7 +188,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $order = $cond->getSortingField() . ' ' . $cond->getSortingOrderSQL();
         $limit = $cond->getLimit();
 
-        $query = 'SELECT SQL_CALC_FOUND_ROWS AE.*, LE.*, U.id as user_id,AE.id as id, LE.id as lib_event_id, LET.id as lib_template_id, AE.id as id
+        $query = 'SELECT SQL_CALC_FOUND_ROWS AE.*, LE.*, LE.title as event_title, U.id as user_id,AE.id as id, LE.id as lib_event_id, LET.id as lib_template_id, AE.id as id
             FROM `album_events` AE
             LEFT JOIN `lib_events` LE ON LE.id=AE.event_id
             LEFT JOIN `lib_event_templates` LET ON LET.id=LE.template_id

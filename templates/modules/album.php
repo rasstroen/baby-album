@@ -64,7 +64,13 @@ function _th_draw_editing_field($field, $data) {
                     <?php
                     break;
                 case 'eventTime':
-                    ?><input name="<?php echo $field['type'] ?>" value="<?php echo $field_value ?>">
+                    ?><input name="<?php echo $field['type'] ?>" value="<?php echo date('Y-m-d H:i',strtotime($field_value)) ?>">
+                    <script>
+                        $('input[name="<?php echo $field['type'] ?>"]').datetimepicker({
+                            dateFormat:"yy-mm-dd",
+                            timeFormat: 'hh:mm'
+                        });
+                    </script>
                     <?php
                     input_error($data, $field['type'], '');
                     break;
@@ -113,9 +119,17 @@ function tp_album_edit_event($data) {
     $album_id = (int) $event['album_id'];
     $values = $event;
     $fields = array();
+    $title = '';
+    $title = isset($event['event_title']) ? $event['event_title'] : $title;
+    $title = isset($event['title']) ? $event['title'] : $title;
+    if (!$title)
+        $title = 'Редактирование события';
+    else
+        $title = 'Событие "' . $title . '"';
     if ($event['template_id'])
         $fields = getTemplateFields((int) $event['template_id']);
     ?><div class="event_edit">
+        <h3><?php echo $title; ?></h3>
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" value="album" name="writemodule">
             <input type="hidden" value="edit_event" name="action">
@@ -190,10 +204,10 @@ function _th_show_suggest($data) {
         <h3>Возможно, вы забыли поделиться событием?</h3><?php
     foreach ($data['suggest'] as $suggest) {
         ?><div class="event">
-                <a href="/album/<?php echo $data['album']['id'] ?>/event/0/edit?eid=<?php echo $suggest['id']; ?>">"<?php echo $suggest['title']; ?>"</a>
+                <a href="/album/<?php echo $data['album']['id'] ?>/event/new/<?php echo $suggest['id']; ?>">"<?php echo $suggest['title']; ?>"</a>
             </div><?php
-        }
-        ?></div><?php
+    }
+    ?></div><?php
 }
 
 function tp_album_show_suggest_event($data) {
@@ -207,7 +221,7 @@ function tp_album_show_suggest_event($data) {
 
 function tp_album_edit_item($data) {
     $values = $data['album'];
-        ?><div class="album_edit">
+    ?><div class="album_edit">
         <h2>Изменение настроек альбома</h2>
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" value="album" name="writemodule">
