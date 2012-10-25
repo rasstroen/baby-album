@@ -139,6 +139,7 @@ function tp_album_edit_event($data) {
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" value="album" name="writemodule">
             <input type="hidden" value="edit_event" name="action">
+            <input type="hidden" value="<?php echo $event['event_id'];?>" name="event_id">
             <input type="hidden" value="<?php input_val($data, $values, 'id', 'edit_event') ?>" name="id">
             <input type="hidden" value="<?php echo $album_id; ?>" name="album_id">
             <?php

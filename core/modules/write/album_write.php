@@ -81,10 +81,35 @@ class album_write extends write {
                 $template_id = max(0, (int) $_POST['template_id']);
             }
         }
+        $event_event_id = 0;
+        if (isset($_POST['event_id'])) {
+            $template_id = Database::sql2single('SELECT `template_id` FROM `lib_events` LE
+                WHERE LE.`id`=' . (int) $_POST['event_id']);
+            $event_event_id = (int) $_POST['event_id'];
+        }
         if (!$template_id)
             $template_id = 1;
 
+
         $q = $q_ = array();
+        Database::query('START TRANSACTION');
+
+        if (!$event_id) {
+            $event_data = Database::sql2row('SELECT * FROM `lib_events` WHERE `id`=' . (int) $event_event_id);
+            if (isset($event_data['multiple']) && !$event_data['multiple']) {
+                // несколько раз нельзя
+                $exists = Database::sql2single('SELECT `id` FROM `album_events` WHERE `album_id`=' . $album_id . ' AND `event_id`=' . $event_data['id']);
+                if ($exists)
+                    throw new Exception('У Вас уже есть такое событие, и добавлять несколько копий этого события бессмысленно');
+            }
+
+            $query = 'INSERT INTO `album_events` SET id=NULL';
+            Database::query($query);
+            $event_id = Database::lastInsertId();
+        }
+
+
+
 
         $template_fields = $this->getTemplateFields($template_id);
 
@@ -127,8 +152,10 @@ class album_write extends write {
         if (count($error)) {
             Site::passWrite('error_', $error);
             Site::passWrite('value', $_POST);
+            Database::query('ROLLBACK');
             return false;
         }
+        Database::query('COMMIT');
         if (count($q)) {
             $query = 'REPLACE INTO `album_events_fields`(event_id,field_id,value_int,value_varchar,value_text) VALUES ' . implode(',', $q);
             Database::query($query);
@@ -137,11 +164,13 @@ class album_write extends write {
             $query = 'INSERT INTO `album_events` SET 
                 `createTime`=' . time() . ',
                 `id`=' . ($event_id ? $event_id : 'NULL') . ',
+                `event_id`=' . $event_event_id . ',
                 `album_id`=' . $album_id . ',
                 ' . implode(',', $q_) . '
                     ON DUPLICATE KEY UPDATE
                 `createTime`=' . time() . ',
                 `id`=' . ($event_id ? $event_id : 'NULL') . ',
+                `event_id`=' . $event_event_id . ',
                 `album_id`=' . $album_id . ',
                     ' . implode(',', $q_) . '
                     ';
