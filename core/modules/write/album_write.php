@@ -133,9 +133,9 @@ class album_write extends write {
                         $q_[] = '`eventTime`=' . Database::escape(htmlspecialchars(trim($_POST[$eventName])));
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',NULL,' . Database::escape(trim($_POST[$eventName])) . ',NULL)';
                         break;
-                    case 'eventDescription':
+                    case 'description':
                         $q_[] = '`description`=' . Database::escape(htmlspecialchars(trim($_POST[$eventName])));
-                        $q[] = '(' . $event_id . ',' . $field['field_id'] . ',NULL.NULL,' . Database::escape(trim($_POST[$eventName])) . ')';
+                        $q[] = '(' . $event_id . ',' . $field['field_id'] . ',NULL,NULL,' . Database::escape(trim($_POST[$eventName])) . ')';
                         break;
                     case 'weight':case'height':case'eyecolor':
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',' . Database::escape(trim($_POST[$eventName])) . ',NULL,NULL)';
