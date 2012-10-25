@@ -251,7 +251,10 @@ ORDER BY ' . $order . ' LIMIT ' . $limit . '';
         $uids = array();
 
         if (count($events))
-            $field_values = Database::sql2array('SELECT * FROM `album_events_fields` WHERE `event_id` IN(' . implode(',', array_keys($events)) . ')');
+            $field_values = Database::sql2array('SELECT AEF.*,LETF.title as event_field_title,T.* FROM `album_events_fields` AEF
+                JOIN `lib_event_templates_fields` LETF ON LETF.field_id=AEF.field_id
+                JOIN `lib_event_templates_fields_types` T ON T.id=LETF.type
+                WHERE `event_id` IN(' . implode(',', array_keys($events)) . ')');
         else
             $field_values = array();
 

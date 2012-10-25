@@ -100,19 +100,68 @@ function _th_draw_editing_field($field, $data) {
     <?php
 }
 
+function _th_draw_event_field($field) {
+    switch ($field['type_name']) {
+        case 'eventTime':case'photo':case'description':case'eventTitle':
+            break;
+        case 'name':// имя ребёнка
+            if ($field['value_varchar']) {
+                echo "\n";
+                ?><div class="ft"><?php echo $field['event_field_title']; ?></div><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_varchar'] ?></div><?php
+            }
+            break;
+        case 'weight':// вес
+            if ($field['value_int']) {
+                echo "\n";
+                ?><div class="ft"><?php echo $field['event_field_title']; ?></div><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?></div><?php
+            }
+            break;
+        case 'height':// рост
+            if ($field['value_int']) {
+                echo "\n";
+                ?><div class="ft"><?php echo $field['event_field_title']; ?></div><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?></div><?php
+            }
+            break;
+        case 'eyecolor':// рост
+            if ($field['value_int']) {
+                echo "\n";
+                ?><div class="ft"><?php echo $field['event_field_title']; ?></div><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[$field['value_int']] ?></div><?php
+            }
+            break;
+        default:
+            dpr($field);
+            break;
+    }
+}
+
 function tp_album_show_event($data) {
     $event = $data['event'];
+    $self = (CurrentUser::$id == $event['user_id']);
     ?>
-    <div class="event_one">
-        <div class="head"></div>
+    <div class="event_one event_type_<?php echo $event['event_id']; ?>">
+        <div class="head">
+            <div class="title"><?php echo $event['title']; ?></div>
+            <div class="time"><?php echo $event['eventTime']; ?></div>
+            <?php if ($self) {
+                ?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
+        </div>
         <div class="body">
-            <div class="img">
-                <a href="<?php echo $event['pic_big']; ?>">
-                    <img src="<?php echo $event['pic_normal']; ?>">
-                </a>
-                <a href="<?php echo $event['pic_orig']; ?>">
-                    скачать оригинал
-                </a>
+            <?php if ($event['pic_orig']) { ?>
+                <div class="img">
+                    <a href="<?php echo $event['pic_big']; ?>">
+                        <img src="<?php echo $event['pic_normal']; ?>">
+                    </a>
+                    <a class="orig" href="<?php echo $event['pic_orig']; ?>">оригинал</a>
+                </div>
+            <?php } ?>
+            <?php if ($event['description']) { ?>
+                <div class="description"><?php echo $event['description']; ?></div>
+            <?php } ?>
+            <div class="additional">
+                <?php
+                foreach ($event['fields'] as $field)
+                    _th_draw_event_field($field)
+                    ?>
             </div>
         </div>
         <div class="foot"></div>
@@ -139,7 +188,7 @@ function tp_album_edit_event($data) {
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" value="album" name="writemodule">
             <input type="hidden" value="edit_event" name="action">
-            <input type="hidden" value="<?php echo $event['event_id'];?>" name="event_id">
+            <input type="hidden" value="<?php echo $event['event_id']; ?>" name="event_id">
             <input type="hidden" value="<?php input_val($data, $values, 'id', 'edit_event') ?>" name="id">
             <input type="hidden" value="<?php echo $album_id; ?>" name="album_id">
             <?php
