@@ -23,6 +23,21 @@ class PagesConfig {
                 ),
             ),
         ),
+        'album_suggested_events' => array(
+            'title' => 'Baby Album Admin Suggested Events',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'album', 'action' => 'list', 'mode' => 'suggested_events'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'admin_event_edit' => array(
             'title' => 'Baby Album Admin Event Edit',
             'layout' => 'two_columns',

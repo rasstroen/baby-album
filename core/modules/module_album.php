@@ -13,6 +13,9 @@ class module_album extends module {
                     case 'events':
                         return $this->getAlbumEvents();
                         break;
+                    case 'suggested_events':
+                        return $this->getAlbumSuggestedEvents();
+                        break;
                 }
                 break;
             case 'edit':
@@ -35,6 +38,44 @@ class module_album extends module {
                 }
                 break;
         }
+    }
+
+    function getAlbumSuggestedEvents() {
+        $per_page = 10;
+        $album_id = array_values(Site::$request_uri_array);
+        $album_id = (int) $album_id[1];
+        $query = 'SELECT * FROM `album` WHERE `id`=' . $album_id . ' AND `user_id`=' . CurrentUser::$id;
+        $data['album'] = Database::sql2row($query);
+        foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
+            $sub = substr(md5($data['album'][$sizekey]), 1, 4);
+            $url = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
+            $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
+        }
+
+        $cond = new Conditions();
+        $cond->setPaging(99999, $per_page);
+
+
+        $data['age_days'] = getAgeInDays($data['album']['birthDate']);
+        $age_end_days = $data['age_days']->days;
+        $suggest = Database::sql2array('SELECT SQL_CALC_FOUND_ROWS LE.id, LE.`age_start_days` , LE.`age_end_days` , LE.title, LE.template_id, LE.description
+FROM `lib_events` LE
+ORDER BY `age_start_days` , `age_end_days` LIMIT ' . $cond->getLimit());
+        $eid = array();
+        foreach ($suggest as $suggest_) {
+            $eid[$suggest_['id']] = $suggest_['id'];
+        }
+        if (count($eid)) {
+            $query = 'SELECT `event_id`,`id` FROM `album_events` WHERE `album_id`=' . $album_id . ' AND `event_id` IN(' . implode(',', $eid) . ')';
+            $data['exists'] = Database::sql2array($query, 'event_id');
+        }
+        $total_count = Database::sql2single('SELECT FOUND_ROWS()');
+        $cond->setPaging($total_count, $per_page);
+        $data['count'] = $total_count;
+        $data['conditions'] = $cond->getConditions();
+        $data['suggest'] = $suggest;
+
+        return $data;
     }
 
     function getSuggestEvent() {

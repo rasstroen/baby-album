@@ -23,6 +23,7 @@ class Map {
         ),
         'album' => array(
             '%d' => array(
+                'suggested_events' => 'album_suggested_events',
                 'edit' => 'album_edit',
                 '' => 'album',
                 'event' => array(

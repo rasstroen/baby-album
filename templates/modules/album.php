@@ -205,15 +205,55 @@ function _th_show_my_baby_age($data) {
     <?php
 }
 
+function tp_album_list_suggested_events($data) {
+    ?><div class="suggested_events">
+    <?php
+    $my_days = $data['age_days']->days;
+    foreach ($data['suggest'] as $suggest) {
+        list($from, $titles_) = getAgeInHumanReadableByDaysCount($suggest['age_start_days']);
+        list($to, $titles) = getAgeInHumanReadableByDaysCount($suggest['age_end_days']);
+        if ($titles_[0] != $titles[0])
+            $from.=' ' . declOfNum($to, $titles_);
+        if ($suggest['age_start_days'])
+            $age_string = 'от ' . $from . ' до ' . $to . ' ' . declOfNum($to, $titles);
+        else
+            $age_string = 'до ' . $to . ' ' . declOfNum($to, $titles);
+        $css = (($my_days > $suggest['age_start_days']) && ($my_days < $suggest['age_end_days'])) ? 'fit' : '';
+        if (!$css)
+            $css = (($my_days < $suggest['age_start_days'])) ? 'too_young' : 'too_old';
+
+        $exists = isset($data['exists'][$suggest['id']]) ? $data['exists'][$suggest['id']]['id'] : false;
+        if ($exists)
+            $css.=' exists';
+        ?><div class="event">
+            <?php if (!$exists) {
+                ?><a href="/album/<?php echo $data['album']['id'] ?>/event/new/<?php echo $suggest['id']; ?>">"<?php echo $suggest['title']; ?>"</a><?php
+        } else {
+                ?><a href="/album/<?php echo $data['album']['id'] ?>/event/<?php echo $exists; ?>/edit">"<?php echo $suggest['title']; ?>"</a><?php
+        }
+            ?>
+
+                <p class="description"><?php echo $suggest['description']; ?></p>
+                <p class="age <?php echo $css; ?>"><?php echo $age_string; ?></p>
+            </div><?php
+    }
+        ?>
+    </div><?php
+}
+
 function _th_show_suggest($data) {
-    ?> <div class="suggest">
+        ?> <div class="suggest">
         <h3>Возможно, вы забыли поделиться событием?</h3><?php
     foreach ($data['suggest'] as $suggest) {
-        ?><div class="event">
+            ?><div class="event">
                 <a href="/album/<?php echo $data['album']['id'] ?>/event/new/<?php echo $suggest['id']; ?>">"<?php echo $suggest['title']; ?>"</a>
             </div><?php
     }
-    ?></div><?php
+        ?>
+        <div class="more">
+            <a href="/album/<?php echo $data['album']['id'] ?>/suggested_events">все события</a>
+        </div>
+    </div><?php
 }
 
 function tp_album_show_suggest_event($data) {
@@ -227,7 +267,7 @@ function tp_album_show_suggest_event($data) {
 
 function tp_album_edit_item($data) {
     $values = $data['album'];
-    ?><div class="album_edit">
+        ?><div class="album_edit">
         <h2>Изменение настроек альбома</h2>
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" value="album" name="writemodule">

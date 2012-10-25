@@ -37,6 +37,27 @@ function getAgeInDays($birth_date) {
     return getBdayToAge($birth_date, 'days');
 }
 
+function getAgeInHumanReadableByDaysCount($age_days) {
+    $result = $age_days;
+    $type_date = 'days';
+    if ($age_days > 60) {
+        $result = floor($age_days / 31 * 2) / 2;
+        $type_date = 'month';
+    }
+    if ($age_days > 365 * 2) {
+        $result = floor($age_days / 31 / 6) * 6;
+        $type_date = 'year';
+    }
+    // до 1 месяца
+    $titles = array(
+        'days' => array('дня', 'дней', 'дней'),
+        'year' => array('года', 'лет', 'лет'),
+        'month' => array('месяца', 'месяцев', 'месяцев'),
+    );
+    $titles = $titles[$type_date];
+    return array($result, $titles);
+}
+
 function getAgeInMonths($birth_date) {
     return getBdayToAge($birth_date, 'month');
 }

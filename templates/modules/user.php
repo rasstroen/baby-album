@@ -94,8 +94,8 @@ function tp_user_show_top_menu($data) {
         '' => 'Главная',
         'publication' => 'Публикации',
         'albums' => 'Альбомы',
-        //'blog' => 'Блоги',
-        //'news' => 'Новости',
+            //'blog' => 'Блоги',
+            //'news' => 'Новости',
     );
 
     foreach ($menu as $key => $title) {
