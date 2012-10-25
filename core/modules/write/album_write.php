@@ -87,10 +87,12 @@ class album_write extends write {
         $q = $q_ = array();
 
         $template_fields = $this->getTemplateFields($template_id);
+
         foreach ($template_fields as $eventName => $field) {
             if (!isset($_POST[$eventName]) || !trim($_POST[$eventName])) {
                 if ($field['important'] && ($field['type'] != 'photo'))
                     $error[$eventName] = 'Обязательно к заполнению';
+
                 if ($field['important'] && ($field['type'] == 'photo'))
                     if (!isset($_FILES[$eventName]))
                         $error[$eventName] = 'Обязательно к заполнению';
@@ -163,6 +165,7 @@ class album_write extends write {
                 $error['photo'] = 'Недопустимый формат файла';
                 Site::passWrite('error_', $error);
                 Site::passWrite('value', $_POST);
+                return false;
             }
         }
 

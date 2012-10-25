@@ -154,7 +154,16 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         } else {
             $template_id = 1;
         }
-        if (!count($data['events']))
+        if (!count($data['events'])) {
+            // создание эвента
+            // а можно несколько раз такой эвент создавать?
+            if(isset($event_data['multiple']) && !$event_data['multiple']){
+                // несколько раз нельзя
+                $exists = Database::sql2single('SELECT `id` FROM `album_events` WHERE `album_id`='.$album_id.' AND `event_id`='.$event_data['id']);
+                if($exists)
+                    throw new Exception('Уже есть такое событие');
+            }
+                
             $data['events'] = array(
                 array(
                     'event_title' => $event_data['title'],
@@ -162,6 +171,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
                     'event_id' => $event_id,
                     'album_id' => $album_id)
             );
+        }
 
         $ret = array('event' => array_pop($data['events']));
         return $ret;
