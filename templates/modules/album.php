@@ -164,7 +164,9 @@ function tp_album_show_event($data) {
                     ?>
             </div>
         </div>
-        <div class="foot"></div>
+        <div class="foot">
+            
+        </div>
     </div>
     <?php
 }
@@ -239,7 +241,9 @@ function tp_album_edit_event($data) {
                     ?>
             </div>
         </div>
-        <div class="foot"></div>
+        <div class="foot">
+            <div class="comments_count"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>#comments"><?php echo $event['comments_count']; ?></a><?php echo declOfNum($event['comments_count'], array('комментарий', 'комментария', 'комментариев')) ?></div>
+        </div>
     </div>
     <?php
 }

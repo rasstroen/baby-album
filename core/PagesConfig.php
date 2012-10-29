@@ -78,6 +78,7 @@ class PagesConfig {
             'blocks' => array(
                 'content' => array(
                     array('name' => 'album', 'action' => 'show', 'mode' => 'event'),
+                    array('name' => 'comments', 'action' => 'list', 'mode' => 'album_event'),
                 ),
                 'sidebar' => array(
                 ),
