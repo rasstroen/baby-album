@@ -1,10 +1,14 @@
 var album_id = 0;
 function init_hide_unhide(){
-    $('.hide a').bind('click',function(){
-        hide_suggest($(this),1);
+    $('.hide a').each(function(){
+        $(this).bind('click',function(){
+            hide_suggest($(this),1);
+        });
     });
-    $('.unhide a').bind('click',function(){
-        hide_suggest($(this),0);
+    $('.unhide a').each(function(){
+        $(this).bind('click',function(){
+            hide_suggest($(this),0);
+        });
     });
 }
 
@@ -17,14 +21,18 @@ function hide_suggest(o, hide){
     };
 
     $.post('/', params, function(data){
-        after_hide(data, event_id,hide);
+        after_hide(data, event_id, hide);
     },"json");
 }
 
 function after_hide(data, event_id, hide){
     if(hide){
-        $('#e_'+event_id).addClass('hidden');
+        $('#e_'+event_id).addClass('hidden').find('.hide').removeClass('hide').addClass('unhide').html('скрыт <a href="#">вернуть</a>').find('a').bind('click',function(){
+            hide_suggest($(this),0);
+        });
     }else{
-        $('#e_'+event_id).removeClass('hidden')
+        $('#e_'+event_id).removeClass('hidden').find('.unhide').removeClass('unhide').addClass('hide').html('<a href="#">больше не показывать</a>').find('a').bind('click',function(){
+            hide_suggest($(this),1);
+        });;
     }
 }
