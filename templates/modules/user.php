@@ -127,7 +127,12 @@ function draw_user_logged_plank($data) {
     $user = Users::getByIdLoaded(CurrentUser::$id);
     ?>
     <div class="plank_logged">
-        <a href="/u/<?php echo $user->data['id'] ?>"><?php echo th_username($user->data) ?></a>
+        <div class="card">
+            <div class="avatar">
+                <img src="<?php echo $user->getAvatar(); ?>"/>
+            </div>
+            <a href="/u/<?php echo $user->data['id'] ?>"><?php echo th_username($user->data) ?></a>
+        </div>
         <a href="/logout">выйти</a>
     </div>
     <?php

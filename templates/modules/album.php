@@ -205,24 +205,38 @@ function tp_album_edit_event($data) {
 
     function _th_draw_event_in_list($event) {
         $self = (CurrentUser::$id == $event['user_id']);
+        $user = Users::getByIdLoaded($event['user_id']);
             ?>
-    <div class="event_one">
-        <?php if ($self) {
-            ?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
+    <div class="event_one event_type_<?php echo $event['event_id']; ?>">
         <div class="head">
-
+            <div class="user">
+                <div class="av">
+                    <img src="<?php echo $user->getAvatar(true); ?>">
+                </div>
+                <div class="lnk">из альбома <a href="/album/<?php echo $event['album_id']; ?>"><?php echo $event['child_name']; ?></a></div>
+            </div>
+            <div class="title"><?php echo $event['title']; ?></div>
+            <div class="time"><?php echo $event['eventTime']; ?></div>
+            <?php if ($self) {
+                ?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
         </div>
         <div class="body">
-            <div class="img">
-                <a href="<?php echo $event['pic_normal']; ?>">
-                    <img src="<?php echo $event['pic_small']; ?>">
-                </a>
-                <a href="<?php echo $event['pic_big']; ?>">
-                    скачать в большом размере
-                </a>
-                <a href="<?php echo $event['pic_orig']; ?>">
-                    скачать оригинал
-                </a>
+            <?php if ($event['pic_orig']) { ?>
+                <div class="img">
+                    <a href="<?php echo $event['pic_big']; ?>">
+                        <img src="<?php echo $event['pic_small']; ?>">
+                    </a>
+                    <a class="orig" href="<?php echo $event['pic_orig']; ?>">оригинал</a>
+                </div>
+            <?php } ?>
+            <?php if ($event['description']) { ?>
+                <div class="description"><?php echo $event['description']; ?></div>
+            <?php } ?>
+            <div class="additional">
+                <?php
+                foreach ($event['fields'] as $field)
+                    _th_draw_event_field($field)
+                    ?>
             </div>
         </div>
         <div class="foot"></div>
@@ -275,7 +289,7 @@ function tp_album_list_suggested_events($data) {
         $exists = isset($data['exists'][$suggest['id']]) ? $data['exists'][$suggest['id']]['id'] : false;
         if ($exists)
             $css.=' exists';
-        ?><div class="event <?php echo 'e_'.$css;?>">
+        ?><div class="event <?php echo 'e_' . $css; ?>">
             <?php if (!$exists) {
                 ?><a href="/album/<?php echo $data['album']['id'] ?>/event/new/<?php echo $suggest['id']; ?>">"<?php echo $suggest['title']; ?>"</a><?php
         } else {
@@ -375,8 +389,21 @@ function tp_album_edit_item($data) {
     <?php
 }
 
-function tp_album_list_events($data) {
+function tp_album_list_main($data) {
     ?>
+    <div id="main_album" class="album">
+        <div class="album">
+            <?php
+            foreach ($data['events'] as $event) {
+                _th_draw_event_in_list($event);
+            }
+            ?>
+        </div>
+    </div><?php
+    }
+
+    function tp_album_list_events($data) {
+            ?>
     <div id="album" class="album">
         <?php
         $self = (CurrentUser::$id == $data['album']['user_id']);

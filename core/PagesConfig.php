@@ -7,7 +7,6 @@ class PagesConfig {
 
     private static $pages = array(
         '404' => array(),
-        // Главная
         'admin_template_edit' => array(
             'title' => 'Baby Album Admin Template Edit',
             'layout' => 'two_columns',
@@ -198,6 +197,7 @@ class PagesConfig {
             ),
             'blocks' => array(
                 'content' => array(
+                    array('name' => 'album', 'action' => 'list', 'mode' => 'main'),
                 ),
                 'sidebar' => array(
                 ),

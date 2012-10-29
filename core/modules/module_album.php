@@ -13,6 +13,9 @@ class module_album extends module {
                     case 'events':
                         return $this->getAlbumEvents();
                         break;
+                    case 'main':
+                        return $this->getAlbumMainEvents();
+                        break;
                     case 'suggested_events':
                         return $this->getAlbumSuggestedEvents();
                         break;
@@ -204,6 +207,16 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         return array('event' => array_pop($data['events']));
     }
 
+    function getAlbumMainEvents() {
+        $opts = array(
+            'where' => array(
+                'AE.`is_public`=1'
+            )
+        );
+        $out = $this->_list($opts);
+        return $out;
+    }
+
     function getAlbumEvents() {
 
         $album_id = array_values(Site::$request_uri_array);
@@ -219,6 +232,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         );
         $out = $this->_list($opts);
         $out['album'] = Database::sql2row('SELECT * FROM `album` WHERE `id`=' . $album_id);
+        Site::passTitle('Альбом "' . $out['album']['child_name'] . '"');
         return $out;
     }
 
@@ -240,8 +254,9 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $order = $cond->getSortingField() . ' ' . $cond->getSortingOrderSQL();
         $limit = $cond->getLimit();
 
-        $query = 'SELECT SQL_CALC_FOUND_ROWS AE.*, LE.*, LE.title as event_title, U.id as user_id,AE.id as id, LE.id as lib_event_id, LET.id as lib_template_id, AE.id as id
+        $query = 'SELECT SQL_CALC_FOUND_ROWS A.child_name as child_name,AE.*, LE.*, LE.title as event_title, U.id as user_id,AE.id as id, LE.id as lib_event_id, LET.id as lib_template_id, AE.id as id
             FROM `album_events` AE
+            LEFT JOIN `album` A ON A.id=AE.album_id
             LEFT JOIN `lib_events` LE ON LE.id=AE.event_id
             LEFT JOIN `lib_event_templates` LET ON LET.id=LE.template_id
             LEFT JOIN `user_album` UA ON UA.album_id=AE.album_id

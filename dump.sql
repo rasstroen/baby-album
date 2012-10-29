@@ -71,9 +71,11 @@ CREATE TABLE `album_events` (
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `eventTime` datetime NOT NULL,
+  `is_public` tinyint(3) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
-  KEY `eventTime` (`eventTime`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  KEY `eventTime` (`eventTime`),
+  KEY `is_public` (`is_public`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +84,7 @@ CREATE TABLE `album_events` (
 
 LOCK TABLES `album_events` WRITE;
 /*!40000 ALTER TABLE `album_events` DISABLE KEYS */;
-INSERT INTO `album_events` VALUES (2,1,1,1351255674,141,142,143,143,'','rtuy','1970-01-01 03:00:00');
+INSERT INTO `album_events` VALUES (2,1,1,1351255674,141,142,143,143,'','rtuy','1970-01-01 03:00:00',1),(3,1,15,1351499744,144,145,146,146,'вперёд!','','2012-10-02 12:35:00',1);
 /*!40000 ALTER TABLE `album_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +112,7 @@ CREATE TABLE `album_events_fields` (
 
 LOCK TABLES `album_events_fields` WRITE;
 /*!40000 ALTER TABLE `album_events_fields` DISABLE KEYS */;
-INSERT INTO `album_events_fields` VALUES (1,5,NULL,'1970-01-01 03:00:00',NULL),(1,6,NULL,'rtuy',NULL),(1,8,NULL,'',NULL),(1,9,4567,NULL,NULL),(1,10,4567,NULL,NULL),(1,11,0,NULL,NULL),(1,19,NULL,'',NULL),(2,5,NULL,'1970-01-01 03:00:00',NULL),(2,6,NULL,NULL,'rtuy'),(2,8,NULL,'',NULL),(2,9,4567,NULL,NULL),(2,10,4567,NULL,NULL),(2,11,0,NULL,NULL),(2,19,NULL,'',NULL);
+INSERT INTO `album_events_fields` VALUES (1,5,NULL,'1970-01-01 03:00:00',NULL),(1,6,NULL,'rtuy',NULL),(1,8,NULL,'',NULL),(1,9,4567,NULL,NULL),(1,10,4567,NULL,NULL),(1,11,0,NULL,NULL),(1,19,NULL,'',NULL),(2,5,NULL,'1970-01-01 03:00:00',NULL),(2,6,NULL,NULL,'rtuy'),(2,8,NULL,'',NULL),(2,9,4567,NULL,NULL),(2,10,4567,NULL,NULL),(2,11,0,NULL,NULL),(2,19,NULL,'',NULL),(3,1,NULL,'2012-10-02 12:35:00',NULL),(3,2,NULL,'вперёд!',NULL),(3,3,NULL,NULL,'');
 /*!40000 ALTER TABLE `album_events_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,4 +378,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-26 14:51:05
+-- Dump completed on 2012-10-29  9:37:57
