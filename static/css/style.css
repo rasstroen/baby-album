@@ -24,14 +24,17 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
     padding:10px 0px 60px 0px;
     overflow:hidden;
     min-width:980px;
+    max-width:1280px;
     display: block;
 }
 
 .l-container{
     min-width:980px;
+    max-width:980px;
     min-height: 100%;
     height:auto !important;
     height:100%;
+    margin:0 auto;
     position: relative;
     display: block;
     width: 100%;
@@ -144,3 +147,27 @@ ul.menu li.current a{}
 .ui-timepicker-rtl{ direction: rtl; }
 .ui-timepicker-rtl dl { text-align: right; }
 .ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
+
+.suggested_events .event{
+    position: relative;
+    border:2px solid #ddd;
+    margin:2px;
+    padding:3px;
+}
+
+.suggested_events .event.e_too_old{ /* too old for this event*/
+    background: #deffde;
+}
+
+.suggested_events .event.e_fit{ /* exactly our age */
+    background: #9eff9e ;
+}
+
+.suggested_events .event.e_too_young{ /* exactly our age */
+    background: #ff9e9e ;
+}
+
+.suggested_events .event.exists{ /* already filled */
+    background: #aeffae;
+}

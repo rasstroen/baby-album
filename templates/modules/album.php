@@ -275,7 +275,7 @@ function tp_album_list_suggested_events($data) {
         $exists = isset($data['exists'][$suggest['id']]) ? $data['exists'][$suggest['id']]['id'] : false;
         if ($exists)
             $css.=' exists';
-        ?><div class="event">
+        ?><div class="event <?php echo 'e_'.$css;?>">
             <?php if (!$exists) {
                 ?><a href="/album/<?php echo $data['album']['id'] ?>/event/new/<?php echo $suggest['id']; ?>">"<?php echo $suggest['title']; ?>"</a><?php
         } else {
