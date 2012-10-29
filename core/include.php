@@ -5,9 +5,9 @@ $includePathes = array(
     $core_path . 'modules',
     $core_path . 'modules/write',
     $core_path . 'classes',
+    $core_path . 'classes',
     $core_path . 'classes/user',
-    $core_path . 'classes/folders',
-    $core_path . 'classes/posts',
+    $core_path . 'classes/mail',
 );
 
 function getBdayToAge($bday, $case) {

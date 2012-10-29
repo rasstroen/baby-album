@@ -147,6 +147,14 @@ function tp_user_show_static_auth($data) {
 }
 
 function tp_user_show_register($data) {
+    if (isset($data['write']['success'])) {
+        ?>
+        <div class="register_success">
+            Вы успешно зарегистрированы на сайте. На Ваш Email отправлено письмо для подтверждения почтового ящика. После подтверждения Вы сможете пользоваться всеми функциями сайта.
+        </div>
+        <?php
+        return;
+    }
     ?>
     <form method="post">
         <input type="hidden" value="user" name="writemodule">
@@ -155,6 +163,8 @@ function tp_user_show_register($data) {
         <input type="text" name="email" />
         пароль:<?php input_error($data, 'password', 'register'); ?>
         <input type="password" name="password" />
+        никнейм:<?php input_error($data, 'nickname', 'register'); ?>
+        <input name="nickname" />
         <input type="submit" value="зарегистрироваться">
     </form>
     <?php

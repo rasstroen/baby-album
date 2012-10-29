@@ -89,6 +89,8 @@ class user_write extends write {
             $error['email'] = 'неправильный E-mail';
         if (!trim($_POST['password']))
             $error['password'] = 'Слишком короткий пароль';
+        if (!trim($_POST['nickname']))
+            $error['nickname'] = 'Придумайте никнейм';
 
         if (count($error)) {
             Site::passWrite('error_register', $error);
@@ -97,13 +99,23 @@ class user_write extends write {
             try {
                 $fields = array();
                 $data['email'] = strtolower(trim($_POST['email']));
+                $data['nickname'] = strtolower(trim($_POST['nickname']));
                 $data['password'] = md5(strtolower(trim($_POST['password'])));
                 $data['registerTime'] = time();
                 $data['role'] = User::ROLE_UNVERIFIED;
+                $data['hash'] = md5(time() . '-' . rand(1, 10));
                 foreach ($data as $f => $v) {
                     $fields[] = '`' . $f . '`=' . Database::escape($v);
                 }
+                $this->sendRegisterEmail($data['email'], '', $data['hash']);
                 Database::query('INSERT INTO `user` SET ' . implode(',', $fields));
+                try {
+                    Site::passWrite('success', true);
+                } catch (Exception $e) {
+                    $error['email'] = $e->getMessage();
+                    Site::passWrite('error_register', $error);
+                    return;
+                }
             } catch (Exception $e) {
                 $error['email'] = 'E-mail уже используется, укажите другой';
                 Site::passWrite('error_register', $error);
@@ -111,6 +123,23 @@ class user_write extends write {
             }
             CurrentUser::set_cookie(Database::lastInsertId());
         }
+    }
+
+    function sendRegisterEmail($email, $body, $hash) {
+        $body = '<h2>Поздравляем с успешной регистрацией на сайте balbum.ru</h2>';
+        $body .= 'Пожалуйста, пройдите по ссылке <a href="http://balbum.ru/c/' . $hash . '">http://balbum.ru/c/' . $hash . '</a> для подтверждения Вашего почтового адреса.';
+        $body = '<!DOCTYPE html PUBLIC "html">
+        <html>
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            </head>
+            <body>' . $body . '</body>
+        </html>';
+        $mailer = new MailSender();
+        $r = $mailer->mail(Config::GLOBAL_EMAIL, $email, 'Регистрация на balbum.ru', $body);
+        if (!$r)
+            throw new Exception('mailing error');
+        return $r;
     }
 
 }

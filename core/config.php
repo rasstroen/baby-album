@@ -2,6 +2,11 @@
 
 class Config {
 
+    const GLOBAL_EMAIL = 'admin@balbum.ru';
+    const GLOBAL_LOGIN = 'admin@balbum.ru';
+    const GLOBAL_EMAIL_PWD = 'Lazer2000';
+    const GLOBAL_EMAIL_SERVER = 'smtp.gmail.com';
+    //
     const MEDIA_TYPE_AVATAR = 3;
     const MEDIA_TYPE_PHOTO = 4;
     const MEDIA_TYPE_ALBUM_COVER = 5;
@@ -20,7 +25,6 @@ class Config {
         3 => 'зелёные',
         4 => 'карие',
     );
-
     private static $config = array(
         'www_folder' => '',
         'static_path' => '/home/balbum.ru/static',

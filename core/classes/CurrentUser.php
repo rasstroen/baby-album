@@ -30,6 +30,8 @@ class CurrentUser {
         if (isset($_COOKIE[$uid_coookie_key]) && isset($_COOKIE[$hash_coookie_key])) {
             $user_id = $_COOKIE[$uid_coookie_key];
             $user = Users::getByIdLoaded($user_id);
+            if (!$user)
+                return false;
             if ($user->data['session'] == $_COOKIE[$hash_coookie_key]) {
                 self::$id = $user_id;
                 self::$authorized = true;
