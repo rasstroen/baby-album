@@ -74,7 +74,8 @@ CREATE TABLE `album_events` (
   `is_public` tinyint(3) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `eventTime` (`eventTime`),
-  KEY `is_public` (`is_public`)
+  KEY `is_public` (`is_public`),
+  KEY `event_id` (`album_id`,`event_id`,`eventTime`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -368,6 +369,31 @@ LOCK TABLES `user_album` WRITE;
 INSERT INTO `user_album` VALUES (2,1);
 /*!40000 ALTER TABLE `user_album` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `user_suggest_inactive`
+--
+
+DROP TABLE IF EXISTS `user_suggest_inactive`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_suggest_inactive` (
+  `album_id` int(11) NOT NULL,
+  `event_id` int(11) NOT NULL,
+  PRIMARY KEY (`album_id`,`event_id`),
+  KEY `event_id` (`event_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_suggest_inactive`
+--
+
+LOCK TABLES `user_suggest_inactive` WRITE;
+/*!40000 ALTER TABLE `user_suggest_inactive` DISABLE KEYS */;
+INSERT INTO `user_suggest_inactive` VALUES (1,2),(1,5),(1,23);
+/*!40000 ALTER TABLE `user_suggest_inactive` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -378,4 +404,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-29  9:37:57
+-- Dump completed on 2012-10-29 10:37:45

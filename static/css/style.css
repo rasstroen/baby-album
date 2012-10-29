@@ -168,6 +168,12 @@ ul.menu li.current a{}
     background: #ff9e9e ;
 }
 
+.suggested_events .event.hidden{ /* exactly our age */
+    background: #deaaae ;
+}
+
+.suggested_events .event.hidden p{display: none;}
+
 .suggested_events .event.exists{ /* already filled */
     background: #aeffae;
 }

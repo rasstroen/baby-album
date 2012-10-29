@@ -74,6 +74,8 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT ' . $cond->getLimit());
             $query = 'SELECT `event_id`,`id` FROM `album_events` WHERE `album_id`=' . $album_id . ' AND `event_id` IN(' . implode(',', $eid) . ')';
             $data['exists'] = Database::sql2array($query, 'event_id');
         }
+        $query = 'SELECT `event_id`,`album_id` FROM `user_suggest_inactive` WHERE `album_id`=' . $album_id;
+        $data['hidden'] = Database::sql2array($query, 'event_id');
 
         $data['count'] = $total_count;
         $data['conditions'] = $cond->getConditions();
@@ -102,6 +104,12 @@ AND LE.id NOT
 IN (
 SELECT DISTINCT event_id
 FROM album_events
+WHERE album_id =' . $album_id . '
+)
+AND LE.id NOT
+IN (
+SELECT DISTINCT event_id
+FROM `user_suggest_inactive`
 WHERE album_id =' . $album_id . '
 )
 ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
