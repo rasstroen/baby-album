@@ -13,9 +13,27 @@ class module_user extends module {
                     case 'profile':
                         return $this->showProfile();
                         break;
+                    case 'confirmation':
+                        return $this->showConfirmation();
+                        break;
                 }
                 break;
         }
+    }
+
+    function showConfirmation() {
+        $hash = array_pop(Site::$request_uri_array);
+        list($id, $hash) = explode('-', $hash);
+        $data['success'] = false;
+        if ($hash) {
+            $success = Database::sql2single('SELECT id FROM `user` WHERE `id`=' . $id . ' AND `hash`=' . Database::escape($hash));
+            if ($success) {
+                CurrentUser::set_cookie($success);
+                Database::query('UPDATE `user` SET hash=\'\', `role`=' . User::ROLE_VERIFIED . ' WHERE id=' . $success);
+                $data['success'] = true;
+            }
+        }
+        return $data;
     }
 
     function showProfile() {

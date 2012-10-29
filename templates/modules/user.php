@@ -146,6 +146,14 @@ function tp_user_show_static_auth($data) {
     }
 }
 
+function tp_user_show_confirmation($data) {
+    if ($data['success']) {
+        ?><h2>Поздравляем! Вы подтвердили свой почтовый адрес.</h2><?php
+    } else {
+        ?><h2>Почтовый адрес уже подтвержден, или неверный код подтверждения.</h2><?php
+    }
+}
+
 function tp_user_show_register($data) {
     if (isset($data['write']['success'])) {
         ?>

@@ -107,8 +107,9 @@ class user_write extends write {
                 foreach ($data as $f => $v) {
                     $fields[] = '`' . $f . '`=' . Database::escape($v);
                 }
-                $this->sendRegisterEmail($data['email'], '', $data['hash']);
+
                 Database::query('INSERT INTO `user` SET ' . implode(',', $fields));
+                $uid = Database::lastInsertId();
                 try {
                     Site::passWrite('success', true);
                 } catch (Exception $e) {
@@ -116,12 +117,13 @@ class user_write extends write {
                     Site::passWrite('error_register', $error);
                     return;
                 }
+                $this->sendRegisterEmail($data['email'], '', $uid . '-' . $data['hash']);
             } catch (Exception $e) {
                 $error['email'] = 'E-mail уже используется, укажите другой';
                 Site::passWrite('error_register', $error);
                 return;
             }
-            CurrentUser::set_cookie(Database::lastInsertId());
+            CurrentUser::set_cookie($uid);
         }
     }
 

@@ -22,13 +22,28 @@ class PagesConfig {
                 ),
             ),
         ),
+        'email_confirmation' => array(
+            'title' => 'Baby Album Email Confirmation',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'confirmation'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'album_suggested_events' => array(
             'title' => 'Baby Album Admin Suggested Events',
             'layout' => 'two_columns',
             'css' => array(
             ),
             'js' => array(
-                 array('href' => '/static/js/suggests.js'),
+                array('href' => '/static/js/suggests.js'),
             ),
             'blocks' => array(
                 'content' => array(
