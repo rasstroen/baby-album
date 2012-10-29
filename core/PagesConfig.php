@@ -28,6 +28,7 @@ class PagesConfig {
             'css' => array(
             ),
             'js' => array(
+                 array('href' => '/static/js/suggests.js'),
             ),
             'blocks' => array(
                 'content' => array(

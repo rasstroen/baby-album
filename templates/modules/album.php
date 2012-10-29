@@ -270,6 +270,7 @@ function _th_show_my_baby_age($data) {
 }
 
 function tp_album_list_suggested_events($data) {
+    $album_id = $data['album']['id'];
     ?><div class="suggested_events">
     <?php
     $my_days = $data['age_days']->days;
@@ -293,9 +294,14 @@ function tp_album_list_suggested_events($data) {
         if ($exists)
             $css.=' exists';
         ?><div id="e_<?php echo $suggest['id']; ?>" class="event <?php echo 'e_' . $css; ?>">
-            <?php if (!$exists) { ?>
-                <?php if ($hidden) {
-                    ?>
+                <script>var album_id = <?php echo $album_id;?>;
+                    $(function(){
+                        init_hide_unhide();
+                    })
+                </script>
+                <?php if (!$exists) { ?>
+                    <?php if ($hidden) {
+                        ?>
                         <span class="unhide">скрыт <a href="#">вернуть</a></span>
                     <?php } ?>
                     <?php if (!$hidden) { ?>
