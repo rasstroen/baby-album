@@ -8,6 +8,26 @@ function tp_comments_list_album_event($data) {
     <?php
 }
 
+global $i;
+
+function _th_draw_comments($comments, $level = 1) {
+    global $i;
+    foreach ($comments as $comment) {
+        ?>
+        <div class="comment comment_<?php echo $level; ?> comment3_<?php echo (floor($level / 3) > 1) ? 'eq3' : 'eq0'; ?>">
+            <a name="comment-<?php echo $comment['id']; ?>"></a>
+            <div class="body <?php echo ( ($i++) % 2) ? 'odd ' : 'nodd ' ?>"><?php echo $comment['text'] ?></div>
+            <?php
+            if (isset($comment['childs']) && count($comment['childs'])) {
+                _th_draw_comments($comment['childs'], $level + 1);
+                ?><?php
+        }
+            ?>
+        </div>
+        <?php
+    }
+}
+
 function _th_draw_comment_leave_form($data) {
     $object_id = isset($data['object_id']) ? $data['object_id'] : 0;
     if (!CurrentUser::$authorized)
@@ -28,6 +48,9 @@ function _th_draw_comment_leave_form($data) {
                 <input type="submit" value="Отправить" />
             </div>
         </form>
+    </div>
+    <div class="comments">
+        <?php _th_draw_comments($data['comments']); ?>
     </div>
     <?php
 }

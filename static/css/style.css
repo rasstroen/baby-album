@@ -179,3 +179,21 @@ ul.menu li.current a{}
 .suggested_events .event.exists{ /* already filled */
     background: #aeffae;
 }
+
+.comment{
+    padding-left:40px;
+}
+
+.comment .body{
+    border:1px solid #000;
+    min-height: 100px;
+    margin:2px;
+    padding: 3px;
+}
+
+.body.odd{
+    background: #ababab!important;
+}
+.body.nodd{
+    background: #bebebe;
+}

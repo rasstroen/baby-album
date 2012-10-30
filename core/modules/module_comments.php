@@ -81,7 +81,7 @@ ORDER BY ' . $order . ' LIMIT ' . $limit . '';
                 $parents[$comment['parent_id']][$comment['id']] = $comment;
                 uasort($parents[$comment['parent_id']], 'x_sort_comment');
             }
-            
+
 
             $comments = $this->build_tree($parents, 0);
         }
