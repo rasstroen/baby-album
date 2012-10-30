@@ -15,7 +15,34 @@ class comment_write extends write {
     }
 
     function addComment() {
-        dpr($_POST);
+        switch ($_POST['object_type']) {
+            case Config::COMMENT_OBJECT_ALBUM_EVENT:
+                $this->addEventComment();
+                break;
+        }
+    }
+
+    function addEventComment() {
+        $parent_id = isset($_POST['parent_id']) ? $_POST['parent_id'] : 0;
+        $event_id = (int) $_POST['object_id'];
+
+        $object_type = Config::COMMENT_OBJECT_ALBUM_EVENT;
+        $user_id = CurrentUser::$id;
+        $text = htmlspecialchars($_POST['text']);
+
+        if ($user_id && $event_id && trim($text)) {
+            $album_id = (int) Database::sql2single('SELECT album_id FROM album_events WHERE `id`=' . $event_id);
+            if (!$parent_id) {
+                Database::query('INSERT INTO `comments` SET
+                `parent_id`=' . $parent_id . ',
+                `object_type`=' . $object_type . ',
+                `object_id`=' . $event_id . ',
+                `user_id`=' . $user_id . ',
+                `time`=' . time() . ',
+                `text`=' . Database::escape($text));
+                header('Location: /album/' . $album_id . '/event/' . $event_id . '#comment-'.Database::lastInsertId());
+            }
+        }
     }
 
 }

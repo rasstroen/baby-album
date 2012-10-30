@@ -78,7 +78,7 @@ CREATE TABLE `album_events` (
   KEY `is_public` (`is_public`),
   KEY `event_id` (`album_id`,`event_id`,`eventTime`),
   KEY `comments_count` (`comments_count`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,6 +117,38 @@ LOCK TABLES `album_events_fields` WRITE;
 /*!40000 ALTER TABLE `album_events_fields` DISABLE KEYS */;
 INSERT INTO `album_events_fields` VALUES (1,5,NULL,'1970-01-01 03:00:00',NULL),(1,6,NULL,'rtuy',NULL),(1,8,NULL,'',NULL),(1,9,4567,NULL,NULL),(1,10,4567,NULL,NULL),(1,11,0,NULL,NULL),(1,19,NULL,'',NULL),(2,5,NULL,'1970-01-01 03:00:00',NULL),(2,6,NULL,NULL,'rtuy'),(2,8,NULL,'',NULL),(2,9,4567,NULL,NULL),(2,10,4567,NULL,NULL),(2,11,0,NULL,NULL),(2,19,NULL,'',NULL),(3,1,NULL,'2012-10-02 12:35:00',NULL),(3,2,NULL,'вперёд!',NULL),(3,3,NULL,NULL,'');
 /*!40000 ALTER TABLE `album_events_fields` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comments` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) NOT NULL,
+  `object_type` int(11) NOT NULL,
+  `object_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `thread` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `object_type` (`object_type`,`object_id`),
+  KEY `thread` (`thread`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comments`
+--
+
+LOCK TABLES `comments` WRITE;
+/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (1,0,1,3,2,1351599904,'укецуке',0),(2,1,1,3,2,1351599933,'укецуке',1),(3,1,1,3,3,1351600653,'qwerwqerwqerwer',1),(4,1,1,3,3,1351600655,'qwerwqerwqerwer',1),(5,1,1,3,3,1351600656,'qwerwqerwqerwer',1),(6,3,1,3,3,1351600660,'qwerwqerwqerwer',1),(7,0,1,3,3,1351600661,'qwerwqerwqerwer',0),(8,7,1,3,3,1351600664,'qwerwqerwqerwer',7),(9,8,1,3,3,1351600667,'qwerwqerwqerwer',7);
+/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -346,7 +378,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'9bd4aeb2d6163137e2af36682efe9131','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'rasstroen',93,94,20,''),(9,'712d94760e0bd7c33be3af3caf4fbafb','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'',0,0,20,''),(10,'30894fe4fd5163e7a517962303210aa0','ezh@xsign.ru','96e79218965eb72c92a549dd5a330112',1351150682,0,'',0,0,0,''),(25,'ff074e784530ac6cf4639351aae98ff9','amuhc@yandex.ua','c68c9c8258ea7d85472dd6fd0015f047',1351517430,0,'rasstroen',0,0,10,'');
+INSERT INTO `user` VALUES (2,'7ddf5ee9e5a62f67bd637ade2dfbcb86','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'rasstroen',93,94,20,''),(9,'6f79098bbc0d3fc75843e902843f729f','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'',0,0,20,''),(10,'30894fe4fd5163e7a517962303210aa0','ezh@xsign.ru','96e79218965eb72c92a549dd5a330112',1351150682,0,'',0,0,0,''),(25,'ff074e784530ac6cf4639351aae98ff9','amuhc@yandex.ua','c68c9c8258ea7d85472dd6fd0015f047',1351517430,0,'rasstroen',0,0,10,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -395,7 +427,7 @@ CREATE TABLE `user_suggest_inactive` (
 
 LOCK TABLES `user_suggest_inactive` WRITE;
 /*!40000 ALTER TABLE `user_suggest_inactive` DISABLE KEYS */;
-INSERT INTO `user_suggest_inactive` VALUES (1,2),(1,5),(1,13),(1,14),(1,16),(1,18),(1,22);
+INSERT INTO `user_suggest_inactive` VALUES (1,5);
 /*!40000 ALTER TABLE `user_suggest_inactive` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -408,4 +440,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-29 15:37:00
+-- Dump completed on 2012-10-30 14:02:38

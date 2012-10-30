@@ -57,7 +57,7 @@ class module_comments extends module {
         $cond->setSorting(array('time' => array('order' => 'desc', 'title' => 'по дате')), array('time' => array('order' => 'desc', 'title' => 'по дате')));
         $cond->setPaging(100000, $per_page);
 
-        $where = array('1');
+        $where = array('parent_id=0');
         if (isset($opts['where']))
             foreach ($opts['where'] as $w)
                 $where[] = $w;
@@ -67,9 +67,42 @@ class module_comments extends module {
         $query = 'SELECT * FROM `comments`
 WHERE (' . implode(' AND ', $where) . ')
 ORDER BY ' . $order . ' LIMIT ' . $limit . '';
-        $events = Database::sql2array($query, 'id');
+        $comments = Database::sql2array($query, 'id');
 
-        return $data;
+        foreach ($comments as $comment) {
+            $pids[$comment['id']] = $comment['id'];
+        }
+        if (count($pids)) {
+            $query = 'SELECT * FROM `comments` WHERE `thread` IN (' . implode(',', $pids) . ') ORDER BY `thread`,`id`';
+            $nextlevel = Database::sql2array($query, 'id');
+            $comments+=$nextlevel;
+
+            foreach ($comments as $comment) {
+                $parents[$comment['parent_id']][$comment['id']] = $comment;
+                uasort($parents[$comment['parent_id']], 'x_sort_comment');
+            }
+            
+
+            $comments = $this->build_tree($parents, 0);
+        }
+        return $comments;
     }
 
+    function build_tree($comments, $parent_id, $level = 0, &$result = array()) {
+        if (is_array($comments) && isset($comments[$parent_id]) && count($comments[$parent_id]) > 0) {
+            foreach ($comments[$parent_id] as $cat) {
+                $result[$cat['id']] = $cat;
+                $result[$cat['id']]['childs'] = array();
+                $this->build_tree($comments, $cat['id'], $level + 1, $result[$cat['id']]['childs']);
+            }
+        }
+        else
+            return null;
+        return $result;
+    }
+
+}
+
+function x_sort_comment($a, $b) {
+    return $a['id'] > $b['id'] ? 1 : -1;
 }
