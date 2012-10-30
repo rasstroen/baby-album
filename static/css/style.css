@@ -46,8 +46,10 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
     min-width: 630px;
     width:auto !important;
     width:100%;
-
 }
+
+.l-content .l-left{float:left;width:130px;overflow: hidden;}
+.l-content .l-right{float:right;width:500px;overflow: hidden;}
 
 .l-sidebar{
     float:right;

@@ -87,8 +87,9 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT ' . $cond->getLimit());
     function getSuggestEvent() {
         $album_id = array_values(Site::$request_uri_array);
         $album_id = (int) $album_id[1];
-        $query = 'SELECT * FROM `album` WHERE `id`=' . $album_id . ' AND `user_id`=' . CurrentUser::$id;
+        $query = 'SELECT * FROM `album` WHERE `id`=' . $album_id;
         $data['album'] = Database::sql2row($query);
+
         foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
             $sub = substr(md5($data['album'][$sizekey]), 1, 4);
             $url = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';

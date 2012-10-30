@@ -2,6 +2,8 @@
 
 class Config {
 
+    const COMMENT_OBJECT_ALBUM_EVENT = 1;
+//
     const GLOBAL_EMAIL = 'admin@balbum.ru';
     const GLOBAL_LOGIN = 'admin@balbum.ru';
     const GLOBAL_EMAIL_PWD = 'Lazer2000';

@@ -49,6 +49,32 @@ function _th_draw_albums_profile_list($albums) {
     ?></div><?php
 }
 
+function tp_user_show_profile_small($data) {
+    $udata = $data['data'];
+    $user = $data['user'];
+    if (CurrentUser::$id == $user->id)
+        $self = true;
+    else
+        $self = false;
+    ?>
+    <div class="show_profile_small">
+        <div class="block credentials">
+            <?php if ($udata['avatar_small']) { ?>
+                <img src="<?php echo $user->getAvatar(false) ?>" />
+            <?php } ?>
+        </div>
+        <div class="block">
+            <ul>
+                <li><a href="/u/<?php echo $user->id; ?>/albums">Альбомы</a></li>
+                <li><a href="/u/<?php echo $user->id; ?>/comments">Комментарии</a></li>
+                <li><a href="/u/<?php echo $user->id; ?>/best">Лучшие фотографии</a></li>
+                <li><a href="/u/<?php echo $user->id; ?>/badges">Награды</a></li>
+            </ul>
+        </div>
+    </div>
+    <?php
+}
+
 function tp_user_show_profile($data) {
     $udata = $data['data'];
     $user = $data['user'];
@@ -59,11 +85,8 @@ function tp_user_show_profile($data) {
     ?>
     <div class="show_profile">
         <div class="block credentials">
+            <h2><?php echo $user->data['nickname'] ?></h2>
             <?php if ($self) { ?><div class="edit"><a href="/u/<?php echo $user->id; ?>/edit">редактировать</a></div><?php } ?>
-            <div class="field"><h3><?php echo $udata['nickname'] ?></h3></div>
-            <?php if ($udata['avatar_small']) { ?>
-                <img src="<?php echo $user->getAvatar(false) ?>" />
-            <?php } ?>
         </div>
         <div class="block albums">
             <h3>Альбомы</h3>

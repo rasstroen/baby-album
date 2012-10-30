@@ -13,6 +13,9 @@ class module_user extends module {
                     case 'profile':
                         return $this->showProfile();
                         break;
+                    case 'profile_small':
+                        return $this->showProfile();
+                        break;
                     case 'confirmation':
                         return $this->showConfirmation();
                         break;

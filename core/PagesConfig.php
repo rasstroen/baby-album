@@ -116,12 +116,15 @@ class PagesConfig {
         ),
         'user_profile' => array(
             'title' => 'Baby Album User',
-            'layout' => 'two_columns',
+            'layout' => 'three_columns',
             'css' => array(
             ),
             'js' => array(
             ),
             'blocks' => array(
+                'left' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'profile_small'),
+                ),
                 'content' => array(
                     array('name' => 'user', 'action' => 'show', 'mode' => 'profile'),
                 ),
@@ -262,6 +265,25 @@ class PagesConfig {
     );
     private static $pages_default = array(
         'two_columns' => array(
+            'js' => array(
+                array('href' => 'http://code.jquery.com/jquery-1.8.2.min.js'),
+                array('href' => '/static/js/jquery.timeago.js'),
+                array('href' => 'http://code.jquery.com/ui/1.8.24/jquery-ui.min.js'),
+                array('href' => '/static/js/jquery-ui-timepicker-addon.js'),
+                array('href' => '/static/js/jquery-ui-sliderAccess.js'),
+            ),
+            'css' => array(
+                array('href' => '/static/css/style.css'),
+                array('href' => 'http://code.jquery.com/ui/1.8.23/themes/smoothness/jquery-ui.css'),
+            ),
+            'blocks' => array(
+                'header' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'top_menu'),
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'static_auth'),
+                )
+            ),
+        ),
+        'three_columns' => array(
             'js' => array(
                 array('href' => 'http://code.jquery.com/jquery-1.8.2.min.js'),
                 array('href' => '/static/js/jquery.timeago.js'),
