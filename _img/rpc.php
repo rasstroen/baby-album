@@ -69,7 +69,6 @@ class Img {
 
 
 
-
         if (isset($_FILES)) {
             foreach ($_FILES as $key => $file) {
                 if (isset($_GET['remove_old'])) {
@@ -94,6 +93,8 @@ class Img {
                 }
                 if (!$file['error']) {
                     $out['result'][$key] = self::processImage($key);
+                } else {
+                    $out['result'][$key] = $file['error'];
                 }
             }
         }
@@ -103,8 +104,9 @@ class Img {
 
     public static function processImage($key) {
         $out = array('key' => $key);
-        $quality = 95;
+        $quality = 94;
         $sizes = isset($_GET['sizes']) ? $_GET['sizes'] : array('orig' => '0x0x1');
+
         foreach ($sizes as $sizekey => $pair) {
             list($width, $height, $keep_proportions) = explode('x', $pair);
             $sourceInfo = @getimagesize($_FILES[$key]['tmp_name']);
@@ -155,7 +157,11 @@ class Img {
                         $out[$sizekey]['path'] = $image[3];
                         $out[$sizekey]['double'] = true;
                         self::$result_images[$sizekey] = array($new_width, $new_height, $image[2], $image[3]);
-                        return $out;
+                        $real_path = str_replace(self::$static_www_root, self::$static_root, $image[3]);
+                        $link_path = self::getImagePath($key, $sizekey, 'jpg', $image[2]);
+                        $link_path = $link_path[0];
+                        exec('ln -s ' . $real_path . ' ' . $link_path, $output);
+                        continue(2);
                     }
             }
 
