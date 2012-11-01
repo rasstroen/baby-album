@@ -35,7 +35,7 @@ class user_write extends write {
             'first_name' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
             'last_name' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
             'middle_name' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
-            'nickname' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
+            'nickname' => '/[a-zA-Zа-яА-ЯёЁь0-9]+$/isU',
         );
 
         $error = array();
@@ -54,8 +54,16 @@ class user_write extends write {
             Site::passWrite('value_edit', $_POST);
             return;
         } else {
-            if (count($to_update))
-                Database::query('UPDATE `user` SET ' . implode(',', $to_update) . ' WHERE `id`=' . CurrentUser::$id);
+            if (count($to_update)) {
+                try {
+                    Database::query('UPDATE `user` SET ' . implode(',', $to_update) . ' WHERE `id`=' . CurrentUser::$id);
+                } catch (Exception $e) {
+                    $error['nickname'] = 'Никгейм занят. Попробуйте придумать другой';
+                    Site::passWrite('error_edit', $error);
+                    Site::passWrite('value_edit', $_POST);
+                    return;
+                }
+            }
         }
     }
 
@@ -149,7 +157,7 @@ class user_write extends write {
         if (!Database::sql2single($query))
             return $nickname;
         else
-            return $nickname . substr(time(), 5, 5).rand(10);
+            return $nickname . substr(time(), 5, 5) . rand(10);
     }
 
 }

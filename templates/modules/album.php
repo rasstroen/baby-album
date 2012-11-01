@@ -165,7 +165,7 @@ function tp_album_show_event($data) {
             </div>
         </div>
         <div class="foot">
-            
+
         </div>
     </div>
     <?php
@@ -354,7 +354,13 @@ function tp_album_show_suggest_event($data) {
 function tp_album_edit_item($data) {
     $values = $data['album'];
             ?><div class="album_edit">
-        <h2>Изменение настроек альбома</h2>
+    <?php if (!$values) {
+        ?><h2>Создание альбома</h2><?php
+    } else {
+        ?><h2>Изменение настроек альбома</h2><?php
+    }
+    ?>
+
         <form method="post" enctype="multipart/form-data">
             <input type="hidden" value="album" name="writemodule">
             <input type="hidden" value="edit_album" name="action">
