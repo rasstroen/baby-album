@@ -41,8 +41,11 @@ function _th_draw_comment_leave_form($data) {
             <input type="hidden" name="object_id" value="<?php echo $object_id; ?>" />
             <input type="hidden" name="action" value="add_comment" />
             <div class="head">
-                <span>Комментарий</span>
-                <div><textarea name="text"></textarea></div>
+                <span>Ваш комментарий...</span>
+                <div class="avatar">
+                    <img src="<?php echo $user->getAvatar(); ?>">
+                </div>
+                <div class="text"><textarea name="text"></textarea></div>
             </div>
             <div class="submit">
                 <input type="submit" value="Отправить" />

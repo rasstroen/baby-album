@@ -197,3 +197,14 @@ ul.menu li.current a{}
 .body.nodd{
     background: #bebebe;
 }
+
+
+.comment_form{}
+.comment_form .head{position: relative; clear: right; height:100px;}
+
+.comment_form .head span{position: absolute;top:6px; left:76px;color:#bababa;}
+.comment_form .head:hover span{display: none;}
+.comment_form .head.hover span{display: none;}
+.comment_form .head .avatar{float:left;width:60px;padding:5px;display: inline-block}
+.comment_form .head .text{float:left;display: inline-block;width:540px}
+.comment_form .head .text textarea{width:100%;height:70px;border:1px solid #444;line-height: 18px; font-size:12px;}

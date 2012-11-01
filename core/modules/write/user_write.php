@@ -89,8 +89,6 @@ class user_write extends write {
             $error['email'] = 'неправильный E-mail';
         if (!trim($_POST['password']))
             $error['password'] = 'Слишком короткий пароль';
-        if (!trim($_POST['nickname']))
-            $error['nickname'] = 'Придумайте никнейм';
 
         if (count($error)) {
             Site::passWrite('error_register', $error);
@@ -99,7 +97,7 @@ class user_write extends write {
             try {
                 $fields = array();
                 $data['email'] = strtolower(trim($_POST['email']));
-                $data['nickname'] = strtolower(trim($_POST['nickname']));
+                $data['nickname'] = $this->getUniqueNickname(strtolower(trim($_POST['nickname'])), $_POST['email']);
                 $data['password'] = md5(strtolower(trim($_POST['password'])));
                 $data['registerTime'] = time();
                 $data['role'] = User::ROLE_UNVERIFIED;
@@ -142,6 +140,16 @@ class user_write extends write {
         if (!$r)
             throw new Exception('mailing error');
         return $r;
+    }
+
+    function getUniqueNickname($nickname, $email) {
+        if (!$nickname)
+            $nickname = str_replace('.', '_', str_replace('@', '-', array_shift(explode('@', $email))));
+        $query = 'SELECT COUNT(1) FROM `user` WHERE `nickname`=' . Database::escape($nickname) . '';
+        if (!Database::sql2single($query))
+            return $nickname;
+        else
+            return $nickname . substr(time(), 5, 5).rand(10);
     }
 
 }
