@@ -217,6 +217,7 @@ class PagesConfig {
             ),
             'blocks' => array(
                 'content' => array(
+                    array('name' => 'text', 'action' => 'show', 'mode' => 'main'),
                     array('name' => 'album', 'action' => 'list', 'mode' => 'main'),
                 ),
                 'sidebar' => array(

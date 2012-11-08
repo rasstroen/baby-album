@@ -237,6 +237,9 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
     margin:4px 2px 2px 2px;
     position: relative;
     background: #fff;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px 5px 5px 5px;
+    overflow: hidden;
 }
 
 .album .event_one .head{}
@@ -253,20 +256,20 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .album .event_one .body .img a img{margin:10px; background: #cedef0}
 .album .event_one .body .right{display: inline-block;width:330px;vertical-align: top}
 .album .event_one .body .right .description{background-color: #F0F1F2;
-    border: 1px solid #E0E0E0;
-    border-radius: 3px 3px 3px 3px;
-    margin:10px 0 0 0;
-    box-shadow: 0 1px 5px #E0E0E0;
-    overflow: hidden;
-    padding: 5px;}
+                                            border: 1px solid #E0E0E0;
+                                            border-radius: 3px 3px 3px 3px;
+                                            margin:10px 0 0 0;
+                                            box-shadow: 0 1px 5px #E0E0E0;
+                                            overflow: hidden;
+                                            padding: 5px;}
 .album .event_one .body .right .additional{background-color: #F0F1F2;
-    border: 1px solid #E0E0E0;
-    border-radius: 3px 3px 3px 3px;
-    margin:10px 0 0 0;
-    box-shadow: 0 1px 5px #E0E0E0;
-    display: inline-block;
-    overflow: hidden;
-    padding: 5px;}
+                                           border: 1px solid #E0E0E0;
+                                           border-radius: 3px 3px 3px 3px;
+                                           margin:10px 0 0 0;
+                                           box-shadow: 0 1px 5px #E0E0E0;
+                                           display: inline-block;
+                                           overflow: hidden;
+                                           padding: 5px;}
 
 .album .event_one .body .right .additional .ft{font-weight: bolder;font-size: 11px;}
 .album .event_one .body .right .additional .ft .add{margin:0 0 0 10px;display: inline-block;font-weight: normal; text-align: right}
@@ -274,3 +277,21 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .album .event_one .foot{position: relative;}
 .album .event_one .foot .comments_count a{color:#000;margin:5px 5px 0 0;}
 .album .event_one .foot .like {position: absolute; bottom:5px;right:5px;}
+
+.like_a{display: inline-block; width:16px;height:16px;background: url(/static/img/love_.png) top left no-repeat}
+.like_a:hover{background: url(/static/img/love.png) top left no-repeat}
+.like_a.active{background: url(/static/img/love.png) top left no-repeat}
+
+
+.textblock{ padding:10px 6px 6px 6px;
+            margin:4px 12px 2px 12px;
+            position: relative;
+            background: #fff;
+            border: 1px solid #E0E0E0;
+            border-radius: 5px 5px 5px 5px;
+            overflow: hidden;
+}
+.textblock h1{font-size: 18px;}
+.textblock h2{font-size: 16px;}
+.textblock p{font-size: 12px;}
+.textblock p a{color:#222;}

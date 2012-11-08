@@ -8,10 +8,15 @@ class AjaxQuery {
 
     function like() {
         $event_id = (int) $_POST['ids'];
+        $plus =  ($_POST['plus'] === 'true');
         if ($event_id > 0)
-            if (CurrentUser::$id)
-                Database::query('INSERT INTO `event_likes` SET user_id=' . CurrentUser::$id . ', event_id=' . $event_id . ', `time`=' . time() . '
+            if (CurrentUser::$id) {
+                if ($plus)
+                    Database::query('INSERT INTO `event_likes` SET user_id=' . CurrentUser::$id . ', event_id=' . $event_id . ', `time`=' . time() . '
                 ON DUPLICATE KEY UPDATE `time`=' . time());
+                else
+                    Database::query('DELETE FROM `event_likes` WHERE user_id=' . CurrentUser::$id . ' AND event_id=' . $event_id);
+            }
     }
 
     function get_likes($params, &$data) {

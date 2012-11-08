@@ -255,7 +255,7 @@ function tp_album_edit_event($data) {
         <div class="foot">
             <div class="comments_count"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>#comments"><?php echo $event['comments_count']; ?></a><?php echo declOfNum($event['comments_count'], array('комментарий', 'комментария', 'комментариев')) ?></div>
             <div class="like" id="l<?php echo $event['id']; ?>" style="display:none">
-                <a class="like_a" onclick="like(<?php echo $event['id']; ?>)"></a><span></span><em></em>
+                <a class="like_a" onclick="like(this,<?php echo $event['id']; ?>)"></a><span></span><em></em>
             </div>
         </div>
     </div>

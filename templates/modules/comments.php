@@ -13,6 +13,7 @@ global $i;
 function _th_draw_comments($comments, $level = 1) {
     global $i;
     foreach ($comments as $comment) {
+        dpr($comment);
         ?>
         <div class="comment comment_<?php echo $level; ?> comment3_<?php echo (floor($level / 3) > 1) ? 'eq3' : 'eq0'; ?>">
             <a name="comment-<?php echo $comment['id']; ?>"></a>
