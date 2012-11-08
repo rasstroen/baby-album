@@ -107,25 +107,25 @@ function _th_draw_event_field($field) {
         case 'name':// имя ребёнка
             if ($field['value_varchar']) {
                 echo "\n";
-                ?><div class="ft"><?php echo $field['event_field_title']; ?></div><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_varchar'] ?></div><?php
+                ?><div class="ft"><?php echo $field['event_field_title']; ?><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_varchar'] ?></div></div><?php
             }
             break;
         case 'weight':// вес
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><?php echo $field['event_field_title']; ?></div><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?></div><?php
+                ?><div class="ft"><?php echo $field['event_field_title']; ?><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?></div></div><?php
             }
             break;
         case 'height':// рост
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><?php echo $field['event_field_title']; ?></div><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?></div><?php
+                ?><div class="ft"><?php echo $field['event_field_title']; ?><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?></div></div><?php
             }
             break;
         case 'eyecolor':// рост
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><?php echo $field['event_field_title']; ?></div><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[$field['value_int']] ?></div><?php
+                ?><div class="ft"><?php echo $field['event_field_title']; ?><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[$field['value_int']] ?></div></div><?php
             }
             break;
         default:
@@ -157,12 +157,18 @@ function tp_album_show_event($data) {
             <?php if ($event['description']) { ?>
                 <div class="description"><?php echo $event['description']; ?></div>
             <?php } ?>
-            <div class="additional">
-                <?php
-                foreach ($event['fields'] as $field)
-                    _th_draw_event_field($field)
-                    ?>
-            </div>
+
+            <?php
+            $additional_fields = '';
+            foreach ($event['fields'] as $field) {
+                ob_start();
+                _th_draw_event_field($field);
+                $additional_fields.=ob_get_clean();
+            }
+            if ($additional_fields) {
+                ?> <div class="additional"><?php echo $additional_fields; ?></div><?php
+    }
+            ?>
         </div>
         <div class="foot">
 
@@ -206,7 +212,6 @@ function tp_album_edit_event($data) {
     }
 
     function _th_draw_event_in_list($event) {
-
         $self = (CurrentUser::$id == $event['user_id']);
         $user = Users::getByIdLoaded($event['user_id']);
             ?>
@@ -216,29 +221,35 @@ function tp_album_edit_event($data) {
                 <div class="av">
                     <a title="<?php echo $event['user']['nickname']; ?>" alt="<?php echo $event['user']['nickname']; ?>" onfocus="this.blur()" href="/u/<?php echo $event['user_id']; ?>"><img border="0" src="<?php echo $user->getAvatar(true); ?>"></a>
                 </div>
-                <h2 class="title"><?php echo $event['title']; ?></h2>
-                <?php if ($self) {?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
+                <h2 class="title"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>"><?php echo $event['title']; ?></a></h2>
+                <?php if ($self) { ?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
                 <div class="lnk">из альбома <a href="/album/<?php echo $event['album_id']; ?>"><?php echo $event['child_name']; ?></a></div>
             </div>
             <div class="time"><?php echo $event['eventTime']; ?></div>
         </div>
         <div class="body">
-
             <?php if ($event['pic_orig']) { ?>
                 <div class="img">
                     <a href="<?php echo $event['pic_big']; ?>">
                         <img src="<?php echo $event['pic_small']; ?>">
                     </a>
-                </div>
-            <?php } ?>
-            <?php if ($event['description']) { ?>
-                <div class="description"><?php echo $event['description']; ?></div>
-            <?php } ?>
-            <div class="additional">
+                </div><div class="right">
+                <?php } if ($event['description']) { ?>
+                    <div class="description"><?php echo $event['description']; ?></div>
+                <?php } ?>
+
                 <?php
-                foreach ($event['fields'] as $field)
-                    _th_draw_event_field($field)
-                    ?>
+                $additional_fields = '';
+                foreach ($event['fields'] as $field) {
+                    ob_start();
+                    _th_draw_event_field($field);
+                    $additional_fields.=ob_get_clean();
+                }
+                if ($additional_fields) {
+                    ?> <div class="additional"><?php echo $additional_fields; ?></div><?php
+        }
+                ?>
+
             </div>
         </div>
         <div class="foot">
@@ -454,50 +465,5 @@ function tp_album_list_main($data) {
             ?>
         </div>
     </div>
-    <script>
-        function like(id){
-            $.post('/', {method:'like',ids:id}, function(data){
-                $.post('/', {method:'get_likes',ids:[id]}, function(data){
-                    draw_likes(data) ;
-                },"json");
-            },"json");
-        }
-        function draw_likes(data){
-            if(data && data.likes){
-                for(var i in data.likes){
-                    var txt = '';
-                    var txt_users = [];
-                    $('#l'+i).show();
-                    if(data.self && (data.self[i]>0)){
-                        $('#l'+i).find('a').hide();
-                        txt = ('Нравится <a href="/u/'+data.self[i]+'">Вам</a>');
-                    }else{
-                        $('#l'+i).find('a').text('Нравится').show();
-                    }
-                    for (var j in data.likes[i]){
-                        if(data.likes[i][j].id != data.self[i])
-                            txt_users.push('<i class="user"><a href="/u/'+data.likes[i][j].id+'">'+data.likes[i][j].nickname+'</a></i>')
-                    }
-                    _left = (txt!='')?txt:'';
-                    _right = (txt!='')?(txt_users.length?', '+txt_users.join(', '):''):(txt_users.length?'Нравится '+txt_users.join(', '):'');
-                    $('#l'+i).find('em').html(_left+_right);
-
-                }
-            }
-        }
-        $(function(){
-            var likes = {};
-            $('.like').each(function(){
-                id = $(this).attr('id').replace(/l/,'');
-                if(id-0){
-                    likes[id-0]=id-0;
-                }
-            })
-            if(likes){
-                $.post('/', {method:'get_likes',ids:likes}, function(data){
-                    draw_likes(data) ;
-                },"json");
-            }
-        })</script>
     <?php
 }

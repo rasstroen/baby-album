@@ -270,7 +270,7 @@ class PagesConfig {
                 array('href' => '/static/js/jquery.timeago.js'),
                 array('href' => 'http://code.jquery.com/ui/1.8.24/jquery-ui.min.js'),
                 array('href' => '/static/js/jquery-ui-timepicker-addon.js'),
-                array('href' => '/static/js/jquery-ui-sliderAccess.js'),
+                array('href' => '/static/js/like.js'),
             ),
             'css' => array(
                 array('href' => '/static/css/style.css'),
@@ -289,7 +289,7 @@ class PagesConfig {
                 array('href' => '/static/js/jquery.timeago.js'),
                 array('href' => 'http://code.jquery.com/ui/1.8.24/jquery-ui.min.js'),
                 array('href' => '/static/js/jquery-ui-timepicker-addon.js'),
-                array('href' => '/static/js/jquery-ui-sliderAccess.js'),
+                array('href' => '/static/js/like.js'),
             ),
             'css' => array(
                 array('href' => '/static/css/style.css'),

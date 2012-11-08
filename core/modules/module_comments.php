@@ -34,19 +34,20 @@ class module_comments extends module {
         if (!$event_id)
             return;
 
+
         $data['object_id'] = $event_id;
 
         $opts = array(
             'where' => array(
-                'AE.`album_id`=' . $album_id,
-                'AE.`id`=' . $event_id,
+                '`object_id`=' . $event_id,
+                '`object_type`=' . Config::COMMENT_OBJECT_ALBUM_EVENT,
             )
         );
         $data['comments'] = $this->_list($opts);
         return $data;
     }
 
-    function _list() {
+    function _list($opts) {
         $data = array();
         $has_paging = !isset($opts['no_paging']);
         $show_sortings = isset($opts['show_sortings']);
@@ -68,7 +69,7 @@ class module_comments extends module {
 WHERE (' . implode(' AND ', $where) . ')
 ORDER BY ' . $order . ' LIMIT ' . $limit . '';
         $comments = Database::sql2array($query, 'id');
-
+        $pids = array();
         foreach ($comments as $comment) {
             $pids[$comment['id']] = $comment['id'];
         }

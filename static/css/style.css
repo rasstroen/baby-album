@@ -16,7 +16,7 @@ body,html{
 
 .clear{font-size:1px;display: block;float: none;clear:left;height:0px;}
 abbr,.timeago{text-decoration: none;border:none}
-a{text-decoration: underline  ;color:#444;}
+a{text-decoration: underline  ;color:#999;}
 a:hover{text-decoration: underline;cursor:pointer;color:#222;}
 h1,h2,h3,ul,li{padding:0;margin:0;}
 
@@ -71,7 +71,7 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
     margin:-60px 0 0;
     height:60px;
     z-index:20;
-    background: #007294;
+    text-align: right;
     overflow: hidden;
 }
 
@@ -232,19 +232,45 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
     margin:0 10px 0 10px;
 }
 
-#main_album .album .event_one{
+.album .event_one{
     padding:10px 12px 10px 12px;
     margin:4px 2px 2px 2px;
     position: relative;
     background: #fff;
 }
 
-#main_album .album .event_one .head{}
-#main_album .album .event_one .head .user{display: inline-block}
-#main_album .album .event_one .head .user .title{text-transform: capitalize; position: absolute; left:70px;top:10px;font-size:19px;font-family: Georgia; font-style: italic; font-weight: normal}
-#main_album .album .event_one .head .user .edit{position: absolute; left:70px;top:40px;font-size:11px;color:#000;}
-#main_album .album .event_one .head .user .av{display: inline-block}
-#main_album .album .event_one .head .user .lnk{position: absolute; right:10px;top:10px;}
-#main_album .album .event_one .head .user .lnk a{color: #000;}
-#main_album .album .event_one .head .time{position: absolute; right:10px;top:25px;}
-#main_album .album .event_one .body{}
+.album .event_one .head{}
+.album .event_one .head .user{display: inline-block}
+.album .event_one .head .user .title{text-transform: capitalize; position: absolute; left:70px;top:10px;font-size:19px;font-family: Georgia; font-style: italic; font-weight: normal}
+.album .event_one .head .user .edit{position: absolute; left:70px;top:40px;font-size:11px;color:#000;}
+.album .event_one .head .user .av{display: inline-block}
+.album .event_one .head .user .lnk{position: absolute; right:10px;top:10px;}
+.album .event_one .head .user .lnk a{color: #000;}
+.album .event_one .head .time{position: absolute; right:10px;top:25px;}
+.album .event_one .body{}
+
+.album .event_one .body .img{display: inline-block;width:250px; text-align: center;}
+.album .event_one .body .img a img{margin:10px; background: #cedef0}
+.album .event_one .body .right{display: inline-block;width:330px;vertical-align: top}
+.album .event_one .body .right .description{background-color: #F0F1F2;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px 3px 3px 3px;
+    margin:10px 0 0 0;
+    box-shadow: 0 1px 5px #E0E0E0;
+    overflow: hidden;
+    padding: 5px;}
+.album .event_one .body .right .additional{background-color: #F0F1F2;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px 3px 3px 3px;
+    margin:10px 0 0 0;
+    box-shadow: 0 1px 5px #E0E0E0;
+    display: inline-block;
+    overflow: hidden;
+    padding: 5px;}
+
+.album .event_one .body .right .additional .ft{font-weight: bolder;font-size: 11px;}
+.album .event_one .body .right .additional .ft .add{margin:0 0 0 10px;display: inline-block;font-weight: normal; text-align: right}
+
+.album .event_one .foot{position: relative;}
+.album .event_one .foot .comments_count a{color:#000;margin:5px 5px 0 0;}
+.album .event_one .foot .like {position: absolute; bottom:5px;right:5px;}
