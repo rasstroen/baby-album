@@ -14,8 +14,8 @@ class User {
         return $this->data['role'] == User::ROLE_ADMIN;
     }
 
-    function getAlbums(){
-        return Database::sql2array('SELECT * FROM `album` WHERE `user_id`='.$this->id);
+    function getAlbums() {
+        return Database::sql2array('SELECT * FROM `album` WHERE `user_id`=' . $this->id);
     }
 
     function getAvatar($small = true) {
@@ -27,7 +27,7 @@ class User {
         }
         $image_id = $this->data[$sizekey];
         if (!$image_id)
-            return '';
+            return '/static/img/avatar_' . ($small ? 'small' : 'big') . '.jpg';
         $sub = substr(md5($image_id), 1, 4);
         return 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_AVATAR . '/' . $sizekey . '/' . $sub . '/' . $image_id . '.jpg';
     }

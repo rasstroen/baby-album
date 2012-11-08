@@ -13,11 +13,21 @@ global $i;
 function _th_draw_comments($comments, $level = 1) {
     global $i;
     foreach ($comments as $comment) {
-        dpr($comment);
+        $comment_user = $comment['user'];
         ?>
         <div class="comment comment_<?php echo $level; ?> comment3_<?php echo (floor($level / 3) > 1) ? 'eq3' : 'eq0'; ?>">
             <a name="comment-<?php echo $comment['id']; ?>"></a>
-            <div class="body <?php echo ( ($i++) % 2) ? 'odd ' : 'nodd ' ?>"><?php echo $comment['text'] ?></div>
+            <div class="body <?php echo ( ($i++) % 2) ? 'odd ' : 'nodd ' ?>">
+                <div class="user">
+                    <div class="av">
+                        <?php
+                        /* @var $comment_user User */
+                        ?>
+                        <a href="/u/<?php echo $comment_user->id; ?>"><img src="<?php echo $comment_user->getAvatar(); ?>"/></a>
+                    </div>
+                </div>
+                <div class="text"><?php echo $comment['text'] ?></div>
+            </div>
             <?php
             if (isset($comment['childs']) && count($comment['childs'])) {
                 _th_draw_comments($comment['childs'], $level + 1);

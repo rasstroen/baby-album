@@ -70,22 +70,33 @@ WHERE (' . implode(' AND ', $where) . ')
 ORDER BY ' . $order . ' LIMIT ' . $limit . '';
         $comments = Database::sql2array($query, 'id');
         $pids = array();
+        $uids = array();
         foreach ($comments as $comment) {
             $pids[$comment['id']] = $comment['id'];
+            $uids[$comment['user_id']] = $comment['user_id'];
         }
+
+        if (count($uids))
+            $users = Users::getByIdsLoaded($uids);
+        else
+            $users = array();
+
+
         if (count($pids)) {
             $query = 'SELECT * FROM `comments` WHERE `thread` IN (' . implode(',', $pids) . ') ORDER BY `thread`,`id`';
             $nextlevel = Database::sql2array($query, 'id');
             $comments+=$nextlevel;
 
-            foreach ($comments as $comment) {
+            foreach ($comments as &$comment) {
+                $comment['user'] = $users[$comment['user_id']];
                 $parents[$comment['parent_id']][$comment['id']] = $comment;
                 uasort($parents[$comment['parent_id']], 'x_sort_comment');
             }
 
-
+         
             $comments = $this->build_tree($parents, 0);
         }
+        
         return $comments;
     }
 
