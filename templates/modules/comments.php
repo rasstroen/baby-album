@@ -12,6 +12,7 @@ global $i;
 
 function _th_draw_comments($comments, $level = 1) {
     global $i;
+    $user = Users::getByIdLoaded(CurrentUser::$id);
     foreach ($comments as $comment) {
         $comment_user = $comment['user'];
         ?>
@@ -27,6 +28,29 @@ function _th_draw_comments($comments, $level = 1) {
                     </div>
                 </div>
                 <div class="text"><?php echo $comment['text'] ?></div>
+                <?php if (CurrentUser::$authorized) { ?>
+                    <div class="answer">
+                        <div class="leave" onclick="$(this).next('form').show(200);">ответить</div>
+                        <form method="post" style="display:none">
+                            <input type="hidden" name="writemodule" value="comment" />
+                            <input type="hidden" name="object_type" value="<?php echo Config::COMMENT_OBJECT_ALBUM_EVENT; ?>" />
+                            <input type="hidden" name="object_id" value="<?php echo $comment['object_id']; ?>" />
+                            <input type="hidden" name="parent_id" value="<?php echo $comment['id']; ?>" />
+                            <input type="hidden" name="action" value="add_comment" />
+                            <div class="head">
+                                <div class="close" onclick="$(this).parent().parent().hide(200);"></div>
+                                <span>Ваш комментарий...</span>
+                                <div class="avatar">
+                                    <img src="<?php echo $user->getAvatar(); ?>">
+                                </div>
+                                <div class="text"><textarea name="text"></textarea></div>
+                            </div>
+                            <div class="submit">
+                                <input type="submit" value="Отправить" />
+                            </div>
+                        </form>
+                    </div>
+                <? } ?>
             </div>
             <?php
             if (isset($comment['childs']) && count($comment['childs'])) {

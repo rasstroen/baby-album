@@ -88,15 +88,17 @@ ORDER BY ' . $order . ' LIMIT ' . $limit . '';
             $comments+=$nextlevel;
 
             foreach ($comments as &$comment) {
+                if (!isset($users[$comment['user_id']]))
+                    continue;
                 $comment['user'] = $users[$comment['user_id']];
                 $parents[$comment['parent_id']][$comment['id']] = $comment;
                 uasort($parents[$comment['parent_id']], 'x_sort_comment');
             }
 
-         
+
             $comments = $this->build_tree($parents, 0);
         }
-        
+
         return $comments;
     }
 

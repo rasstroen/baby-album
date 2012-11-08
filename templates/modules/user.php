@@ -28,10 +28,10 @@ function tp_user_edit_profile($data) {
                     <div class="title">в формате JPG,PNG</div>
                     <div class="value">
                         <input name="userpic" type="file">
-                        <?php if (isset($values['pic_small']) && $values['pic_small']) { ?>
+                        
                             <img src="<?php echo $user->getAvatar(true) ?>" />
                             <img src="<?php echo $user->getAvatar(false) ?>" />
-                        <?php } ?>
+                        
                     </div>
                 </div>
             </div>
@@ -59,9 +59,9 @@ function tp_user_show_profile_small($data) {
     ?>
     <div class="show_profile_small">
         <div class="block credentials">
-            <?php if ($udata['avatar_small']) { ?>
+            
                 <img src="<?php echo $user->getAvatar(false) ?>" />
-            <?php } ?>
+            
         </div>
         <div class="block">
             <ul>

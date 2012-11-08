@@ -23,7 +23,7 @@ class comment_write extends write {
     }
 
     function addEventComment() {
-        $parent_id = isset($_POST['parent_id']) ? $_POST['parent_id'] : 0;
+        $parent_id = isset($_POST['parent_id']) ? (int) $_POST['parent_id'] : 0;
         $event_id = (int) $_POST['object_id'];
 
         $object_type = Config::COMMENT_OBJECT_ALBUM_EVENT;
@@ -40,8 +40,24 @@ class comment_write extends write {
                 `user_id`=' . $user_id . ',
                 `time`=' . time() . ',
                 `text`=' . Database::escape($text));
-                header('Location: /album/' . $album_id . '/event/' . $event_id . '#comment-'.Database::lastInsertId());
+                header('Location: /album/' . $album_id . '/event/' . $event_id . '#comment-' . Database::lastInsertId());
+            } else {
+                // parent
+                $thread = Database::sql2single('SELECT `thread` FROM `comments` WHERE `id`=' . $parent_id);
+                $thread = $thread ? $thread : $parent_id;
+                Database::query('INSERT INTO `comments` SET
+                `parent_id`=' . $parent_id . ',
+                `object_type`=' . $object_type . ',
+                `object_id`=' . $event_id . ',
+                `user_id`=' . $user_id . ',
+                `thread`=' . $thread . ',
+                `time`=' . time() . ',
+                `text`=' . Database::escape($text));
+                header('Location: /album/' . $album_id . '/event/' . $event_id . '#comment-' . Database::lastInsertId());
             }
+
+            Database::query('UPDATE `album_events` SET `comments_count` =
+                    (SELECT COUNT(1) FROM `comments` WHERE `object_type`=' . Config::COMMENT_OBJECT_ALBUM_EVENT . ' AND `object_id`=' . $event_id . ')');
         }
     }
 
