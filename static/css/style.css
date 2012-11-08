@@ -5,20 +5,27 @@ body{
     padding: 0;
     border-collapse: collapse;
     min-width: 980px;
-    background: #ebebeb;
+    background: #fff;
 }
 
 
 body,html{
     height: 100%;
+    background:#0e4482  url(/static/img/head.png) top center repeat-x;
 }
 
 .clear{font-size:1px;display: block;float: none;clear:left;height:0px;}
 abbr,.timeago{text-decoration: none;border:none}
-a{text-decoration: none;color:#449;}
+a{text-decoration: underline  ;color:#444;}
 a:hover{text-decoration: underline;cursor:pointer;color:#222;}
 h1,h2,h3,ul,li{padding:0;margin:0;}
 
+.l-header{
+    height: 70px;
+    margin:10px 0 0 0;
+    position: relative;
+    color: #fff;
+}
 
 .l-wrapper{
     padding:10px 0px 60px 0px;
@@ -64,7 +71,7 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
     margin:-60px 0 0;
     height:60px;
     z-index:20;
-    background: #535353;
+    background: #007294;
     overflow: hidden;
 }
 
@@ -124,13 +131,23 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
     font-weight: bolder;
 }
 
-.plank_logged{position: absolute; right: 10px; top:2px; border:1px solid #555;}
+.plank_logged{position: absolute; right: 10px; top:2px;}
+.plank_logged a.name{font-size:12px; float:left;color:#fff;}
+.plank_logged span{font-size:12px; float:left;margin:0 5px 0 0}
+.plank_logged a.logout{font-size:12px; float:left;margin:0 5px 0 5px;color:#fff;}
 
-ul.menu{display: table; clear: both;}
+.plank_login{position: absolute; right: 10px; top:2px;}
+.plank_login .email,
+.plank_login .pwd{width:100px;height:16px;font-size:14px;line-height: 14px;background: none;border:1px solid #2e64a2;color:#fff;}
+.plank_login .error{position: absolute;top:20px;background: #fff; font-style: normal;padding:3px;margin:2px;border:1px solid #0e4482;color:#cd0a0a}
+
+.plank_login .submit{margin:2px 0 0 0 ;padding-top:2px;width:70px;height:20px;font-size:14px;line-height: 14px;background: none;border:none;;color:#fff;font-size:12px}
+
+ul.menu{display: table; clear: both; background: #0e4482; border:1px solid #1e5492;width:100%}
 ul.menu li{float:left;margin:3px;padding:3px;list-style: none}
 ul.menu li.current{}
-ul.menu li a{}
-ul.menu li.current a{}
+ul.menu li a{color:#fff;}
+ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 
 .block.publications_main{}
 
@@ -208,3 +225,26 @@ ul.menu li.current a{}
 .comment_form .head .avatar{float:left;width:60px;padding:5px;display: inline-block}
 .comment_form .head .text{float:left;display: inline-block;width:540px}
 .comment_form .head .text textarea{width:100%;height:70px;border:1px solid #444;line-height: 18px; font-size:12px;}
+
+
+
+#main_album{
+    margin:0 10px 0 10px;
+}
+
+#main_album .album .event_one{
+    padding:10px 12px 10px 12px;
+    margin:4px 2px 2px 2px;
+    position: relative;
+    background: #fff;
+}
+
+#main_album .album .event_one .head{}
+#main_album .album .event_one .head .user{display: inline-block}
+#main_album .album .event_one .head .user .title{text-transform: capitalize; position: absolute; left:70px;top:10px;font-size:19px;font-family: Georgia; font-style: italic; font-weight: normal}
+#main_album .album .event_one .head .user .edit{position: absolute; left:70px;top:40px;font-size:11px;color:#000;}
+#main_album .album .event_one .head .user .av{display: inline-block}
+#main_album .album .event_one .head .user .lnk{position: absolute; right:10px;top:10px;}
+#main_album .album .event_one .head .user .lnk a{color: #000;}
+#main_album .album .event_one .head .time{position: absolute; right:10px;top:25px;}
+#main_album .album .event_one .body{}

@@ -132,17 +132,20 @@ function tp_user_show_top_menu($data) {
 }
 
 function draw_user_auth_plank($data) {
+    $values = array();
     ?>
-    <form method="post">
-        <input type="hidden" value="user" name="writemodule">
-        <input type="hidden" value="auth" name="action">
-        e-mail:<?php input_error($data, 'email', 'auth'); ?>
-        <input type="text" name="email" />
-        пароль:<?php input_error($data, 'password', 'auth'); ?>
-        <input type="password" name="password" />
-        <input type="submit" value="войти">
-        <a href="/register">зарегистрироваться</a>
-    </form>
+    <div class="plank_login">
+        <form method="post">
+            <input type="hidden" value="user" name="writemodule">
+            <input type="hidden" value="auth" name="action">
+            <span>E-mail: </span><?php input_error($data, 'email', 'auth'); ?>
+            <input class="email" type="text" name="email" value="<?php input_val($data, $values, 'email', 'auth') ?>" />
+            <span>Пароль: </span><?php input_error($data, 'password', 'auth'); ?>
+            <input class="pwd" type="password" name="password" />
+            <input class="submit" type="submit" value="войти">
+            <a href="/register">зарегистрироваться</a>
+        </form>
+    </div>
     <?php
 }
 
@@ -150,13 +153,7 @@ function draw_user_logged_plank($data) {
     $user = Users::getByIdLoaded(CurrentUser::$id);
     ?>
     <div class="plank_logged">
-        <div class="card">
-            <div class="avatar">
-                <img src="<?php echo $user->getAvatar(); ?>"/>
-            </div>
-            <a href="/u/<?php echo $user->data['id'] ?>"><?php echo th_username($user->data) ?></a>
-        </div>
-        <a href="/logout">выйти</a>
+        <span>Вы вошли как</span><a class="name" href="/u/<?php echo $user->data['id'] ?>"><?php echo th_username($user->data) ?></a><a class="logout" href="/logout">выйти</a>
     </div>
     <?php
 }

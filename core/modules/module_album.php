@@ -168,6 +168,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
             $template_id = max(1, $event_data['template_id']);
         } else {
             $template_id = 1;
+            $event_data = array('title' => '');
         }
         if (!count($data['events'])) {
             // создание эвента
@@ -265,7 +266,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $order = $cond->getSortingField() . ' ' . $cond->getSortingOrderSQL();
         $limit = $cond->getLimit();
 
-        $query = 'SELECT SQL_CALC_FOUND_ROWS A.child_name as child_name,AE.*, LE.*, LE.title as event_title, U.id as user_id,AE.id as id, LE.id as lib_event_id, LET.id as lib_template_id, AE.id as id
+        $query = 'SELECT SQL_CALC_FOUND_ROWS A.child_name as child_name,AE.*, LE.*, LE.title as event_title,AE.title as title, U.id as user_id,AE.id as id, LE.id as lib_event_id, LET.id as lib_template_id, AE.id as id
             FROM `album_events` AE
             LEFT JOIN `album` A ON A.id=AE.album_id
             LEFT JOIN `lib_events` LE ON LE.id=AE.event_id
@@ -291,7 +292,8 @@ ORDER BY ' . $order . ' LIMIT ' . $limit . '';
 
 
         foreach ($events as $event) {
-            $uids[$event['user_id']] = $event['user_id'];
+            if ($event['user_id'])
+                $uids[$event['user_id']] = $event['user_id'];
         }
         if (count($uids))
             $users = Users::getByIdsLoaded($uids);

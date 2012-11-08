@@ -2,8 +2,54 @@
 
 class AjaxQuery {
 
-    function __construct($method, $params, $data) {
+    function __construct($method, $params, &$data) {
         return $this->$method($params, $data);
+    }
+
+    function like() {
+        $event_id = (int) $_POST['ids'];
+        if ($event_id > 0)
+            if (CurrentUser::$id)
+                Database::query('INSERT INTO `event_likes` SET user_id=' . CurrentUser::$id . ', event_id=' . $event_id . ', `time`=' . time() . '
+                ON DUPLICATE KEY UPDATE `time`=' . time());
+    }
+
+    function get_likes($params, &$data) {
+        $ids = $_POST['ids'];
+        $to_check = array();
+        foreach ($ids as $event_id) {
+            if (is_numeric($event_id) && $event_id > 0)
+                $to_check[$event_id] = $event_id;
+        }
+        if (count($to_check)) {
+            $res = Database::sql2array('SELECT `user_id`,`event_id` FROM `event_likes` WHERE `event_id` IN (' . implode(',', $to_check) . ')');
+            $uids = array();
+            foreach ($res as $row) {
+                $uids[$row['user_id']] = $row['user_id'];
+            }
+
+            if (count($uids)) {
+                $users = Users::getByIdsLoaded(array_keys($uids));
+                foreach ($res as $row) {
+                    if (isset($users[$row['user_id']])) {
+                        $data['likes'][$row['event_id']][$row['user_id']] = array(
+                            'nickname' => $users[$row['user_id']]->data['nickname'],
+                            'id' => $users[$row['user_id']]->data['id'],
+                        );
+                        if (CurrentUser::$id == $row['user_id'])
+                            $data['self'][$row['event_id']] = $row['user_id'];
+                    }
+                }
+            }
+        }
+
+        foreach ($to_check as $event_id) {
+            if (!isset($data['likes'][$event_id])) {
+                $data['likes'][$event_id] = array();
+            }
+        }
+        $data['owner'] = CurrentUser::$id;
+        return $data;
     }
 
     function album_hide_suggest($params, &$data) {

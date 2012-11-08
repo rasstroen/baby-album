@@ -39,7 +39,7 @@ CREATE TABLE `album` (
   KEY `user_id` (`user_id`),
   KEY `private` (`private`),
   KEY `sex` (`sex`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,7 @@ CREATE TABLE `album` (
 
 LOCK TABLES `album` WRITE;
 /*!40000 ALTER TABLE `album` DISABLE KEYS */;
-INSERT INTO `album` VALUES (1,2,'Лёнечка',1350036783,1350036783,'2011-10-24',0,111,112,113,114,1);
+INSERT INTO `album` VALUES (1,2,'Лёнечка',1350036783,1350036783,'2011-10-24',0,111,112,113,114,1),(20,9,'Лёнька',0,1351770469,'2011-10-24',0,0,0,0,0,1);
 /*!40000 ALTER TABLE `album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,7 +78,7 @@ CREATE TABLE `album_events` (
   KEY `is_public` (`is_public`),
   KEY `event_id` (`album_id`,`event_id`,`eventTime`),
   KEY `comments_count` (`comments_count`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `album_events` (
 
 LOCK TABLES `album_events` WRITE;
 /*!40000 ALTER TABLE `album_events` DISABLE KEYS */;
-INSERT INTO `album_events` VALUES (2,1,1,1351255674,141,142,143,143,'','rtuy','1970-01-01 03:00:00',1,0),(3,1,15,1351674587,144,145,146,146,'вперёд!','','2012-10-02 12:35:00',1,0);
+INSERT INTO `album_events` VALUES (2,1,1,1351255674,141,142,143,143,'','rtuy','1970-01-01 03:00:00',1,0),(3,1,15,1351756720,191,192,193,193,'вперёд!','','2012-10-02 12:35:00',1,0),(5,20,0,1352348976,220,221,222,223,'спим','','2012-11-01 10:30:00',1,0);
 /*!40000 ALTER TABLE `album_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +115,7 @@ CREATE TABLE `album_events_fields` (
 
 LOCK TABLES `album_events_fields` WRITE;
 /*!40000 ALTER TABLE `album_events_fields` DISABLE KEYS */;
-INSERT INTO `album_events_fields` VALUES (1,5,NULL,'1970-01-01 03:00:00',NULL),(1,6,NULL,'rtuy',NULL),(1,8,NULL,'',NULL),(1,9,4567,NULL,NULL),(1,10,4567,NULL,NULL),(1,11,0,NULL,NULL),(1,19,NULL,'',NULL),(2,5,NULL,'1970-01-01 03:00:00',NULL),(2,6,NULL,NULL,'rtuy'),(2,8,NULL,'',NULL),(2,9,4567,NULL,NULL),(2,10,4567,NULL,NULL),(2,11,0,NULL,NULL),(2,19,NULL,'',NULL),(3,1,NULL,'2012-10-02 12:35:00',NULL),(3,2,NULL,'вперёд!',NULL),(3,3,NULL,NULL,'');
+INSERT INTO `album_events_fields` VALUES (1,5,NULL,'1970-01-01 03:00:00',NULL),(1,6,NULL,'rtuy',NULL),(1,8,NULL,'',NULL),(1,9,4567,NULL,NULL),(1,10,4567,NULL,NULL),(1,11,0,NULL,NULL),(1,19,NULL,'',NULL),(2,5,NULL,'1970-01-01 03:00:00',NULL),(2,6,NULL,NULL,'rtuy'),(2,8,NULL,'',NULL),(2,9,4567,NULL,NULL),(2,10,4567,NULL,NULL),(2,11,0,NULL,NULL),(2,19,NULL,'',NULL),(3,1,NULL,'2012-10-02 12:35:00',NULL),(3,2,NULL,'вперёд!',NULL),(3,3,NULL,NULL,''),(5,1,NULL,'2012-11-01 10:30:00',NULL),(5,2,NULL,'спим',NULL),(5,3,NULL,NULL,'');
 /*!40000 ALTER TABLE `album_events_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -149,6 +149,32 @@ LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
 INSERT INTO `comments` VALUES (1,0,1,3,2,1351599904,'укецуке',0),(2,1,1,3,2,1351599933,'укецуке',1),(3,1,1,3,3,1351600653,'qwerwqerwqerwer',1),(4,1,1,3,3,1351600655,'qwerwqerwqerwer',1),(5,1,1,3,3,1351600656,'qwerwqerwqerwer',1),(6,3,1,3,3,1351600660,'qwerwqerwqerwer',1),(7,0,1,3,3,1351600661,'qwerwqerwqerwer',0),(8,7,1,3,3,1351600664,'qwerwqerwqerwer',7),(9,8,1,3,3,1351600667,'qwerwqerwqerwer',7);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `event_likes`
+--
+
+DROP TABLE IF EXISTS `event_likes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `event_likes` (
+  `event_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`event_id`,`user_id`),
+  KEY `time` (`time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `event_likes`
+--
+
+LOCK TABLES `event_likes` WRITE;
+/*!40000 ALTER TABLE `event_likes` DISABLE KEYS */;
+INSERT INTO `event_likes` VALUES (3,9,1352210604),(2,9,1352210618);
+/*!40000 ALTER TABLE `event_likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -367,9 +393,10 @@ CREATE TABLE `user` (
   `hash` varchar(32) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `nickname` (`nickname`),
   KEY `role` (`role`),
   KEY `hash` (`hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -378,7 +405,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'7ddf5ee9e5a62f67bd637ade2dfbcb86','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'rasstroen',93,94,20,''),(9,'6f79098bbc0d3fc75843e902843f729f','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'',0,0,20,''),(10,'30894fe4fd5163e7a517962303210aa0','ezh@xsign.ru','96e79218965eb72c92a549dd5a330112',1351150682,0,'',0,0,0,''),(25,'ff074e784530ac6cf4639351aae98ff9','amuhc@yandex.ua','c68c9c8258ea7d85472dd6fd0015f047',1351517430,0,'rasstroen',0,0,10,'');
+INSERT INTO `user` VALUES (2,'7ddf5ee9e5a62f67bd637ade2dfbcb86','amuhc@ya.ru2','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'rasstroen_',93,94,20,''),(9,'df2da1e0f07f1d9b1713e7c3aca0fe4b','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'папа',194,195,20,''),(10,'30894fe4fd5163e7a517962303210aa0','ezh@xsign.ru','96e79218965eb72c92a549dd5a330112',1351150682,0,'',0,0,0,''),(25,'ff074e784530ac6cf4639351aae98ff9','amuhc@yandex.ua','c68c9c8258ea7d85472dd6fd0015f047',1351517430,0,'rasstroen',0,0,10,''),(33,'bd58691a9d324f4c27a2ab64d758015e','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1351759782,0,'admin',0,0,0,'8f2813d907b3fb167ceb40ab12307174');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -402,7 +429,7 @@ CREATE TABLE `user_album` (
 
 LOCK TABLES `user_album` WRITE;
 /*!40000 ALTER TABLE `user_album` DISABLE KEYS */;
-INSERT INTO `user_album` VALUES (2,1);
+INSERT INTO `user_album` VALUES (2,1),(9,20);
 /*!40000 ALTER TABLE `user_album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -440,4 +467,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-10-31 10:12:39
+-- Dump completed on 2012-11-08  5:44:48

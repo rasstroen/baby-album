@@ -1,7 +1,7 @@
 <head>
-<title><?php echo $config['title']; ?></title>
-<meta name="description" content="<?php echo isset($config['description']) ? $config['description'] : ''; ?>">
-<meta name="keywords" content="<?php echo isset($config['keywords']) ? $config['keywords'] : ''; ?>">
+<title><?php echo $config['title']; ?> — Детские альбомы онлайн</title>
+<meta name="description" content="<?php echo isset($config['description']) ? $config['description'] : 'детский фотоальбом онлайн'; ?>">
+<meta name="keywords" content="<?php echo isset($config['keywords']) ? $config['keywords'] : 'детский альбом онлайн'; ?>">
 <meta name='yandex-verification' content='796cf6969934ac1b' />
 <?php
 echo "\n<!--css-->\n";

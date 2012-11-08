@@ -86,6 +86,7 @@ class user_write extends write {
             } else {
                 $error['password'] = 'Неверный пароль';
                 Site::passWrite('error_auth', $error);
+                Site::passWrite('value_auth', $_POST);
                 return;
             }
         }

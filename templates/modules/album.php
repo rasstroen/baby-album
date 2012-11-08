@@ -206,6 +206,7 @@ function tp_album_edit_event($data) {
     }
 
     function _th_draw_event_in_list($event) {
+
         $self = (CurrentUser::$id == $event['user_id']);
         $user = Users::getByIdLoaded($event['user_id']);
             ?>
@@ -213,22 +214,21 @@ function tp_album_edit_event($data) {
         <div class="head">
             <div class="user">
                 <div class="av">
-                    <img src="<?php echo $user->getAvatar(true); ?>">
+                    <a title="<?php echo $event['user']['nickname']; ?>" alt="<?php echo $event['user']['nickname']; ?>" onfocus="this.blur()" href="/u/<?php echo $event['user_id']; ?>"><img border="0" src="<?php echo $user->getAvatar(true); ?>"></a>
                 </div>
+                <h2 class="title"><?php echo $event['title']; ?></h2>
+                <?php if ($self) {?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
                 <div class="lnk">из альбома <a href="/album/<?php echo $event['album_id']; ?>"><?php echo $event['child_name']; ?></a></div>
             </div>
-            <div class="title"><?php echo $event['title']; ?></div>
             <div class="time"><?php echo $event['eventTime']; ?></div>
-            <?php if ($self) {
-                ?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
         </div>
         <div class="body">
+
             <?php if ($event['pic_orig']) { ?>
                 <div class="img">
                     <a href="<?php echo $event['pic_big']; ?>">
                         <img src="<?php echo $event['pic_small']; ?>">
                     </a>
-                    <a class="orig" href="<?php echo $event['pic_orig']; ?>">оригинал</a>
                 </div>
             <?php } ?>
             <?php if ($event['description']) { ?>
@@ -243,6 +243,9 @@ function tp_album_edit_event($data) {
         </div>
         <div class="foot">
             <div class="comments_count"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>#comments"><?php echo $event['comments_count']; ?></a><?php echo declOfNum($event['comments_count'], array('комментарий', 'комментария', 'комментариев')) ?></div>
+            <div class="like" id="l<?php echo $event['id']; ?>" style="display:none">
+                <a class="like_a" onclick="like(<?php echo $event['id']; ?>)"></a><span></span><em></em>
+            </div>
         </div>
     </div>
     <?php
@@ -450,5 +453,51 @@ function tp_album_list_main($data) {
             }
             ?>
         </div>
-    </div><?php
-    }
+    </div>
+    <script>
+        function like(id){
+            $.post('/', {method:'like',ids:id}, function(data){
+                $.post('/', {method:'get_likes',ids:[id]}, function(data){
+                    draw_likes(data) ;
+                },"json");
+            },"json");
+        }
+        function draw_likes(data){
+            if(data && data.likes){
+                for(var i in data.likes){
+                    var txt = '';
+                    var txt_users = [];
+                    $('#l'+i).show();
+                    if(data.self && (data.self[i]>0)){
+                        $('#l'+i).find('a').hide();
+                        txt = ('Нравится <a href="/u/'+data.self[i]+'">Вам</a>');
+                    }else{
+                        $('#l'+i).find('a').text('Нравится').show();
+                    }
+                    for (var j in data.likes[i]){
+                        if(data.likes[i][j].id != data.self[i])
+                            txt_users.push('<i class="user"><a href="/u/'+data.likes[i][j].id+'">'+data.likes[i][j].nickname+'</a></i>')
+                    }
+                    _left = (txt!='')?txt:'';
+                    _right = (txt!='')?(txt_users.length?', '+txt_users.join(', '):''):(txt_users.length?'Нравится '+txt_users.join(', '):'');
+                    $('#l'+i).find('em').html(_left+_right);
+
+                }
+            }
+        }
+        $(function(){
+            var likes = {};
+            $('.like').each(function(){
+                id = $(this).attr('id').replace(/l/,'');
+                if(id-0){
+                    likes[id-0]=id-0;
+                }
+            })
+            if(likes){
+                $.post('/', {method:'get_likes',ids:likes}, function(data){
+                    draw_likes(data) ;
+                },"json");
+            }
+        })</script>
+    <?php
+}
