@@ -57,7 +57,7 @@ class comment_write extends write {
             }
 
             Database::query('UPDATE `album_events` SET `comments_count` =
-                    (SELECT COUNT(1) FROM `comments` WHERE `object_type`=' . Config::COMMENT_OBJECT_ALBUM_EVENT . ' AND `object_id`=' . $event_id . ')');
+                    (SELECT COUNT(1) FROM `comments` WHERE `object_type`=' . Config::COMMENT_OBJECT_ALBUM_EVENT . ' AND `object_id`=' . $event_id . ') WHERE `id`=' . $event_id);
         }
     }
 

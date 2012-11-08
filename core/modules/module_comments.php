@@ -76,16 +76,22 @@ ORDER BY ' . $order . ' LIMIT ' . $limit . '';
             $uids[$comment['user_id']] = $comment['user_id'];
         }
 
-        if (count($uids))
-            $users = Users::getByIdsLoaded($uids);
-        else
-            $users = array();
+
 
 
         if (count($pids)) {
             $query = 'SELECT * FROM `comments` WHERE `thread` IN (' . implode(',', $pids) . ') ORDER BY `thread`,`id`';
             $nextlevel = Database::sql2array($query, 'id');
             $comments+=$nextlevel;
+
+            foreach ($comments as $comment) {
+                $uids[$comment['user_id']] = $comment['user_id'];
+            }
+
+            if (count($uids))
+                $users = Users::getByIdsLoaded($uids);
+            else
+                $users = array();
 
             foreach ($comments as &$comment) {
                 if (!isset($users[$comment['user_id']]))
