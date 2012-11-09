@@ -15,6 +15,11 @@ class Map {
         'index' => array(
             '' => 'index',
         ),
+        'event' => array(
+            '%d' => array(
+                '' => 'list_of_event', // все эвенты данного типа
+            ),
+        ),
         'register' => array(
             '' => 'register',
         ),
@@ -26,7 +31,7 @@ class Map {
         ),
         'album' => array(
             '%d' => array(
-                'suggested_events' => 'album_suggested_events',
+                'suggested_events' => 'album_suggested_events', // подсказки для конкретного альбома
                 'edit' => 'album_edit',
                 '' => 'album',
                 'event' => array(

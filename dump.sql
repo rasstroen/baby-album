@@ -39,7 +39,7 @@ CREATE TABLE `album` (
   KEY `user_id` (`user_id`),
   KEY `private` (`private`),
   KEY `sex` (`sex`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,7 +48,6 @@ CREATE TABLE `album` (
 
 LOCK TABLES `album` WRITE;
 /*!40000 ALTER TABLE `album` DISABLE KEYS */;
-INSERT INTO `album` VALUES (1,2,'Лёнечка',1350036783,1350036783,'2011-10-24',0,111,112,113,114,1),(20,9,'Лёнька',0,1351770469,'2011-10-24',0,0,0,0,0,1);
 /*!40000 ALTER TABLE `album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -78,7 +77,7 @@ CREATE TABLE `album_events` (
   KEY `is_public` (`is_public`),
   KEY `event_id` (`album_id`,`event_id`,`eventTime`),
   KEY `comments_count` (`comments_count`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +86,6 @@ CREATE TABLE `album_events` (
 
 LOCK TABLES `album_events` WRITE;
 /*!40000 ALTER TABLE `album_events` DISABLE KEYS */;
-INSERT INTO `album_events` VALUES (2,1,1,1351255674,141,142,143,143,'','rtuy','1970-01-01 03:00:00',1,0),(3,1,15,1351756720,191,192,193,193,'вперёд!','','2012-10-02 12:35:00',1,0),(5,20,0,1352348976,220,221,222,223,'спим','','2012-11-01 10:30:00',1,0);
 /*!40000 ALTER TABLE `album_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +113,6 @@ CREATE TABLE `album_events_fields` (
 
 LOCK TABLES `album_events_fields` WRITE;
 /*!40000 ALTER TABLE `album_events_fields` DISABLE KEYS */;
-INSERT INTO `album_events_fields` VALUES (1,5,NULL,'1970-01-01 03:00:00',NULL),(1,6,NULL,'rtuy',NULL),(1,8,NULL,'',NULL),(1,9,4567,NULL,NULL),(1,10,4567,NULL,NULL),(1,11,0,NULL,NULL),(1,19,NULL,'',NULL),(2,5,NULL,'1970-01-01 03:00:00',NULL),(2,6,NULL,NULL,'rtuy'),(2,8,NULL,'',NULL),(2,9,4567,NULL,NULL),(2,10,4567,NULL,NULL),(2,11,0,NULL,NULL),(2,19,NULL,'',NULL),(3,1,NULL,'2012-10-02 12:35:00',NULL),(3,2,NULL,'вперёд!',NULL),(3,3,NULL,NULL,''),(5,1,NULL,'2012-11-01 10:30:00',NULL),(5,2,NULL,'спим',NULL),(5,3,NULL,NULL,'');
 /*!40000 ALTER TABLE `album_events_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +135,7 @@ CREATE TABLE `comments` (
   PRIMARY KEY (`id`),
   KEY `object_type` (`object_type`,`object_id`),
   KEY `thread` (`thread`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +144,6 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
-INSERT INTO `comments` VALUES (1,0,1,3,2,1351599904,'укецуке',0),(2,1,1,3,2,1351599933,'укецуке',1),(3,1,1,3,3,1351600653,'qwerwqerwqerwer',1),(4,1,1,3,3,1351600655,'qwerwqerwqerwer',1),(5,1,1,3,3,1351600656,'qwerwqerwqerwer',1),(6,3,1,3,3,1351600660,'qwerwqerwqerwer',1),(7,0,1,3,3,1351600661,'qwerwqerwqerwer',0),(8,7,1,3,3,1351600664,'qwerwqerwqerwer',7),(9,8,1,3,3,1351600667,'qwerwqerwqerwer',7);
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,7 +169,6 @@ CREATE TABLE `event_likes` (
 
 LOCK TABLES `event_likes` WRITE;
 /*!40000 ALTER TABLE `event_likes` DISABLE KEYS */;
-INSERT INTO `event_likes` VALUES (3,9,1352210604),(2,9,1352210618);
 /*!40000 ALTER TABLE `event_likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -286,7 +281,7 @@ CREATE TABLE `lib_events` (
 
 LOCK TABLES `lib_events` WRITE;
 /*!40000 ALTER TABLE `lib_events` DISABLE KEYS */;
-INSERT INTO `lib_events` VALUES (1,'Рождение',0,0,31,'Этого события ждали долгие месяцы, и вот - это произошло! С днём рождения, малыш!',2,0),(2,'Выписка',0,0,31,'Наконец-то домой! Показываться родственникам и обживаться на новом месте.',1,0),(5,'Первые самостоятельные шаги',0,200,600,'За ручку мы уже находились, теперь - сами!',1,1),(6,'Держим головку',0,31,120,'Охх сколько всего интересного вокруг! Только успевай шеей крутить!',1,1),(7,'Первый день рождения',0,363,600,'Мне уже целый год! Сколько всего интересного за год успело произойти!',3,1),(8,'Первый раз сели',0,40,200,'Лежать надоело, сидеть - весело!',1,1),(9,'Первый раз засмеялись',0,55,150,'Рассмешили так рассмешили) Теперь буду смеяться без остановки!',1,1),(10,'Первое кормление',0,90,365,'Что это? Совсем не похоже на мамино молоко!',1,1),(11,'Стоим сами',0,210,400,'Сидеть, лежать... А я вот постою! А вам слабо?',1,1),(12,'Первый зуб',0,60,380,'Всё, вылез! Первый зубик, привет!',1,1),(13,'Первая игрушка',0,0,63,'Моя самая первая в жизни игрушка!',1,1),(14,'Я и мама',0,0,50,'Первая фотография с мамой',1,1),(15,'Я и папа',0,0,60,'Первая фотография с папой',1,1),(16,'Я и семья',0,5,90,'Первая семейная фотография',1,1),(17,'Танцую',0,100,450,'Вот как я танцую, завидуйте все!',1,1),(18,'Первый поход в поликлинику',0,30,180,'А там куча деток, и все с мамами! Вот где настоящее веселье!',1,1),(19,'Второй день рождения',0,720,800,'Мне уже два года! Вот как мы празднуем!',3,1),(20,'Моё первое слово, кроме \"мама\"',0,365,728,'',1,1),(21,'Первое узи',0,0,25,'Первый раз мама не только почуствует, но и увидит малыша',1,1),(22,'Последнее узи',0,0,26,'Последний раз мы видим малышку на экране. В следующий раз встретимся с глазу на глаз!',1,1),(23,'Первое молочко',0,0,14,'Первый раз пробуем мамино молочко',1,1);
+INSERT INTO `lib_events` VALUES (1,'Рождение',0,0,31,'Этого события ждали долгие месяцы, и вот - это произошло! С днём рождения, малыш!',2,0),(2,'Выписка',0,0,31,'Наконец-то домой! Показываться родственникам и обживаться на новом месте.',1,0),(5,'Первые самостоятельные шаги',0,200,600,'За ручку мы уже находились, теперь - сами!',1,1),(6,'Держим головку',0,31,120,'Охх сколько всего интересного вокруг! Только успевай шеей крутить!',1,1),(7,'Первый день рождения',0,363,600,'Мне уже целый год! Сколько всего интересного за год успело произойти!',3,1),(8,'Первый раз сели',0,40,200,'Лежать надоело, сидеть - весело!',1,1),(9,'Первый раз засмеялись',0,55,150,'Рассмешили так рассмешили) Теперь буду смеяться без остановки!',1,1),(10,'Первое кормление',0,90,365,'Что это? Совсем не похоже на мамино молоко!',1,1),(11,'Стоим сами',0,210,400,'Сидеть, лежать... А я вот постою! А вам слабо?',1,1),(12,'Первый зуб',0,60,380,'Всё, вылез! Первый зубик, привет!',1,1),(13,'Первая игрушка',0,0,63,'Моя самая первая в жизни игрушка!',1,1),(14,'Я и мама',0,0,50,'Первая фотография с мамой',1,1),(15,'Я и папа',0,0,60,'Первая фотография с папой',1,1),(16,'Я и семья',0,5,90,'Первая семейная фотография',1,1),(17,'Танцую',0,100,450,'Вот как я танцую, завидуйте все!',1,1),(18,'Первый поход в поликлинику',0,30,180,'А там куча деток, и все с мамами! Вот где настоящее веселье!',1,1),(19,'Второй день рождения',0,720,800,'Мне уже два года! Вот как мы празднуем!',3,1),(20,'Моё первое слово',0,365,728,'Вот теперь, мама и папа, держитесь! Скоро я выучу еще пару слов и делать вид, что вы меня не понимаете, будет сложнее!',1,1),(21,'Первое узи',0,0,25,'Первый раз мама не только почуствует, но и увидит малыша',1,1),(22,'Последнее узи',0,0,26,'Последний раз мы видим малышку на экране. В следующий раз встретимся с глазу на глаз!',1,1),(23,'Первое молочко',0,0,14,'Первый раз пробуем мамино молочко',1,1);
 /*!40000 ALTER TABLE `lib_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -396,7 +391,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `nickname` (`nickname`),
   KEY `role` (`role`),
   KEY `hash` (`hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -405,7 +400,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (2,'7ddf5ee9e5a62f67bd637ade2dfbcb86','amuhc@ya.ru2','c68c9c8258ea7d85472dd6fd0015f047',1350044399,0,'rasstroen_',93,94,20,''),(9,'df2da1e0f07f1d9b1713e7c3aca0fe4b','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',0,0,'папа',194,195,20,''),(10,'30894fe4fd5163e7a517962303210aa0','ezh@xsign.ru','96e79218965eb72c92a549dd5a330112',1351150682,0,'',0,0,0,''),(25,'ff074e784530ac6cf4639351aae98ff9','amuhc@yandex.ua','c68c9c8258ea7d85472dd6fd0015f047',1351517430,0,'rasstroen',0,0,10,''),(33,'bd58691a9d324f4c27a2ab64d758015e','amuhc@ya.ru','c68c9c8258ea7d85472dd6fd0015f047',1351759782,0,'admin',0,0,0,'8f2813d907b3fb167ceb40ab12307174');
+INSERT INTO `user` VALUES (34,'058bf1a530b7f22c3cb082bc80f2a5f4','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,0,'katary',0,0,20,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -429,7 +424,6 @@ CREATE TABLE `user_album` (
 
 LOCK TABLES `user_album` WRITE;
 /*!40000 ALTER TABLE `user_album` DISABLE KEYS */;
-INSERT INTO `user_album` VALUES (2,1),(9,20);
 /*!40000 ALTER TABLE `user_album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -454,7 +448,6 @@ CREATE TABLE `user_suggest_inactive` (
 
 LOCK TABLES `user_suggest_inactive` WRITE;
 /*!40000 ALTER TABLE `user_suggest_inactive` DISABLE KEYS */;
-INSERT INTO `user_suggest_inactive` VALUES (1,5);
 /*!40000 ALTER TABLE `user_suggest_inactive` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -467,4 +460,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-08  5:44:48
+-- Dump completed on 2012-11-09 14:50:28

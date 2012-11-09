@@ -211,7 +211,7 @@ function tp_album_edit_event($data) {
     </div><?php
     }
 
-    function _th_draw_event_in_list($event) {
+    function _th_draw_event_in_list($event, $opts = array()) {
         $self = (CurrentUser::$id == $event['user_id']);
         $user = Users::getByIdLoaded($event['user_id']);
             ?>
@@ -248,6 +248,15 @@ function tp_album_edit_event($data) {
                 if ($additional_fields) {
                     ?> <div class="additional"><?php echo $additional_fields; ?></div><?php
         }
+                ?>
+
+                <?php if (!isset($opts['dont_show_event_type']) && $event['event_id']) {
+                    ?>
+                    <div class="event_type fill_on_hover">
+                        <div><span>Событие:</span><a href="/event/<?php echo $event['event_id']; ?>"><?php echo $event['event_title']; ?></a></div>
+                        <p><?php echo $event['event_description']; ?></p>
+                    </div>
+                <?php }
                 ?>
 
             </div>
@@ -431,8 +440,25 @@ function tp_album_edit_item($data) {
     <?php
 }
 
-function tp_album_list_main($data) {
+function tp_album_list_list_of_event($data) {
     ?>
+    <div id="event_type_album" class="album">
+        <div class="ahead">
+            <h1>Лента событий «<?php echo $data['event']['title'] ?>»</h1>
+            <p><?php echo $data['event']['description'] ?></p>
+        </div>
+        <div class="album">
+            <?php
+            foreach ($data['events'] as $event) {
+                _th_draw_event_in_list($event, array('dont_show_event_type' => true));
+            }
+            ?>
+        </div>
+    </div><?php
+    }
+
+    function tp_album_list_main($data) {
+            ?>
     <div id="main_album" class="album">
         <div class="album">
             <?php

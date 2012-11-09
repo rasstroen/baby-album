@@ -16,6 +16,9 @@ class module_album extends module {
                     case 'main':
                         return $this->getAlbumMainEvents();
                         break;
+                    case 'list_of_event': // все эвенты такого типа
+                        return $this->getAlbumTypedEvents();
+                        break;
                     case 'suggested_events':
                         return $this->getAlbumSuggestedEvents();
                         break;
@@ -217,6 +220,30 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $data = $this->_list($opts);
 
         return array('event' => array_pop($data['events']));
+    }
+
+    function getAlbumTypedEvents() {
+        $event_id = array_values(Site::$request_uri_array);
+        $event_id = (int) $event_id[1];
+        if (!$event_id) {
+            header('Location: /');
+            exit(0);
+        }
+
+        $event = Database::sql2row('SELECT * FROM `lib_events` WHERE `id`=' . $event_id);
+        if ($event) {
+
+            $opts = array(
+                'where' => array(
+                    'AE.`is_public`=1',
+                    'AE.`event_id`=' . $event_id
+                )
+            );
+            Site::passTitle('«' . $event['title'] . '» лента событий');
+            $out = $this->_list($opts);
+        }
+        $out['event'] = $event;
+        return $out;
     }
 
     function getAlbumMainEvents() {

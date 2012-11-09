@@ -28,10 +28,10 @@ function tp_user_edit_profile($data) {
                     <div class="title">в формате JPG,PNG</div>
                     <div class="value">
                         <input name="userpic" type="file">
-                        
-                            <img src="<?php echo $user->getAvatar(true) ?>" />
-                            <img src="<?php echo $user->getAvatar(false) ?>" />
-                        
+
+                        <img src="<?php echo $user->getAvatar(true) ?>" />
+                        <img src="<?php echo $user->getAvatar(false) ?>" />
+
                     </div>
                 </div>
             </div>
@@ -59,9 +59,9 @@ function tp_user_show_profile_small($data) {
     ?>
     <div class="show_profile_small">
         <div class="block credentials">
-            
-                <img src="<?php echo $user->getAvatar(false) ?>" />
-            
+
+            <img src="<?php echo $user->getAvatar(false) ?>" />
+
         </div>
         <div class="block">
             <ul>
@@ -184,16 +184,26 @@ function tp_user_show_register($data) {
         return;
     }
     ?>
-    <form method="post">
-        <input type="hidden" value="user" name="writemodule">
-        <input type="hidden" value="register" name="action">
-        e-mail:<?php input_error($data, 'email', 'register'); ?>
-        <input type="text" name="email" />
-        пароль:<?php input_error($data, 'password', 'register'); ?>
-        <input type="password" name="password" />
-        никнейм:<?php input_error($data, 'nickname', 'register'); ?>
-        <input name="nickname" />
-        <input type="submit" value="зарегистрироваться">
-    </form>
+    <div class="register_form">
+        <form method="post">
+            <input type="hidden" value="user" name="writemodule">
+            <input type="hidden" value="register" name="action">
+            <div><span><a title="Адрес E-mail, для подтверждения регистрации.">E-mail&nbsp;*:</a></span>
+                <input class="email" type="text" name="email" />
+                <?php input_error($data, 'email', 'register'); ?>
+            </div>
+            <div><span><a title="Любой пароль для входа на сайт">Пароль&nbsp;*:</a></span>
+                <input class="password" type="password" name="password" />
+                <?php input_error($data, 'password', 'register'); ?>
+            </div>
+            <div><span><a title="Ник, под которым Вас будут видеть пользователи сайта">Никнейм:</a></span>
+                <input class="nickname" name="nickname" />
+                <?php input_error($data, 'nickname', 'register'); ?>
+            </div>
+            <div>
+                <input class="submit" type="submit" value="зарегистрироваться">
+            </div>
+        </form>
+    </div>
     <?php
 }

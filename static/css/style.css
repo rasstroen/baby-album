@@ -8,10 +8,23 @@ body{
     background: #fff;
 }
 
+.fill_on_hover{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
+    -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 0.8; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 0.8;
+}
+.fill_on_hover:hover{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); /* IE 5.5+*/
+    -moz-opacity: 1; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 1; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 1;
+}
+
 
 body,html{
     height: 100%;
-    background:#0e4482  url(/static/img/head.png) top center repeat-x;
+    background:#0e4482 url(/static/img/head.png) top center repeat-x;
 }
 
 .clear{font-size:1px;display: block;float: none;clear:left;height:0px;}
@@ -231,6 +244,18 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 #main_album{
     margin:0 10px 0 10px;
 }
+#event_type_album{
+    margin:0 10px 0 10px;
+}
+
+#event_type_album .ahead{background-color: #F0F1F2;
+                         border: 1px solid #E0E0E0;
+                         border-radius: 5px 5px 5px 5px;
+                         margin:10px 0 0 0;
+                         overflow: hidden;
+                         padding: 5px;}
+#event_type_album .ahead h1{text-align: center; text-transform: uppercase;font-weight: normal; font-family: Georgia; font-style: italic; font-size:16px; color :#333}
+#event_type_album .ahead p{text-align: center; padding:10px;}
 
 .album .event_one{
     padding:10px 12px 10px 12px;
@@ -239,7 +264,6 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
     background: #fff;
     border: 1px solid #E0E0E0;
     border-radius: 5px 5px 5px 5px;
-    overflow: hidden;
 }
 
 .album .event_one .head{}
@@ -250,7 +274,8 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .album .event_one .head .user .lnk{position: absolute; right:10px;top:10px;}
 .album .event_one .head .user .lnk a{color: #000;}
 .album .event_one .head .time{position: absolute; right:10px;top:25px;}
-.album .event_one .body{}
+.album .event_one .body{    }
+.album .event_one .body:hover{}
 
 .album .event_one .body .img{display: inline-block;width:250px; text-align: center;}
 .album .event_one .body .img a img{margin:10px; background: #cedef0}
@@ -274,6 +299,26 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .album .event_one .body .right .additional .ft{font-weight: bolder;font-size: 11px;}
 .album .event_one .body .right .additional .ft .add{margin:0 0 0 10px;display: inline-block;font-weight: normal; text-align: right}
 
+.album .event_one .body .right .event_type{
+    position: absolute;
+    right:-20px;
+    bottom:40px;
+    background-color: #F0F1F2;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px 3px 3px 3px;
+    margin:10px 0 0 0;
+    box-shadow: 0 1px 5px #E0E0E0;
+    display: inline-block;
+    overflow: hidden;
+    padding: 5px;
+    text-align: right;
+    float:right}
+
+.album .event_one .body .right .event_type div{margin:0 5px 0 0; font-weight: bolder}
+.album .event_one .body .right .event_type span{margin:0 5px 0 0;font-weight: normal;}
+.album .event_one .body .right .event_type p{margin:2px;padding:2px;display: none;}
+.album .event_one .body .right .event_type:hover p{margin:2px;padding:2px;display: block;}
+
 .album .event_one .foot{position: relative;}
 .album .event_one .foot .comments_count a{color:#000;margin:5px 5px 0 0;}
 .album .event_one .foot .like {position: absolute; bottom:5px;right:5px;}
@@ -295,3 +340,19 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .textblock h2{font-size: 16px;}
 .textblock p{font-size: 12px;}
 .textblock p a{color:#222;}
+
+.register_form{background-color: #F0F1F2;
+               border: 1px solid #E0E0E0;
+               border-radius: 3px 3px 3px 3px;
+               margin:10px 0 0 0;
+               box-shadow: 0 1px 5px #E0E0E0;
+               overflow: hidden;
+               padding: 5px;
+               text-align: center;}
+.register_form div{display: block;}
+.register_form div span{width:100px;display: inline-block; text-align: left; font-size:13px;}
+.register_form div span a{text-decoration: none;color:#222;}
+.register_form div div{width:180px;}
+.register_form .submit{clear: both;display: block;text-align: center;margin:0 auto;margin:10px auto;cursor:pointer; border:1px solid #2e64a2; background: #0e4482; color: #fff;}
+
+.register_form em.error{display: block;padding-left:188px;color:#cd0a0a;text-align: left;text-transform: lowercase; margin:0 0 10px 0;}
