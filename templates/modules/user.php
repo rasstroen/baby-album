@@ -185,6 +185,7 @@ function tp_user_show_register($data) {
     }
     ?>
     <div class="register_form">
+        <h1>Зарегистрируйтесь, чтобы завести свой альбом или участвовать в конкурсах</h1>
         <form method="post">
             <input type="hidden" value="user" name="writemodule">
             <input type="hidden" value="register" name="action">

@@ -64,6 +64,7 @@ function _th_draw_editing_field($field, $data) {
                     <?php
                     break;
                 case 'eventTime':
+                    $field_value = $field_value ? $field_value : date('Y-m-d H:i');
                     ?><input name="<?php echo $field['type'] ?>" value="<?php echo date('Y-m-d H:i', strtotime($field_value)) ?>">
                     <script>
                         $('input[name="<?php echo $field['type'] ?>"]').datetimepicker({
@@ -107,25 +108,25 @@ function _th_draw_event_field($field) {
         case 'name':// имя ребёнка
             if ($field['value_varchar']) {
                 echo "\n";
-                ?><div class="ft"><?php echo $field['event_field_title']; ?><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_varchar'] ?></div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_varchar'] ?></div></div><?php
             }
             break;
         case 'weight':// вес
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><?php echo $field['event_field_title']; ?><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?></div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?> килограммов</div></div><?php
             }
             break;
         case 'height':// рост
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><?php echo $field['event_field_title']; ?><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?></div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?> сантиметров</div></div><?php
             }
             break;
         case 'eyecolor':// рост
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><?php echo $field['event_field_title']; ?><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[$field['value_int']] ?></div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[$field['value_int']] ?></div></div><?php
             }
             break;
         default:

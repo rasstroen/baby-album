@@ -39,7 +39,7 @@ CREATE TABLE `album` (
   KEY `user_id` (`user_id`),
   KEY `private` (`private`),
   KEY `sex` (`sex`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -48,6 +48,7 @@ CREATE TABLE `album` (
 
 LOCK TABLES `album` WRITE;
 /*!40000 ALTER TABLE `album` DISABLE KEYS */;
+INSERT INTO `album` VALUES (1,43,'Лёнечка',1352469713,1352469757,'2011-10-24',0,228,229,230,231,1);
 /*!40000 ALTER TABLE `album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,6 +62,7 @@ DROP TABLE IF EXISTS `album_events`;
 CREATE TABLE `album_events` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `album_id` int(11) NOT NULL,
+  `creator_id` int(10) unsigned NOT NULL,
   `event_id` int(11) NOT NULL,
   `createTime` int(11) NOT NULL,
   `pic_small` int(11) NOT NULL,
@@ -76,8 +78,9 @@ CREATE TABLE `album_events` (
   KEY `eventTime` (`eventTime`),
   KEY `is_public` (`is_public`),
   KEY `event_id` (`album_id`,`event_id`,`eventTime`),
-  KEY `comments_count` (`comments_count`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `comments_count` (`comments_count`),
+  KEY `creator_id` (`creator_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -86,6 +89,7 @@ CREATE TABLE `album_events` (
 
 LOCK TABLES `album_events` WRITE;
 /*!40000 ALTER TABLE `album_events` DISABLE KEYS */;
+INSERT INTO `album_events` VALUES (1,1,0,0,1352470852,232,233,234,235,'умаялся и спит','Мама наиграла так, что заснул прямо на месте)','2012-11-09 18:04:00',1,0),(2,1,0,7,1352470344,236,237,238,238,'Вечеринка в честь первого дня рождения удалась','Мы готовились целую неделю, и праздник удался. Пока папа надувал шарики, мама готовила потрясающие десерты и шашлыки. А на день рождения пришел наш друг - Паша, и тоже принес сладких подарков)','2012-11-09 18:09:00',1,0);
 /*!40000 ALTER TABLE `album_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,6 +117,7 @@ CREATE TABLE `album_events_fields` (
 
 LOCK TABLES `album_events_fields` WRITE;
 /*!40000 ALTER TABLE `album_events_fields` DISABLE KEYS */;
+INSERT INTO `album_events_fields` VALUES (1,1,NULL,'2012-11-09 18:04:00',NULL),(1,2,NULL,'умаялся и спит',NULL),(1,3,NULL,NULL,'Мама наиграла так, что заснул прямо на месте)'),(2,12,NULL,'2012-11-09 18:09:00',NULL),(2,13,NULL,NULL,'Мы готовились целую неделю, и праздник удался. Пока папа надувал шарики, мама готовила потрясающие десерты и шашлыки. А на день рождения пришел наш друг - Паша, и тоже принес сладких подарков)'),(2,16,176,NULL,NULL),(2,17,13,NULL,NULL),(2,18,NULL,'Вечеринка в честь первого дня рождения удалась',NULL);
 /*!40000 ALTER TABLE `album_events_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -169,6 +174,7 @@ CREATE TABLE `event_likes` (
 
 LOCK TABLES `event_likes` WRITE;
 /*!40000 ALTER TABLE `event_likes` DISABLE KEYS */;
+INSERT INTO `event_likes` VALUES (2,43,1352471262),(1,43,1352471266);
 /*!40000 ALTER TABLE `event_likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,12 +392,15 @@ CREATE TABLE `user` (
   `avatar_normal` int(10) unsigned NOT NULL,
   `role` int(11) NOT NULL DEFAULT '10',
   `hash` varchar(32) NOT NULL,
+  `family_role` tinyint(3) unsigned NOT NULL,
+  `wife_user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `nickname` (`nickname`),
   KEY `role` (`role`),
-  KEY `hash` (`hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8;
+  KEY `hash` (`hash`),
+  KEY `wife_user_id` (`wife_user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -400,7 +409,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (34,'058bf1a530b7f22c3cb082bc80f2a5f4','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,0,'katary',0,0,20,'');
+INSERT INTO `user` VALUES (34,'058bf1a530b7f22c3cb082bc80f2a5f4','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,0,'katary',0,0,20,'',0,0),(43,'1b9219cee1729c807a72803df35bc146','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',1352469577,0,'папа',226,227,10,'',0,0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -424,6 +433,7 @@ CREATE TABLE `user_album` (
 
 LOCK TABLES `user_album` WRITE;
 /*!40000 ALTER TABLE `user_album` DISABLE KEYS */;
+INSERT INTO `user_album` VALUES (43,1);
 /*!40000 ALTER TABLE `user_album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -450,6 +460,32 @@ LOCK TABLES `user_suggest_inactive` WRITE;
 /*!40000 ALTER TABLE `user_suggest_inactive` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_suggest_inactive` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `wife_requests`
+--
+
+DROP TABLE IF EXISTS `wife_requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `wife_requests` (
+  `user_id` int(11) NOT NULL,
+  `wife_id` int(11) NOT NULL,
+  `time` int(11) NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `wife_id` (`wife_id`),
+  KEY `time` (`time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `wife_requests`
+--
+
+LOCK TABLES `wife_requests` WRITE;
+/*!40000 ALTER TABLE `wife_requests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `wife_requests` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -460,4 +496,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-09 14:50:28
+-- Dump completed on 2012-11-09 15:37:49

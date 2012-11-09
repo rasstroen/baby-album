@@ -70,8 +70,10 @@ class album_write extends write {
             Database::query('INSERT INTO `album` SET `createTime`=' . time() . ',`user_id`=' . CurrentUser::$id . ', id= ' . $album_id . ',' . implode(',', $to_insert) . ' 
                 ON DUPLICATE KEY UPDATE `updateTime`=' . time() . ',
                 ' . implode(',', $to_insert));
-        if (!$album_id)
+        if (!$album_id) {
             $album_id = Database::lastInsertId();
+            Database::query('INSERT INTO `user_album` SET `user_id`=' . CurrentUser::$id . ', `album_id`=' . $album_id);
+        }
 
         header('Location: /album/' . $album_id);
     }

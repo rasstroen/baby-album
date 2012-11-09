@@ -1,6 +1,6 @@
 body{
     font-size:11px;
-    font-family: Tahoma, Georgia, Arial;
+    font-family: Arial,Tahoma, Georgia, Arial;
     margin: 0;
     padding: 0;
     border-collapse: collapse;
@@ -20,7 +20,6 @@ body{
     -khtml-opacity: 1; /* Konqueror 3.1, Safari 1.1 */
     opacity: 1;
 }
-
 
 body,html{
     height: 100%;
@@ -64,6 +63,13 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
 .l-content{
     margin-right : 350px;
     min-width: 630px;
+    width:auto !important;
+    width:100%;
+}
+
+.l-content.wide{
+    margin-right : 0px;
+    min-width: 900px;
     width:auto !important;
     width:100%;
 }
@@ -268,8 +274,8 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 
 .album .event_one .head{}
 .album .event_one .head .user{display: inline-block}
-.album .event_one .head .user .title{text-transform: capitalize; position: absolute; left:70px;top:10px;font-size:19px;font-family: Georgia; font-style: italic; font-weight: normal}
-.album .event_one .head .user .edit{position: absolute; left:70px;top:40px;font-size:11px;color:#000;}
+.album .event_one .head .user .title{text-transform: lowercase; position: absolute; width:400px; left:70px;top:10px;font-size:19px;font-family: Georgia; font-style: italic; font-weight: normal}
+.album .event_one .head .user .edit{position: absolute; right:10px;top:50px;font-size:11px;color:#000;}
 .album .event_one .head .user .av{display: inline-block}
 .album .event_one .head .user .lnk{position: absolute; right:10px;top:10px;}
 .album .event_one .head .user .lnk a{color: #000;}
@@ -286,7 +292,8 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
                                             margin:10px 0 0 0;
                                             box-shadow: 0 1px 5px #E0E0E0;
                                             overflow: hidden;
-                                            padding: 5px;}
+                                            padding: 5px;
+                                            font-size:13px;}
 .album .event_one .body .right .additional{background-color: #F0F1F2;
                                            border: 1px solid #E0E0E0;
                                            border-radius: 3px 3px 3px 3px;
@@ -296,8 +303,9 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
                                            overflow: hidden;
                                            padding: 5px;}
 
-.album .event_one .body .right .additional .ft{font-weight: bolder;font-size: 11px;}
-.album .event_one .body .right .additional .ft .add{margin:0 0 0 10px;display: inline-block;font-weight: normal; text-align: right}
+.album .event_one .body .right .additional .ft{color:#666;font-weight: bolder;font-size: 11px; border-bottom: 1px dotted #000; height:8px; margin:2px 4px 10px 4px;}
+.album .event_one .body .right .additional .ft span{display: inline-block; background: #F0F1F2;padding-right: 4px;}
+.album .event_one .body .right .additional .ft .add{margin:0 0 0 10px; font-weight: normal; text-align: right;float:right;background: #F0F1F2;padding-left: 4px;}
 
 .album .event_one .body .right .event_type{
     position: absolute;
@@ -344,7 +352,7 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .register_form{background-color: #F0F1F2;
                border: 1px solid #E0E0E0;
                border-radius: 3px 3px 3px 3px;
-               margin:10px 0 0 0;
+               margin:10px;
                box-shadow: 0 1px 5px #E0E0E0;
                overflow: hidden;
                padding: 5px;
@@ -356,3 +364,14 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .register_form .submit{clear: both;display: block;text-align: center;margin:0 auto;margin:10px auto;cursor:pointer; border:1px solid #2e64a2; background: #0e4482; color: #fff;}
 
 .register_form em.error{display: block;padding-left:188px;color:#cd0a0a;text-align: left;text-transform: lowercase; margin:0 0 10px 0;}
+
+.register_form h1{font-size:14px; font-weight: normal;padding:10px}
+
+.register_success{background-color: #F0F1F2;
+                  border: 1px solid #E0E0E0;
+                  border-radius: 3px 3px 3px 3px;
+                  margin:10px;
+                  box-shadow: 0 1px 5px #E0E0E0;
+                  overflow: hidden;
+                  padding: 5px;
+                  text-align: center;}

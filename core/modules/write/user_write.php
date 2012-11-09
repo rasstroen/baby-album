@@ -158,7 +158,7 @@ class user_write extends write {
         if (!Database::sql2single($query))
             return $nickname;
         else
-            return $nickname . substr(time(), 5, 5) . rand(10);
+            return $nickname . substr(time(), 5, 5) . rand(10, 20);
     }
 
 }
