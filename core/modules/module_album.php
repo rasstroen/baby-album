@@ -293,13 +293,11 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $order = $cond->getSortingField() . ' ' . $cond->getSortingOrderSQL();
         $limit = $cond->getLimit();
 
-        $query = 'SELECT SQL_CALC_FOUND_ROWS A.child_name as child_name,AE.*, LE.*,AE.description as description, LE.description as event_description, LE.title as event_title,AE.title as title, U.id as user_id,AE.id as id, LE.id as lib_event_id, LET.id as lib_template_id, AE.id as id
+        $query = 'SELECT SQL_CALC_FOUND_ROWS A.child_name as child_name,AE.*, LE.*,AE.description as description, LE.description as event_description, LE.title as event_title,AE.title as title, AE.creator_id as user_id,AE.id as id, LE.id as lib_event_id, LET.id as lib_template_id, AE.id as id
             FROM `album_events` AE
             LEFT JOIN `album` A ON A.id=AE.album_id
             LEFT JOIN `lib_events` LE ON LE.id=AE.event_id
             LEFT JOIN `lib_event_templates` LET ON LET.id=LE.template_id
-            LEFT JOIN `user_album` UA ON UA.album_id=AE.album_id
-            LEFT JOIN `user` U ON U.id=UA.user_id
 WHERE (' . implode(' AND ', $where) . ')
 ORDER BY ' . $order . ' LIMIT ' . $limit . '';
         $events = Database::sql2array($query, 'id');

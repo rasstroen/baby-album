@@ -67,7 +67,7 @@ class album_write extends write {
         foreach ($fields as $f)
             $to_insert[] = $f . '=' . Database::escape(trim(isset($_POST[$f]) ? $_POST[$f] : 0));
         if (count($to_insert))
-            Database::query('INSERT INTO `album` SET `createTime`=' . time() . ',`user_id`=' . CurrentUser::$id . ', id= ' . $album_id . ',' . implode(',', $to_insert) . ' 
+            Database::query('INSERT INTO `album` SET `createTime`=' . time() . ',`user_id`=' . CurrentUser::$id . ', id= ' . $album_id . ',' . implode(',', $to_insert) . '
                 ON DUPLICATE KEY UPDATE `updateTime`=' . time() . ',
                 ' . implode(',', $to_insert));
         if (!$album_id) {
@@ -115,6 +115,10 @@ class album_write extends write {
             $query = 'INSERT INTO `album_events` SET id=NULL';
             Database::query($query);
             $event_id = Database::lastInsertId();
+        }else{
+            $check = Database::sql2single('SELECT `creator_id` FROM `album_events` WHERE `album_id`=' . $album_id . ' AND `id`=' . $event_id);
+            if((int)$check !== (int)CurrentUser::$id)
+                throw new Exception('It is not your event '.$check.' '.CurrentUser::$id);
         }
 
 
@@ -170,17 +174,19 @@ class album_write extends write {
             Database::query($query);
         }
         if (count($q_)) {
-            $query = 'INSERT INTO `album_events` SET 
+            $query = 'INSERT INTO `album_events` SET
                 `createTime`=' . time() . ',
                 `id`=' . ($event_id ? $event_id : 'NULL') . ',
                 `event_id`=' . $event_event_id . ',
                 `album_id`=' . $album_id . ',
+                `creator_id`=' . CurrentUser::$id . ',
                 ' . implode(',', $q_) . '
                     ON DUPLICATE KEY UPDATE
                 `createTime`=' . time() . ',
                 `id`=' . ($event_id ? $event_id : 'NULL') . ',
                 `event_id`=' . $event_event_id . ',
                 `album_id`=' . $album_id . ',
+                `creator_id`=' . CurrentUser::$id . ',
                     ' . implode(',', $q_) . '
                     ';
             Database::query($query);
