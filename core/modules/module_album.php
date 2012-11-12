@@ -54,7 +54,7 @@ class module_album extends module {
         $data['album'] = Database::sql2row($query);
         foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
             $sub = substr(md5($data['album'][$sizekey]), 1, 4);
-            $url = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
+            $url = Config::img_prefix . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
             $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
         }
 
@@ -95,7 +95,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT ' . $cond->getLimit());
 
         foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
             $sub = substr(md5($data['album'][$sizekey]), 1, 4);
-            $url = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
+            $url = Config::img_prefix . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
             $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
         }
         if ($data['album']['user_id'] == CurrentUser::$id) {
@@ -133,7 +133,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         if ($data['album']) {
             foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
                 $sub = substr(md5($data['album'][$sizekey]), 1, 4);
-                $url = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
+                $url = Config::img_prefix . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
                 $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
             }
         }
@@ -337,13 +337,13 @@ ORDER BY ' . $order . ' LIMIT ' . $limit . '';
             $event['template_id'] = $event['template_id'] ? $event['template_id'] : 1;
 
             $sub = substr(md5($event['pic_small']), 1, 4);
-            $small = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_small' . '/' . $sub . '/' . $event['pic_small'] . '.jpg';
+            $small = Config::img_prefix . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_small' . '/' . $sub . '/' . $event['pic_small'] . '.jpg';
             $sub = substr(md5($event['pic_normal']), 1, 4);
-            $normal = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_normal' . '/' . $sub . '/' . $event['pic_normal'] . '.jpg';
+            $normal = Config::img_prefix . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_normal' . '/' . $sub . '/' . $event['pic_normal'] . '.jpg';
             $sub = substr(md5($event['pic_big']), 1, 4);
-            $big = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_big' . '/' . $sub . '/' . $event['pic_big'] . '.jpg';
+            $big = Config::img_prefix . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_big' . '/' . $sub . '/' . $event['pic_big'] . '.jpg';
             $sub = substr(md5($event['pic_orig']), 1, 4);
-            $orig = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_orig' . '/' . $sub . '/' . $event['pic_orig'] . '.jpg';
+            $orig = Config::img_prefix . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_orig' . '/' . $sub . '/' . $event['pic_orig'] . '.jpg';
 
             $event['pic_small'] = $event['pic_small'] ? $small : false;
             $event['pic_normal'] = $event['pic_normal'] ? $normal : false;

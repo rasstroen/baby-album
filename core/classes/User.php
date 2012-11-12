@@ -29,7 +29,7 @@ class User {
         if (!$image_id)
             return '/static/img/avatar_' . ($small ? 'small' : 'big') . '.jpg';
         $sub = substr(md5($image_id), 1, 4);
-        return 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_AVATAR . '/' . $sizekey . '/' . $sub . '/' . $image_id . '.jpg';
+        return Config::img_prefix . Config::MEDIA_TYPE_AVATAR . '/' . $sizekey . '/' . $sub . '/' . $image_id . '.jpg';
     }
 
     function __construct($id, $data = false) {
