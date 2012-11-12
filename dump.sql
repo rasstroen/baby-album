@@ -133,8 +133,10 @@ CREATE TABLE `album_family` (
   `user_id` int(10) unsigned NOT NULL,
   `family_role` tinyint(3) unsigned NOT NULL,
   `add_time` int(10) unsigned NOT NULL,
+  `accepted_time` int(10) unsigned NOT NULL,
   PRIMARY KEY (`album_id`,`user_id`),
-  KEY `add_time` (`add_time`)
+  KEY `add_time` (`add_time`),
+  KEY `accepted_time` (`accepted_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -144,7 +146,7 @@ CREATE TABLE `album_family` (
 
 LOCK TABLES `album_family` WRITE;
 /*!40000 ALTER TABLE `album_family` DISABLE KEYS */;
-INSERT INTO `album_family` VALUES (1,43,2,1352700970);
+INSERT INTO `album_family` VALUES (1,34,1,1352712078,0),(1,43,2,1352700970,0);
 /*!40000 ALTER TABLE `album_family` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -433,7 +435,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (34,'159f4db32b0245328093bb059d01e5a6','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,0,'katary',239,240,20,''),(43,'03528633ce7e6166916a5b79659c75d4','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',1352469577,1352709434,'папа',226,227,10,'');
+INSERT INTO `user` VALUES (34,'159f4db32b0245328093bb059d01e5a6','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,0,'katary',239,240,20,''),(43,'03528633ce7e6166916a5b79659c75d4','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',1352469577,1352712078,'папа',226,227,10,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -522,4 +524,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-12  9:39:55
+-- Dump completed on 2012-11-12 10:21:50

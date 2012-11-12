@@ -439,7 +439,7 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 }
 
 .faq_item{
-     background-color: #F0F1F2;
+    background-color: #F0F1F2;
     border: 1px solid #E0E0E0;
     border-radius: 3px 3px 3px 3px;
     margin:10px;
@@ -471,4 +471,5 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 
 .album_edit .data .value .family{clear: both;}
 .album_edit .data .value .family .u{width:190px;display: inline-block;}
+.album_edit .data .value .family .role{width:190px;display: inline-block;}
 .album_edit .data .value .family .e{display: inline-block;}

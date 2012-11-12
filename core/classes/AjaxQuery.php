@@ -6,9 +6,23 @@ class AjaxQuery {
         return $this->$method($params, $data);
     }
 
+    function add_album_relation() {
+        $album_id = $_POST['album_id'];
+        $nick = $_POST['nick'];
+        $role = $_POST['role'];
+        $user_id = Database::sql2single('SELECT `id` FROM `user` WHERE `nickname`=' . Database::escape($nick));
+        Database::query('INSERT INTO `album_family` SET
+            `album_id`=' . $album_id . ',
+            `user_id`=' . $user_id . ',
+            `family_role`=' . $role . ',
+            `add_time`=' . time() . '
+                ON DUPLICATE KEY UPDATE
+             `family_role`=' . $role . '');
+    }
+
     function like() {
         $event_id = (int) $_POST['ids'];
-        $plus =  ($_POST['plus'] === 'true');
+        $plus = ($_POST['plus'] === 'true');
         if ($event_id > 0)
             if (CurrentUser::$id) {
                 if ($plus)

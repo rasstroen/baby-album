@@ -441,36 +441,81 @@ function tp_album_edit_item($data) {
                     <input name="cover" type="file">
                 </div>
             </div>
-            <div class="head">Родственники</div>
-            <div class="data">
-                <div class="title">Мои родственники</div>
-                <div class="value">
-                    <?php
-                    foreach ($data['family'] as $row) {
-                        ?>
-                        <div class="family">
-                            <div class="u"><a href=""><?php echo $row['user']->data['nickname']; ?></a></div>
-                            <div class="e"><a href="">удалить</a></div>
-                        </div>
-                        <?php
-                    }
-                    ?>
-                    <div class="addN">добавить родственников</div>
-                    <div class="addNt">
-                        Вы можете указать, кто из пользователей сайта и каким родственником ребёнку является.
-                        Более подробно про назначение родственников можно почитать <a href="/faq/relation">здесь</a>
-                    </div>
-                    <div class="family">
-                        <div class="u"><input type=""></div>
-                        <div class="e"><a href="">удалить</a></div>
-                    </div>
-                </div>
-            </div>
+
             <div class="submit">
                 <input type="submit" value="сохранить">
             </div>
         </form>
     </div>
+
+    <div class="album_edit relations">
+        <div class="head">Родственники</div>
+        <div class="data">
+
+            <?php if (count($data['family'])) { ?>
+                <div class="title">Мои родственники</div>
+            <?php } ?>
+            <div class="value">
+                <?php
+                foreach ($data['family'] as $row) {
+                    ?>
+                    <div class="family">
+                        <div class="u"><a href=""><?php echo $row['user']->data['nickname']; ?></a></div>
+                        <div class="e"><?php if (CurrentUser::$id !== $row['user']->id) { ?><a href="">удалить</a><?php } ?></div>
+                    </div>
+                    <?php
+                }
+                ?>
+                <div class="addN">Указать родственников</div>
+                <div class="addNt">
+                    Вы можете указать, кто из пользователей сайта и каким родственником ребёнку является.
+                    Более подробно про назначение родственников можно почитать <a href="/faq/relation">здесь</a>
+                </div>
+                <div class="addNtt">Выбрать из пользователей</div>
+                <div class="family add direct">
+                    <div class="u"><input class="nickname" name="nickname"></div>
+                    <div class="role"><select name="role">
+                            <?php
+                            foreach (Config::$family as $id => $title) {
+                                ?>
+                                <option value="<?php echo $id; ?>"><?php echo $title; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select></div>
+                    <div class="e"><a class="add_direct">добавить</a></div>
+                </div>
+                <div class="addNtt">Послать приглашение</div>
+                <div class="family add link">
+                    <div class="role"><select name="role">
+                            <?php
+                            foreach (Config::$family as $id => $title) {
+                                ?>
+                                <option value="<?php echo $id; ?>"><?php echo $title; ?></option>
+                                <?php
+                            }
+                            ?>
+                        </select></div>
+                    <div class="e"><a>добавить</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(function(){
+            $('.add_direct').click(function(){
+                var params =  {
+                    method:'add_album_relation',
+                    role:$('.family.add.direct').find('select').val(),
+                    nick:$('.family.add.direct').find('.nickname').val(),
+                    album_id:$('input[name="album_id"]').val()};
+
+                $.post('/', params, function(data){
+                    
+                },"json");
+            })
+        })
+    </script>
 
     <?php
 }
