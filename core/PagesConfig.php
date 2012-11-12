@@ -242,6 +242,19 @@ class PagesConfig {
                 ),
             ),
         ),
+        'faq' => array(
+            'title' => 'Часто задаваемые вопросы',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'faq', 'action' => 'show', 'mode' => 'item'),
+                ),
+            ),
+        ),
         'publication' => array(
             'title' => 'Публикация',
             'layout' => 'two_columns',

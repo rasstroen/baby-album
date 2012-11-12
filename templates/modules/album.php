@@ -427,18 +427,43 @@ function tp_album_edit_item($data) {
                         hourText: 'Часы',
                         minuteText: 'Минуты',
                         secondText: 'Секунды',
-                        currentText: 'Теперь',
+                        currentText: 'Сегодня',
                         closeText: 'Закрыть'
                     });
                 </script>
             </div>
             <div class="data">
-                <div class="title">Фото малыша на обложку</div>
+                <div class="title"> <?php if (isset($values['pic_small']) && $values['pic_small']) { ?>
+                        <div class="img"><img src="<?php echo $values['pic_small']; ?>" /></div>
+                    <?php } ?>Фото малыша на обложку
+                </div>
                 <div class="value">
                     <input name="cover" type="file">
-                    <?php if ($values['pic_small']) { ?>
-                        <img src="<?php echo $values['pic_normal']; ?>" />
-                    <?php } ?>
+                </div>
+            </div>
+            <div class="head">Родственники</div>
+            <div class="data">
+                <div class="title">Мои родственники</div>
+                <div class="value">
+                    <?php
+                    foreach ($data['family'] as $row) {
+                        ?>
+                        <div class="family">
+                            <div class="u"><a href=""><?php echo $row['user']->data['nickname']; ?></a></div>
+                            <div class="e"><a href="">удалить</a></div>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                    <div class="addN">добавить родственников</div>
+                    <div class="addNt">
+                        Вы можете указать, кто из пользователей сайта и каким родственником ребёнку является.
+                        Более подробно про назначение родственников можно почитать <a href="/faq/relation">здесь</a>
+                    </div>
+                    <div class="family">
+                        <div class="u"><input type=""></div>
+                        <div class="e"><a href="">удалить</a></div>
+                    </div>
                 </div>
             </div>
             <div class="submit">

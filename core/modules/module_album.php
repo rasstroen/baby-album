@@ -138,6 +138,13 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
             }
         }
         $data['album']['family'] = Database::sql2single('SELECT `family_role` FROM `album_family` WHERE `album_id`=' . $album_id . ' and `user_id`=' . CurrentUser::$id);
+        $family = Database::sql2array('SELECT * FROM `album_family` WHERE `album_id`=' . $album_id);
+        $data['family'] = array();
+        foreach ($family as $row) {
+            $data['family'][$row['user_id']]['user'] = Users::getByIdLoaded($row['user_id']);
+            $data['family'][$row['user_id']]['role'] = $row['family_role'];
+            $data['family'][$row['user_id']]['role_title'] = Config::$family[$row['family_role']];
+        }
         return $data;
     }
 

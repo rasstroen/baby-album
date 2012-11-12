@@ -23,6 +23,9 @@ class Map {
         'register' => array(
             '' => 'register',
         ),
+        'faq' => array(
+            '%s' => 'faq',
+        ),
         'c' => array(
             '%s' => 'email_confirmation',
         ),
