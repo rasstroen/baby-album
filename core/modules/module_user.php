@@ -50,6 +50,9 @@ class module_user extends module {
         $out['data'] = $user->data;
         $out['user'] = $user;
         $out['albums'] = $user->getAlbums();
+
+        Site::passTitle($user->data['nickname'].' — профиль пользователя');
+
         return $out;
     }
 

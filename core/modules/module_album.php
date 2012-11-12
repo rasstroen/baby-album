@@ -137,6 +137,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
                 $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
             }
         }
+        $data['album']['family'] = Database::sql2single('SELECT `family_role` FROM `album_family` WHERE `album_id`=' . $album_id . ' and `user_id`=' . CurrentUser::$id);
         return $data;
     }
 

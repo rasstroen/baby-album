@@ -59,17 +59,11 @@ function tp_user_show_profile_small($data) {
     ?>
     <div class="show_profile_small">
         <div class="block credentials">
-
             <img src="<?php echo $user->getAvatar(false) ?>" />
-
         </div>
-        <div class="block">
-            <ul>
-                <li><a href="/u/<?php echo $user->id; ?>/albums">Альбомы</a></li>
-                <li><a href="/u/<?php echo $user->id; ?>/comments">Комментарии</a></li>
-                <li><a href="/u/<?php echo $user->id; ?>/best">Лучшие фотографии</a></li>
-                <li><a href="/u/<?php echo $user->id; ?>/badges">Награды</a></li>
-            </ul>
+        <div class="info">
+            <i>зарегистрирован</i><span><?php echo date('d.m.Y', $user->data['registerTime']) ?></span>
+            <i>последний раз был</i><span><?php echo date('d.m.Y', $user->data['lastAccessTime']) ?></span>
         </div>
     </div>
     <?php
@@ -115,8 +109,8 @@ function tp_user_show_top_menu($data) {
 
     $menu = array(
         '' => 'Главная',
-        'publication' => 'Публикации',
-        'albums' => 'Альбомы',
+            //'publication' => 'Публикации',
+            //'albums' => 'Альбомы',
             //'blog' => 'Блоги',
             //'news' => 'Новости',
     );

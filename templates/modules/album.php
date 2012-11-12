@@ -397,6 +397,15 @@ function tp_album_edit_item($data) {
                 </div>
             </div>
             <div class="data">
+                <div class="title">Я ребёнку <?php input_error($data, 'family', 'edit'); ?></div>
+                <div class="value">
+                    <label for="radio_m">мама</label>
+                    <input id="radio_m" type="radio" <?php if (input_val($data, $values, 'family', 'edit', 1) == 1) echo 'checked="checked"'; ?> name="family" value="1">
+                    <label for="radio_d">папа</label>
+                    <input id="radio_d" type="radio" <?php if (input_val($data, $values, 'family', 'edit', 1) == 2) echo 'checked="checked"'; ?> name="family" value="2">
+                </div>
+            </div>
+            <div class="data">
                 <div class="title">Пол <?php input_error($data, 'sex', 'edit'); ?></div>
                 <div class="value">
                     <label for="radio_m">мальчик</label>

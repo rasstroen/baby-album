@@ -8,6 +8,28 @@ body{
     background: #fff;
 }
 
+.rounded_3_shadow{
+    background-color: #F0F1F2;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px 3px 3px 3px;
+    margin:10px;
+    box-shadow: 0 1px 3px #E0E0E0;
+    overflow: hidden;
+    padding: 5px;
+    text-align: center;
+}
+
+.rounded_5_shadow{
+    background-color: #F0F1F2;
+    border: 1px solid #E0E0E0;
+    border-radius: 5px 5px 5px 5px;
+    margin:10px;
+    box-shadow: 0 1px 5px #E0E0E0;
+    overflow: hidden;
+    padding: 5px;
+    text-align: center;
+}
+
 .fill_on_hover{
     filter:progid:DXImageTransform.Microsoft.Alpha(opacity=80); /* IE 5.5+*/
     -moz-opacity: 0.8; /* Mozilla 1.6 и ниже */
@@ -61,8 +83,8 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
 }
 
 .l-content{
-    margin-right : 350px;
-    min-width: 630px;
+    margin-right : 290px;
+    min-width: 690px;
     width:auto !important;
     width:100%;
 }
@@ -75,11 +97,11 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
 }
 
 .l-content .l-left{float:left;width:130px;overflow: hidden;}
-.l-content .l-right{float:right;width:500px;overflow: hidden;}
+.l-content .l-right{float:right;width:560px;overflow: hidden;}
 
 .l-sidebar{
     float:right;
-    width:330px;
+    width:270px;
     min-height:200px;
 }
 
@@ -375,3 +397,43 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
                   overflow: hidden;
                   padding: 5px;
                   text-align: center;}
+
+.show_profile_small{
+    background-color: #F0F1F2;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px 3px 3px 3px;
+    margin:10px 5px 5px 5px;
+    box-shadow: 0 1px 3px #E0E0E0;
+    overflow: hidden;
+    padding: 3px;
+}
+
+.show_profile_small .block ul{list-style: none}
+
+.show_profile_small .block.credentials{text-align: center;padding:3px 0 5px 0;}
+
+.show_profile_small .info i{text-align: left; font-size: 11px; font-weight: bolder;color:#444;}
+.show_profile_small .info span{text-align: center; font-size:12px;color:#222;display: block}
+
+.show_profile{
+    background-color: #F0F1F2;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px 3px 3px 3px;
+    margin:10px;
+    box-shadow: 0 1px 3px #E0E0E0;
+    overflow: hidden;
+    padding: 5px;
+}
+.show_profile{position: relative;}
+.show_profile .block.credentials .edit{position: absolute; top:4px; right:10px;}
+
+
+.user_edit{
+    background-color: #F0F1F2;
+    border: 1px solid #E0E0E0;
+    border-radius: 3px 3px 3px 3px;
+    margin:10px;
+    box-shadow: 0 1px 3px #E0E0E0;
+    overflow: hidden;
+    padding: 5px;
+}

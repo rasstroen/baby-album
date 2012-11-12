@@ -48,7 +48,7 @@ CREATE TABLE `album` (
 
 LOCK TABLES `album` WRITE;
 /*!40000 ALTER TABLE `album` DISABLE KEYS */;
-INSERT INTO `album` VALUES (1,43,'Лёнечка',1352469713,1352469757,'2011-10-24',0,228,229,230,231,1);
+INSERT INTO `album` VALUES (1,43,'Лёнечка',1352469713,1352701099,'2011-10-24',0,241,242,242,242,1);
 /*!40000 ALTER TABLE `album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,6 +122,33 @@ INSERT INTO `album_events_fields` VALUES (1,1,NULL,'2012-11-09 18:04:00',NULL),(
 UNLOCK TABLES;
 
 --
+-- Table structure for table `album_family`
+--
+
+DROP TABLE IF EXISTS `album_family`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `album_family` (
+  `album_id` int(10) unsigned NOT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `family_role` tinyint(3) unsigned NOT NULL,
+  `add_time` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`album_id`,`user_id`),
+  KEY `add_time` (`add_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `album_family`
+--
+
+LOCK TABLES `album_family` WRITE;
+/*!40000 ALTER TABLE `album_family` DISABLE KEYS */;
+INSERT INTO `album_family` VALUES (1,43,2,1352700970);
+/*!40000 ALTER TABLE `album_family` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `comments`
 --
 
@@ -174,7 +201,7 @@ CREATE TABLE `event_likes` (
 
 LOCK TABLES `event_likes` WRITE;
 /*!40000 ALTER TABLE `event_likes` DISABLE KEYS */;
-INSERT INTO `event_likes` VALUES (2,43,1352471262),(1,43,1352471266);
+INSERT INTO `event_likes` VALUES (2,43,1352471262),(1,43,1352471266),(1,34,1352533192);
 /*!40000 ALTER TABLE `event_likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -392,14 +419,11 @@ CREATE TABLE `user` (
   `avatar_normal` int(10) unsigned NOT NULL,
   `role` int(11) NOT NULL DEFAULT '10',
   `hash` varchar(32) NOT NULL,
-  `family_role` tinyint(3) unsigned NOT NULL,
-  `wife_user_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `nickname` (`nickname`),
   KEY `role` (`role`),
-  KEY `hash` (`hash`),
-  KEY `wife_user_id` (`wife_user_id`)
+  KEY `hash` (`hash`)
 ) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -409,7 +433,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (34,'058bf1a530b7f22c3cb082bc80f2a5f4','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,0,'katary',0,0,20,'',0,0),(43,'1b9219cee1729c807a72803df35bc146','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',1352469577,0,'папа',226,227,10,'',0,0);
+INSERT INTO `user` VALUES (34,'159f4db32b0245328093bb059d01e5a6','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,0,'katary',239,240,20,''),(43,'03528633ce7e6166916a5b79659c75d4','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',1352469577,1352701107,'папа',226,227,10,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -423,7 +447,9 @@ DROP TABLE IF EXISTS `user_album`;
 CREATE TABLE `user_album` (
   `user_id` int(11) NOT NULL,
   `album_id` int(11) NOT NULL,
-  PRIMARY KEY (`user_id`,`album_id`)
+  `role` tinyint(3) unsigned NOT NULL,
+  PRIMARY KEY (`user_id`,`album_id`),
+  KEY `role` (`role`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -433,7 +459,7 @@ CREATE TABLE `user_album` (
 
 LOCK TABLES `user_album` WRITE;
 /*!40000 ALTER TABLE `user_album` DISABLE KEYS */;
-INSERT INTO `user_album` VALUES (43,1);
+INSERT INTO `user_album` VALUES (43,1,2);
 /*!40000 ALTER TABLE `user_album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,4 +522,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-09 15:48:16
+-- Dump completed on 2012-11-12  7:34:07

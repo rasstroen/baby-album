@@ -10,7 +10,7 @@ class CurrentUser {
         $hash_coookie_key = $cookie_key . '_sh';
         $uid_coookie_key = $cookie_key . '_id';
         $hash = md5(time() . $user_id);
-        Database::query('UPDATE `user` SET `session`=' . Database::escape($hash) . ' WHERE `id`=' . $user_id);
+        Database::query('UPDATE `user` SET `lastAccessTime`=' . time() . ',`session`=' . Database::escape($hash) . ' WHERE `id`=' . $user_id);
         $expire = time() + 7 * 24 * 60 * 60;
         $path = '/';
         $domain = '.' . Config::need('www_domain');
@@ -34,6 +34,7 @@ class CurrentUser {
                 return false;
             if ($user->data['session'] == $_COOKIE[$hash_coookie_key]) {
                 self::$id = $user_id;
+                Database::query('UPDATE `user` SET `lastAccessTime`=' . time() . '  WHERE `id`=' . $user_id);
                 self::$authorized = true;
                 return true;
             }

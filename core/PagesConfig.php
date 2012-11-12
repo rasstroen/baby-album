@@ -84,21 +84,6 @@ class PagesConfig {
                 ),
             ),
         ),
-        'user_profile_edit' => array(
-            'title' => 'Baby Album User Editing',
-            'layout' => 'two_columns',
-            'css' => array(
-            ),
-            'js' => array(
-            ),
-            'blocks' => array(
-                'content' => array(
-                    array('name' => 'user', 'action' => 'edit', 'mode' => 'profile'),
-                ),
-                'sidebar' => array(
-                ),
-            ),
-        ),
         'edit_event' => array(
             'title' => 'Baby Album Edit Event',
             'layout' => 'two_columns',
@@ -127,6 +112,24 @@ class PagesConfig {
                 ),
                 'content' => array(
                     array('name' => 'user', 'action' => 'show', 'mode' => 'profile'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
+        'user_profile_edit' => array(
+            'title' => 'Baby Album User Editing',
+            'layout' => 'three_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'left' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'profile_small'),
+                ),
+                'content' => array(
+                    array('name' => 'user', 'action' => 'edit', 'mode' => 'profile'),
                 ),
                 'sidebar' => array(
                 ),

@@ -39,6 +39,13 @@ class album_write extends write {
     function editAlbum() {
         $error = array();
         $album_id = (int) $_POST['album_id'];
+        $family = (int) isset($_POST['family']) ? $_POST['family'] : false;
+        if (!$family) {
+            $error['family'] = 'Кем Вы приходитесь ребёнку?';
+        }
+
+        $family = min(2, max(1, $family));
+
         $old = Database::sql2row('SELECT pic_small,pic_normal,pic_big,pic_orig FROM `album` WHERE `id`=' . $album_id);
         if ($old)
             list($small, $normal, $big, $orig) = array_values($old);
@@ -62,6 +69,12 @@ class album_write extends write {
             }
         }
 
+        if (count($error)) {
+            Site::passWrite('error_edit', $error);
+            Site::passWrite('value_rdit', $_POST);
+            return false;
+        }
+
         $fields = array('child_name', 'sex', 'birthDate', 'private');
         $to_insert = array();
         foreach ($fields as $f)
@@ -72,8 +85,16 @@ class album_write extends write {
                 ' . implode(',', $to_insert));
         if (!$album_id) {
             $album_id = Database::lastInsertId();
-            Database::query('INSERT INTO `user_album` SET `user_id`=' . CurrentUser::$id . ', `album_id`=' . $album_id);
+            Database::query('INSERT INTO `user_album` SET `user_id`=' . CurrentUser::$id . ', `album_id`=' . $album_id . ', `role`=' . $family);
+            Database::query('INSERT INTO `album_family` SET `album_id`=' . $album_id . ',`user_id`=' . CurrentUser::$id . ',`family_role`=' . $family . ',`add_time`=' . time());
+        } else {
+            Database::query('UPDATE `user_album` SET `user_id`=' . CurrentUser::$id . ', `role`=' . $family . ' WHERE `album_id`=' . $album_id . '');
+            Database::query('INSERT INTO `album_family` SET `album_id`=' . $album_id . ',`user_id`=' . CurrentUser::$id . ',`family_role`=' . $family . ',`add_time`=' . time() . '
+                ON DUPLICATE KEY UPDATE `family_role`=' . $family . ' ');
         }
+
+
+
 
         header('Location: /album/' . $album_id);
     }
@@ -115,10 +136,10 @@ class album_write extends write {
             $query = 'INSERT INTO `album_events` SET id=NULL';
             Database::query($query);
             $event_id = Database::lastInsertId();
-        }else{
+        }else {
             $check = Database::sql2single('SELECT `creator_id` FROM `album_events` WHERE `album_id`=' . $album_id . ' AND `id`=' . $event_id);
-            if((int)$check !== (int)CurrentUser::$id)
-                throw new Exception('It is not your event '.$check.' '.CurrentUser::$id);
+            if ((int) $check !== (int) CurrentUser::$id)
+                throw new Exception('It is not your event ' . $check . ' ' . CurrentUser::$id);
         }
 
 

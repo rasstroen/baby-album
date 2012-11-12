@@ -58,12 +58,13 @@ class user_write extends write {
                 try {
                     Database::query('UPDATE `user` SET ' . implode(',', $to_update) . ' WHERE `id`=' . CurrentUser::$id);
                 } catch (Exception $e) {
-                    $error['nickname'] = 'Никгейм занят. Попробуйте придумать другой';
+                    $error['nickname'] = 'Никнейм занят. Попробуйте придумать другой';
                     Site::passWrite('error_edit', $error);
                     Site::passWrite('value_edit', $_POST);
                     return;
                 }
             }
+            header('Location: /u/' . CurrentUser::$id);
         }
     }
 
@@ -108,7 +109,7 @@ class user_write extends write {
                 $data['email'] = strtolower(trim($_POST['email']));
                 $data['nickname'] = $this->getUniqueNickname(strtolower(trim($_POST['nickname'])), $_POST['email']);
                 $data['password'] = md5(strtolower(trim($_POST['password'])));
-                $data['registerTime'] = time();
+                $data['registerTime'] = $data['lastAccessTime'] = time();
                 $data['role'] = User::ROLE_UNVERIFIED;
                 $data['hash'] = md5(time() . '-' . rand(1, 10));
                 foreach ($data as $f => $v) {

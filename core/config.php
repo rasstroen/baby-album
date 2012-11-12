@@ -21,6 +21,17 @@ class Config {
     const ALBUM_ITEM_TYPE_PARAMS = 2;
     const ALBUM_ITEM_TYPE_TEXT = 3;
 
+    public static $family = array(
+        1 => 'мама',
+        2 => 'папа',
+        3 => 'бабушка',
+        4 => 'дедушка',
+        5 => 'дядя',
+        6 => 'тётя',
+        7 => 'брат',
+        8 => 'сестра',
+    );
+    //
     public static $eyecolors = array(
         1 => 'серые',
         2 => 'синие',
