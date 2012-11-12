@@ -143,11 +143,34 @@ function draw_user_auth_plank($data) {
     <?php
 }
 
+function th_draw_notify($notifyes) {
+    ?>
+    <div class="notify">
+        <div class="cnt"><span class="n"><?php echo count($notifyes); ?></span><span class="t"><?php echo declOfNum(count($notifyes), array('уведомление', 'уведомления', 'уведомлений')) ?> для Вас</span></div>
+        <div class="notifyes">
+            <?php foreach ($notifyes as $notify) {
+                ?>
+                <div class="notify">
+                    <div class="img"><img src="<?php echo $notify['img'] ?>"></div><div class="title"><a href="<?php echo $notify['url'] ?>"><?php echo $notify['title'] ?></a></div>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+    </div>
+    <?php
+}
+
 function draw_user_logged_plank($data) {
     $user = Users::getByIdLoaded(CurrentUser::$id);
     ?>
     <div class="plank_logged">
         <span>Вы вошли как</span><a class="name" href="/u/<?php echo $user->data['id'] ?>"><?php echo th_username($user->data) ?></a><a class="logout" href="/logout">выйти</a>
+        <?php
+        if (isset($data['notify'])) {
+            th_draw_notify($data['notify']);
+        }
+        ?>
     </div>
     <?php
 }

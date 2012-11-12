@@ -86,11 +86,11 @@ class album_write extends write {
         if (!$album_id) {
             $album_id = Database::lastInsertId();
             Database::query('INSERT INTO `user_album` SET `user_id`=' . CurrentUser::$id . ', `album_id`=' . $album_id . ', `role`=' . $family);
-            Database::query('INSERT INTO `album_family` SET `album_id`=' . $album_id . ',`user_id`=' . CurrentUser::$id . ',`family_role`=' . $family . ',`add_time`=' . time());
+            Database::query('INSERT INTO `album_family` SET `album_id`=' . $album_id . ',`user_id`=' . CurrentUser::$id . ',`family_role`=' . $family . ',`accepted_time`=' . time() . ', `add_time`=' . time());
         } else {
             Database::query('UPDATE `user_album` SET `user_id`=' . CurrentUser::$id . ', `role`=' . $family . ' WHERE `album_id`=' . $album_id . '');
-            Database::query('INSERT INTO `album_family` SET `album_id`=' . $album_id . ',`user_id`=' . CurrentUser::$id . ',`family_role`=' . $family . ',`add_time`=' . time() . '
-                ON DUPLICATE KEY UPDATE `family_role`=' . $family . ' ');
+            Database::query('INSERT INTO `album_family` SET `album_id`=' . $album_id . ',`user_id`=' . CurrentUser::$id . ',`family_role`=' . $family . ',`accepted_time`=' . time() . ',`add_time`=' . time() . '
+                ON DUPLICATE KEY UPDATE `accepted_time`=' . time() . ', `family_role`=' . $family . ' ');
         }
 
 

@@ -79,7 +79,6 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
     position: relative;
     display: block;
     width: 100%;
-    overflow: hidden;
 }
 
 .l-content{
@@ -176,6 +175,28 @@ h1,h2,h3,ul,li{padding:0;margin:0;}
 .plank_logged a.name{font-size:12px; float:left;color:#fff;}
 .plank_logged span{font-size:12px; float:left;margin:0 5px 0 0}
 .plank_logged a.logout{font-size:12px; float:left;margin:0 5px 0 5px;color:#fff;}
+
+.plank_logged .notify{
+    color:#222;
+    position: absolute;
+    top:0px;
+    right:-10px;
+    background: #fff;
+    z-index: 40;
+    text-align: center;
+}
+
+.plank_logged .notify .t{display: none;}
+.plank_logged .notify:hover .t{display: block;font-size:11px;}
+
+.plank_logged .notify .notifyes{display: none;}
+.plank_logged .notify:hover .notifyes{display: block;}
+
+.plank_logged .notify:hover .notifyes .notify{text-align: left;}
+.plank_logged .notify:hover .notifyes .notify .img{width: 50px; display: inline-block;width:50%; vertical-align: top;}
+.plank_logged .notify:hover .notifyes .notify .img img{max-width: 50px; vertical-align: top;}
+.plank_logged .notify:hover .notifyes .notify .title{display: inline-block;width:50%;}
+
 
 .plank_login{position: absolute; right: 10px; top:2px;}
 .plank_login .email,
@@ -473,3 +494,4 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .album_edit .data .value .family .u{width:190px;display: inline-block;}
 .album_edit .data .value .family .role{width:190px;display: inline-block;}
 .album_edit .data .value .family .e{display: inline-block;}
+

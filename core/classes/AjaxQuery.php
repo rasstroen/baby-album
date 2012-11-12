@@ -20,6 +20,19 @@ class AjaxQuery {
              `family_role`=' . $role . '');
     }
 
+    function add_album_relation_link() {
+        $album_id = $_POST['album_id'];
+        $role = $_POST['role'];
+        Database::query('INSERT INTO  `album_invites` SET
+            `album_id`=' . $album_id . ',
+            `inviter_user_id 	`=' . CurrentUser::$id . ',
+            `family_role`=' . $role);
+        $uniqid = Database::lastInsertId();
+        $data = array();
+        $data['link'] = 'http://' . Config::need('www_domain') . '/invite/' . $album_id . '/' . $role . '/' . md5($uniqid);
+        return $data;
+    }
+
     function like() {
         $event_id = (int) $_POST['ids'];
         $plus = ($_POST['plus'] === 'true');

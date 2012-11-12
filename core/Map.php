@@ -36,6 +36,7 @@ class Map {
             '%d' => array(
                 'suggested_events' => 'album_suggested_events', // подсказки для конкретного альбома
                 'edit' => 'album_edit',
+                'rel_accept' => 'album_rel_accept',
                 '' => 'album',
                 'event' => array(
                     '%d' => array(

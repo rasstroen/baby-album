@@ -5,6 +5,26 @@ class CurrentUser {
     public static $id = false;
     public static $authorized = false;
 
+    public static function getNotifies() {
+        // about user relationships
+        $notifications = array();
+        $query = 'SELECT * FROM  `album_family` WHERE `user_id`=' . self::$id . ' AND `accepted_time`=0';
+        $rels = Database::sql2array($query);
+        foreach ($rels as $rel) {
+            $album = Database::sql2row('SELECT * FROM `album` WHERE `id`=' . $rel['album_id']);
+            $sizekey = 'pic_small';
+            $sub = substr(md5($album[$sizekey]), 1, 4);
+            $link = 'http://img.pis.ec/static/' . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $album[$sizekey] . '.jpg';
+            $kem = Config::$family_kem[$rel['family_role']];
+            $notifications[] = array(
+                'img' => $link,
+                'url' => '/album/' . $rel['album_id'] . '/rel_accept',
+                'title' => 'Вас пригласили быть ' . $kem . ' ребёнку в альбоме "' . $album['child_name'] . '"'
+            );
+        }
+        return $notifications;
+    }
+
     public static function set_cookie($user_id) {
         $cookie_key = Config::need('COOKIE_KEY', 'u');
         $hash_coookie_key = $cookie_key . '_sh';

@@ -19,9 +19,22 @@ class module_user extends module {
                     case 'confirmation':
                         return $this->showConfirmation();
                         break;
+                    case 'static_auth':
+                        return $this->showStaticAuth();
+                        break;
                 }
                 break;
         }
+    }
+
+    function showStaticAuth() {
+        $data = array();
+        if (CurrentUser::$authorized) {
+            $notifies = CurrentUser::getNotifies();
+            if ($notifies)
+                $data['notify'] = $notifies;
+        }
+        return $data;
     }
 
     function showConfirmation() {
@@ -51,7 +64,7 @@ class module_user extends module {
         $out['user'] = $user;
         $out['albums'] = $user->getAlbums();
 
-        Site::passTitle($user->data['nickname'].' — профиль пользователя');
+        Site::passTitle($user->data['nickname'] . ' — профиль пользователя');
 
         return $out;
     }

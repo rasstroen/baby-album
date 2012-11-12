@@ -166,6 +166,21 @@ class PagesConfig {
                 ),
             ),
         ),
+        'album_rel_accept' => array(
+            'title' => 'Baby Album Album Relationship Accept',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'album', 'action' => 'accept', 'mode' => 'relation'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'album_edit' => array(
             'title' => 'Baby Album Album Edit',
             'layout' => 'two_columns',
