@@ -30,6 +30,22 @@ class user_write extends write {
                 }
             }
         }
+        $error = array();
+        if (isset($_POST['old'])) {
+            $old = $_POST['old'];
+            $new_1 = $_POST['new_1'];
+            $new_2 = $_POST['new_2'];
+            if ($new_1 == $new_2) {
+                $old_real = Database::sql2single('SELECT `password` FROM `user` WHERE `id`=' . CurrentUser::$id);
+                if (md5($old) === $old_real) {
+                    Database::query('UPDATE `user` SET `password`=' . Database::escape(md5($new_1)) . ' WHERE `id`=' . CurrentUser::$id);
+                } else {
+                    $error['old'] = 'Введен неверный пароль';
+                }
+            } else {
+                $error['new_1'] = 'Пароли не совпадают';
+            }
+        }
 
         $fields_editable = array(
             'first_name' => '/[a-zA-Zа-яА-ЯёЁь]+$/isU',
@@ -38,7 +54,7 @@ class user_write extends write {
             'nickname' => '/[a-zA-Zа-яА-ЯёЁь0-9]+$/isU',
         );
 
-        $error = array();
+
 
         foreach ($fields_editable as $fieldname => $pattern) {
             if (isset($_POST[$fieldname])) {
@@ -80,7 +96,7 @@ class user_write extends write {
             return;
         } else {
             $email = strtolower(trim($_POST['email']));
-            $password = md5(strtolower(trim($_POST['password'])));
+            $password = md5((trim($_POST['password'])));
             $user_id = Database::sql2single('SELECT `id` FROM `user` WHERE `email`=' . Database::escape($email) . ' AND `password`=' . Database::escape($password));
             if ($user_id) {
                 CurrentUser::set_cookie($user_id);
@@ -108,7 +124,7 @@ class user_write extends write {
                 $fields = array();
                 $data['email'] = strtolower(trim($_POST['email']));
                 $data['nickname'] = $this->getUniqueNickname(strtolower(trim($_POST['nickname'])), $_POST['email']);
-                $data['password'] = md5(strtolower(trim($_POST['password'])));
+                $data['password'] = md5((trim($_POST['password'])));
                 $data['registerTime'] = $data['lastAccessTime'] = time();
                 $data['role'] = User::ROLE_UNVERIFIED;
                 $data['hash'] = md5(time() . '-' . rand(1, 10));

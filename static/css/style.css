@@ -459,6 +459,16 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
     padding: 5px;
 }
 
+.user_edit .block .head{
+    margin:4px 0px 10px 20px;
+    font-size:14px;
+    font-weight: bolder;
+}
+
+.user_edit .block .data .title{width:100px;text-align: right; margin:0 4px 0 0; display: inline-block;vertical-align: top;}
+.user_edit .block .data .title .error{display: block;color:#f22;}
+.user_edit .block .data .value{text-align: left; margin:0 4px 0 0; display: inline-block;vertical-align: top;}
+
 .faq_item{
     background-color: #F0F1F2;
     border: 1px solid #E0E0E0;
@@ -495,3 +505,15 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .album_edit .data .value .family .role{width:190px;display: inline-block;}
 .album_edit .data .value .family .e{display: inline-block;}
 
+
+.event_one_show {position: relative;
+                 background-color: #F0F1F2;
+                 border: 1px solid #E0E0E0;
+                 border-radius: 3px 3px 3px 3px;
+                 margin:10px;
+                 box-shadow: 0 1px 3px #E0E0E0;
+                 overflow: hidden;
+                 padding: 5px;}
+.event_one_show .head{}
+.event_one_show .body{}
+.event_one_show .foot{}

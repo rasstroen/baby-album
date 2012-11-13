@@ -10,6 +10,7 @@ class ImageStore {
      */
     public static function store($path_to_exists_image, $sizes, $media_type_id = 1, $remove_old = array()) {
         $sizes_ = array();
+
         foreach ($sizes as $name => $dimesion_string) {
             $sizes_[] = 'sizes[' . $name . ']=' . $dimesion_string;
         }

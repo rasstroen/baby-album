@@ -25,13 +25,32 @@ function tp_user_edit_profile($data) {
             <div class="block">
                 <div class="head">Фотография профиля</div>
                 <div class="data">
-                    <div class="title">в формате JPG,PNG</div>
+                    <div class="title">
+                        <img src="<?php echo $user->getAvatar(true) ?>" />
+                    </div>
                     <div class="value">
                         <input name="userpic" type="file">
-
-                        <img src="<?php echo $user->getAvatar(true) ?>" />
-                        <img src="<?php echo $user->getAvatar(false) ?>" />
-
+                    </div>
+                </div>
+            </div>
+            <div class="block">
+                <div class="head">Смена пароля</div>
+                <div class="data">
+                    <div class="title">Текущий пароль<?php input_error($data, 'old', 'edit'); ?></div>
+                    <div class="value">
+                        <input name="old" type="password">
+                    </div>
+                </div>
+                <div class="data">
+                    <div class="title">Новый пароль<?php input_error($data, 'new_1', 'edit'); ?></div>
+                    <div class="value">
+                        <input name="new_1" type="password">
+                    </div>
+                </div>
+                <div class="data">
+                    <div class="title">Новый пароль (ещё раз)<?php input_error($data, 'new_2', 'edit'); ?></div>
+                    <div class="value">
+                        <input name="new_2" type="password">
                     </div>
                 </div>
             </div>

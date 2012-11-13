@@ -139,7 +139,7 @@ function tp_album_show_event($data) {
     $event = $data['event'];
     $self = (CurrentUser::$id == $event['user_id']);
     ?>
-    <div class="event_one event_type_<?php echo $event['event_id']; ?>">
+    <div class="event_one_show event_type_<?php echo $event['event_id']; ?>">
         <div class="head">
             <div class="title"><?php echo $event['title']; ?></div>
             <div class="time"><?php echo $event['eventTime']; ?></div>

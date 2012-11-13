@@ -48,7 +48,7 @@ CREATE TABLE `album` (
 
 LOCK TABLES `album` WRITE;
 /*!40000 ALTER TABLE `album` DISABLE KEYS */;
-INSERT INTO `album` VALUES (1,43,'Лёнечка',1352469713,1352701099,'2011-10-24',0,241,242,242,242,1);
+INSERT INTO `album` VALUES (1,43,'Лёнечка',1352469713,1352713544,'2011-10-24',0,241,242,242,242,1);
 /*!40000 ALTER TABLE `album` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -146,8 +146,34 @@ CREATE TABLE `album_family` (
 
 LOCK TABLES `album_family` WRITE;
 /*!40000 ALTER TABLE `album_family` DISABLE KEYS */;
-INSERT INTO `album_family` VALUES (1,34,1,1352712078,0),(1,43,2,1352700970,0);
+INSERT INTO `album_family` VALUES (1,34,1,1352712078,0),(1,43,2,1352700970,1352713544);
 /*!40000 ALTER TABLE `album_family` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `album_invites`
+--
+
+DROP TABLE IF EXISTS `album_invites`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `album_invites` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `album_id` int(10) unsigned NOT NULL,
+  `family_role` tinyint(3) unsigned NOT NULL,
+  `inviter_user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `inviter_user_id` (`inviter_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `album_invites`
+--
+
+LOCK TABLES `album_invites` WRITE;
+/*!40000 ALTER TABLE `album_invites` DISABLE KEYS */;
+/*!40000 ALTER TABLE `album_invites` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -435,7 +461,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (34,'159f4db32b0245328093bb059d01e5a6','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,0,'katary',239,240,20,''),(43,'03528633ce7e6166916a5b79659c75d4','amuhc@yandex.ru','c68c9c8258ea7d85472dd6fd0015f047',1352469577,1352712078,'папа',226,227,10,'');
+INSERT INTO `user` VALUES (34,'8a2606cdba28a7479a2635d6b2a6a88f','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,1352744801,'katary',239,240,20,''),(43,'fb8b1d022eb0de770348753f7a215c65','amuhc@yandex.ru','cca47b4a5300169cd21659ed39165f24',1352469577,1352806765,'папа',226,227,10,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -524,4 +550,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-12 10:21:50
+-- Dump completed on 2012-11-13 12:39:41
