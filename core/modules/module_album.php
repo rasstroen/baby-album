@@ -291,7 +291,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $per_page = min(100, max(1, (int) $per_page));
 
         $cond = new Conditions();
-        $cond->setSorting(array('eventTime' => array('order' => 'desc', 'title' => 'по дате')), array('eventTime' => array('order' => 'desc', 'title' => 'по дате')));
+        $cond->setSorting(array('createTime' => array('order' => 'desc', 'title' => 'по дате')), array('createTime' => array('order' => 'desc', 'title' => 'по дате')));
         $cond->setPaging(100000, $per_page);
 
         $where = array('1');

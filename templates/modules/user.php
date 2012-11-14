@@ -157,6 +157,7 @@ function draw_user_auth_plank($data) {
             <input class="pwd" type="password" name="password" />
             <input class="submit" type="submit" value="войти">
             <a href="/register">зарегистрироваться</a>
+            <a href="/forget">забыли пароль?</a>
         </form>
     </div>
     <?php

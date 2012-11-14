@@ -1,11 +1,11 @@
 function like(o,id){
 
-    $.post('/', {
+    $.post('/?like', {
         method:'like',
         ids:id,
         plus:!$(o).hasClass('active')
     }, function(data){
-        $.post('/', {
+        $.post('/?get_likes', {
             method:'get_likes',
             ids:[id]
         }, function(data){
@@ -51,7 +51,7 @@ $(function(){
         }
     })
     if(likes){
-        $.post('/', {
+        $.post('/?get_likes', {
             method:'get_likes',
             ids:likes
         }, function(data){

@@ -120,13 +120,13 @@ function _th_draw_event_field($field) {
         case 'height':// рост
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?> сантиметров</div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo (int)$field['value_int'] ?> сантиметров</div></div><?php
             }
             break;
         case 'eyecolor':// рост
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[$field['value_int']] ?></div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[(int)$field['value_int']] ?></div></div><?php
             }
             break;
         default:

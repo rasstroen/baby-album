@@ -80,7 +80,7 @@ CREATE TABLE `album_events` (
   KEY `event_id` (`album_id`,`event_id`,`eventTime`),
   KEY `comments_count` (`comments_count`),
   KEY `creator_id` (`creator_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,7 +89,7 @@ CREATE TABLE `album_events` (
 
 LOCK TABLES `album_events` WRITE;
 /*!40000 ALTER TABLE `album_events` DISABLE KEYS */;
-INSERT INTO `album_events` VALUES (1,1,34,0,1352470852,232,233,234,235,'умаялся и спит','Мама наиграла так, что заснул прямо на месте)','2012-11-09 18:04:00',1,0),(2,1,43,7,1352472266,236,237,238,238,'Вечеринка в честь первого дня рождения удалась','Мы готовились целую неделю, и праздник удался. Пока папа надувал шарики, мама готовила потрясающие десерты и шашлыки. А на день рождения пришел наш друг - Паша, и тоже принес сладких подарков)','2012-11-09 18:09:00',1,0);
+INSERT INTO `album_events` VALUES (1,1,34,0,1352470852,232,233,234,235,'умаялся и спит','Мама наиграла так, что заснул прямо на месте)','2012-11-09 18:04:00',1,0),(2,1,43,7,1352472266,236,237,238,238,'Вечеринка в честь первого дня рождения удалась','Мы готовились целую неделю, и праздник удался. Пока папа надувал шарики, мама готовила потрясающие десерты и шашлыки. А на день рождения пришел наш друг - Паша, и тоже принес сладких подарков)','2012-11-09 18:09:00',1,0),(3,1,43,1,1352880386,243,244,245,246,'Вот и я!','Мама и папа были вместе, когда это произошло. Появившись на свет, хомяк удивленно огляделся и пребывал в удивлении всё время, пока вокруг него суетились медсестры. Попробовав маминого молочка, мы заснули, а родители ещё долго разглядывали чудо.','2011-10-24 16:10:00',1,0);
 /*!40000 ALTER TABLE `album_events` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -103,7 +103,7 @@ DROP TABLE IF EXISTS `album_events_fields`;
 CREATE TABLE `album_events_fields` (
   `event_id` int(11) NOT NULL,
   `field_id` int(11) NOT NULL,
-  `value_int` int(11) DEFAULT NULL,
+  `value_int` decimal(8,3) unsigned DEFAULT NULL,
   `value_varchar` varchar(255) DEFAULT NULL,
   `value_text` text,
   PRIMARY KEY (`event_id`,`field_id`),
@@ -117,7 +117,7 @@ CREATE TABLE `album_events_fields` (
 
 LOCK TABLES `album_events_fields` WRITE;
 /*!40000 ALTER TABLE `album_events_fields` DISABLE KEYS */;
-INSERT INTO `album_events_fields` VALUES (1,1,NULL,'2012-11-09 18:04:00',NULL),(1,2,NULL,'умаялся и спит',NULL),(1,3,NULL,NULL,'Мама наиграла так, что заснул прямо на месте)'),(2,12,NULL,'2012-11-09 18:09:00',NULL),(2,13,NULL,NULL,'Мы готовились целую неделю, и праздник удался. Пока папа надувал шарики, мама готовила потрясающие десерты и шашлыки. А на день рождения пришел наш друг - Паша, и тоже принес сладких подарков)'),(2,16,176,NULL,NULL),(2,17,13,NULL,NULL),(2,18,NULL,'Вечеринка в честь первого дня рождения удалась',NULL);
+INSERT INTO `album_events_fields` VALUES (1,1,NULL,'2012-11-09 18:04:00',NULL),(1,2,NULL,'умаялся и спит',NULL),(1,3,NULL,NULL,'Мама наиграла так, что заснул прямо на месте)'),(2,12,NULL,'2012-11-09 18:09:00',NULL),(2,13,NULL,NULL,'Мы готовились целую неделю, и праздник удался. Пока папа надувал шарики, мама готовила потрясающие десерты и шашлыки. А на день рождения пришел наш друг - Паша, и тоже принес сладких подарков)'),(2,16,176.000,NULL,NULL),(2,17,13.000,NULL,NULL),(2,18,NULL,'Вечеринка в честь первого дня рождения удалась',NULL),(3,5,NULL,'2011-10-24 16:10:00',NULL),(3,6,NULL,NULL,'Мама и папа были вместе, когда это произошло. Появившись на свет, хомяк удивленно огляделся и пребывал в удивлении всё время, пока вокруг него суетились медсестры. Попробовав маминого молочка, мы заснули, а родители ещё долго разглядывали чудо.'),(3,8,NULL,'Леонид',NULL),(3,9,3.570,NULL,NULL),(3,10,53.000,NULL,NULL),(3,11,1.000,NULL,NULL),(3,19,NULL,'Вот и я!',NULL);
 /*!40000 ALTER TABLE `album_events_fields` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -452,7 +452,7 @@ CREATE TABLE `user` (
   UNIQUE KEY `nickname` (`nickname`),
   KEY `role` (`role`),
   KEY `hash` (`hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -461,7 +461,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (34,'8a2606cdba28a7479a2635d6b2a6a88f','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,1352744801,'katary',239,240,20,''),(43,'fb8b1d022eb0de770348753f7a215c65','amuhc@yandex.ru','cca47b4a5300169cd21659ed39165f24',1352469577,1352806765,'папа',226,227,10,'');
+INSERT INTO `user` VALUES (34,'8a2606cdba28a7479a2635d6b2a6a88f','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,1352744801,'katary',239,240,20,''),(43,'af839df00b258afc82f87ca7299ee882','amuhc@yandex.ru','cca47b4a5300169cd21659ed39165f24',1352469577,1352881283,'папа',226,227,10,''),(44,'989e9b9ea01bdcbdb246aa2d39f7a136','varmelised@gmail.com','d0335e543b4f4bea401641ad91826f85',1352807209,1352812457,'varmelised',0,0,10,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -550,4 +550,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-13 12:39:41
+-- Dump completed on 2012-11-14  9:25:08

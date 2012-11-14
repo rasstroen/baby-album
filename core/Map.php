@@ -4,13 +4,7 @@
  * @author mchubar
  */
 class Map {
-    /*
-      главная - топ фоток, меню авт/меню не авт
-      мой профиль
-      фид
-     *
-     */
-
+  
     public static $map = array(
         'index' => array(
             '' => 'index',
@@ -19,6 +13,9 @@ class Map {
             '%d' => array(
                 '' => 'list_of_event', // все эвенты данного типа
             ),
+        ),
+        'forget' => array(
+            '' => 'forget',
         ),
         'register' => array(
             '' => 'register',

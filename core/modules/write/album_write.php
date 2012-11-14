@@ -171,8 +171,14 @@ class album_write extends write {
                         $q_[] = '`description`=' . Database::escape(htmlspecialchars(trim($_POST[$eventName])));
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',NULL,NULL,' . Database::escape(trim($_POST[$eventName])) . ')';
                         break;
-                    case 'weight':case'height':case'eyecolor':
+                    case'height':case'eyecolor':
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',' . Database::escape(trim($_POST[$eventName])) . ',NULL,NULL)';
+                        break;
+                    case 'weight':
+                        $v = (int) $_POST[$eventName];
+                        if ($v > 200)
+                            $v = $v / 1000;
+                        $q[] = '(' . $event_id . ',' . $field['field_id'] . ',' . Database::escape(trim($v)) . ',NULL,NULL)';
                         break;
                     default:
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',NULL,' . Database::escape(trim($_POST[$eventName])) . ',NULL)';
