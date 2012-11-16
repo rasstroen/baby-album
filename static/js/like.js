@@ -44,13 +44,15 @@ function draw_likes(data){
 }
 $(function(){
     var likes = {};
+    var cnt = 0;
     $('.like').each(function(){
         id = $(this).attr('id').replace(/l/,'');
         if(id-0){
             likes[id-0]=id-0;
+            cnt++;
         }
     })
-    if(likes){
+    if(cnt){
         $.post('/?get_likes', {
             method:'get_likes',
             ids:likes
