@@ -23,6 +23,9 @@ class Map {
         'faq' => array(
             '%s' => 'faq',
         ),
+        'agreement' => array(
+            '' => 'agreement',
+        ),
         'c' => array(
             '%s' => 'email_confirmation',
         ),
@@ -85,8 +88,10 @@ class Map {
                 $page_name = Map::getSubpageConfiguration($url_array, $subparams);
             }
         }
-        if (!$page_name)
-            throw new Exception('no route for ' . implode('/', $url_array));
+        if (!$page_name){
+            header('404 Not Found',1,404);
+            return;
+        }
 
         $config = PagesConfig::get($page_name);
         if (!count($config))

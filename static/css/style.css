@@ -406,9 +406,13 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .register_form div div{width:180px;}
 .register_form .submit{clear: both;display: block;text-align: center;margin:0 auto;margin:10px auto;cursor:pointer; border:1px solid #2e64a2; background: #0e4482; color: #fff;}
 
-.register_form em.error{display: block;padding-left:188px;color:#cd0a0a;text-align: left;text-transform: lowercase; margin:0 0 10px 0;}
+.register_form em.error{display: block;text-align:center;width:100%;color:#cd0a0a;text-transform: lowercase; margin:0 0 10px 0;}
 
 .register_form h1{font-size:14px; font-weight: normal;padding:10px}
+
+.register_form .agree_{text-align: center;}
+.register_form .agree_ .agree{width:400px;}
+.register_form .agree{}
 
 .register_success{background-color: #F0F1F2;
                   border: 1px solid #E0E0E0;

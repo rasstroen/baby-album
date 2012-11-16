@@ -36,3 +36,5 @@ style="border:0;" height="31" width="88" alt="Рейтинг@Mail.ru" /></a></p>
 </noscript>
 <!-- end of Top100 code -->
 
+<div class="copyright">© balbum.ru, 2013, <a href="/agreement">Пользовательское соглашение</a> </div>
+

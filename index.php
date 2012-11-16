@@ -1,8 +1,8 @@
 <?php
 
-$dev_mode = true;
+$dev_mode = false;
 $core_path = 'core/';
-ini_set('display_errors', $dev_mode);
+ini_set('display_errors', $dev_mode );
 require_once $core_path . 'config.php';
 require_once $core_path . 'include.php';
 if (isset($_SERVER['REQUEST_URI'])) {
@@ -29,7 +29,11 @@ try {
     $site->flushResponse();
     Log::timing('flush');
 } catch (Exception $e) {
-    echo "\n" . '<pre>' . $e->getMessage() . "\n" . $e->getTraceAsString();
+    if ($dev_mode)
+        echo "\n" . '<pre>' . $e->getMessage() . "\n" . $e->getTraceAsString();
+    else {
+        throw new Exception('Fatal Exception');
+    }
 }
 if ($dev_mode) {
     Log::timing('total');

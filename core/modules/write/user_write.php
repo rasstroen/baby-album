@@ -161,6 +161,9 @@ class user_write extends write {
         if (!trim($_POST['password']))
             $error['password'] = 'Слишком короткий пароль';
 
+        if(!isset($_POST['agree']))
+            $error['agree'] = 'Примите условия пользовательского соглашения';
+
         if (count($error)) {
             Site::passWrite('error_register', $error);
             return;

@@ -272,6 +272,19 @@ class PagesConfig {
                 ),
             ),
         ),
+        'agreement' => array(
+            'title' => 'Пользовательское соглашение',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                     array('name' => 'text', 'action' => 'show', 'mode' => 'agreement'),
+                ),
+            ),
+        ),
         'faq' => array(
             'title' => 'Часто задаваемые вопросы',
             'layout' => 'two_columns',

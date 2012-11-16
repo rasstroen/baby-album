@@ -310,6 +310,11 @@ function tp_user_show_register($data) {
             <div>
                 <input class="submit" type="submit" value="зарегистрироваться">
             </div>
+            <div class="agree_">
+                <span class="agree">Согласен с условиями <a href="/agreement">Пользовательского соглашения</a>.</span>
+                <input type="checkbox" value="1" name="agree">
+                <?php input_error($data, 'agree', 'register'); ?>
+            </div>
         </form>
     </div>
     <?php
