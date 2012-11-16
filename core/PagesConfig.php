@@ -22,6 +22,21 @@ class PagesConfig {
                 ),
             ),
         ),
+        'pass_restore' => array(
+            'title' => 'Восстановление пароля',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'pass_restore'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'email_confirmation' => array(
             'title' => 'Baby Album Email Confirmation',
             'layout' => 'two_columns',
@@ -293,6 +308,19 @@ class PagesConfig {
             'blocks' => array(
                 'content' => array(
                     array('name' => 'publication', 'action' => 'list', 'mode' => 'main'),
+                ),
+            ),
+        ),
+        'forget' => array(
+            'title' => 'Восстановление пароля',
+            'layout' => 'one_column',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'forget'),
                 ),
             ),
         ),

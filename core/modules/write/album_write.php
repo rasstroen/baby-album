@@ -175,7 +175,7 @@ class album_write extends write {
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',' . Database::escape(trim($_POST[$eventName])) . ',NULL,NULL)';
                         break;
                     case 'weight':
-                        $v = (int) $_POST[$eventName];
+                        $v = ($_POST[$eventName]*1000)/1000;
                         if ($v > 200)
                             $v = $v / 1000;
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',' . Database::escape(trim($v)) . ',NULL,NULL)';
@@ -209,7 +209,6 @@ class album_write extends write {
                 `creator_id`=' . CurrentUser::$id . ',
                 ' . implode(',', $q_) . '
                     ON DUPLICATE KEY UPDATE
-                `createTime`=' . time() . ',
                 `id`=' . ($event_id ? $event_id : 'NULL') . ',
                 `event_id`=' . $event_event_id . ',
                 `album_id`=' . $album_id . ',

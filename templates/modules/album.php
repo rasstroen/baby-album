@@ -114,7 +114,7 @@ function _th_draw_event_field($field) {
         case 'weight':// вес
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo $field['value_int'] ?> килограммов</div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo sprintf('%2.2f',$field['value_int']); ?> килограммов</div></div><?php
             }
             break;
         case 'height':// рост

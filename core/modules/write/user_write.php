@@ -14,10 +14,55 @@ class user_write extends write {
             case 'auth':
                 $this->auth();
                 break;
+            case 'forget':
+                $this->forget();
+                break;
+            case 'restore_password':
+                $this->restore_password();
+                break;
             case 'edit':
                 $this->edit();
                 break;
         }
+    }
+
+    function forget() {
+        Site::passWrite('value_forget', $_POST);
+        $email = isset($_POST['email']) ? $_POST['email'] : false;
+        if (!valid_email_address($email)) {
+            Site::passWrite('error_forget', array('email' => 'Неправильный email'));
+            return;
+        }
+        $user_id = Database::sql2single('SELECT `id` FROM `user` WHERE `email`=' . Database::escape($email));
+        if (!$user_id) {
+            Site::passWrite('error_forget', array('email' => 'Незарегистрированный E-mail адрес'));
+            return;
+        }
+        $hash = md5(time() . $user_id . '-' . $email . rand(12, 123));
+        Database::query('UPDATE `user` SET `hash`=' . Database::escape($hash) . ' WHERE `id`=' . $user_id);
+        $this->sendPassRestoreEmail($email, $user_id . '-' . $hash);
+        Site::passWrite('success', 1);
+    }
+
+    function restore_password() {
+        if (isset($_POST['new_1']) && $_POST['new_1']) {
+            $new_1 = $_POST['new_1'];
+            $new_2 = $_POST['new_2'];
+            if ($new_1 == $new_2) {
+                $old_real = Database::sql2single('SELECT `hash` FROM `user` WHERE `id`=' . CurrentUser::$id);
+                if ($old_real == 'changing') {
+                    Database::query('UPDATE `user` SET `hash`=\'\', `password`=' . Database::escape(md5($new_1)) . ' WHERE `id`=' . CurrentUser::$id);
+                    Site::passWrite('success', 1);
+                    return;
+                }else
+                    $error['new_1'] = 'Пароль уже был изменен';
+            } else
+                $error['new_1'] = 'Пароли не совпадают';
+        }
+        else {
+            $error['new_1'] = 'Пароли не совпадают';
+        }
+        Site::passWrite('error_edit', $error);
     }
 
     function edit() {
@@ -163,6 +208,23 @@ class user_write extends write {
         </html>';
         $mailer = new MailSender();
         $r = $mailer->mail(Config::GLOBAL_EMAIL, $email, 'Регистрация на balbum.ru', $body);
+        if (!$r)
+            throw new Exception('mailing error');
+        return $r;
+    }
+
+    function sendPassRestoreEmail($email, $hash) {
+        $body = '<h2>Вы запросили восстановление пароля на сайте</h2>';
+        $body .= 'Пожалуйста, пройдите по ссылке <a href="http://balbum.ru/f/' . $hash . '">http://balbum.ru/f/' . $hash . '</a> чтобы задать новый пароль.';
+        $body = '<!DOCTYPE html PUBLIC "html">
+        <html>
+            <head>
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+            </head>
+            <body>' . $body . '</body>
+        </html>';
+        $mailer = new MailSender();
+        $r = $mailer->mail(Config::GLOBAL_EMAIL, $email, 'Восстановление пароля на balbum.ru', $body);
         if (!$r)
             throw new Exception('mailing error');
         return $r;

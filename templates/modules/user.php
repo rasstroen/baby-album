@@ -4,6 +4,75 @@
  *
  * @author mchubar
  */
+function tp_user_show_pass_restore($data) {
+
+    if (isset($data['write']['success'])) {
+        ?>
+        <h1>Пароль успешно заменён</h1>
+        <?php
+        return;
+    }
+    if (!$data['success']) {
+        ?>
+        <h1>Ссылка устарела</h1>
+        <?php
+        return;
+    }
+
+    $user = Users::getByIdLoaded(CurrentUser::$id);
+    $values = $user->data;
+    ?>
+    <div class="user_edit">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" value="user" name="writemodule" />
+            <input type="hidden" value="restore_password" name="action" />
+            <input type="hidden" value="<?php echo $values['id']; ?>" name="id" />
+            <div class="block">
+                <div class="head">Смена пароля</div>
+                <div class="data">
+                    <div class="title">Новый пароль<?php input_error($data, 'new_1', 'edit'); ?></div>
+                    <div class="value">
+                        <input name="new_1" type="password">
+                    </div>
+                </div>
+                <div class="data">
+                    <div class="title">Новый пароль (ещё раз)<?php input_error($data, 'new_2', 'edit'); ?></div>
+                    <div class="value">
+                        <input name="new_2" type="password">
+                    </div>
+                </div>
+            </div>
+            <div class="block"><input type="submit" class="submit" value="сохранить" /></div>
+        </form>
+    </div><?
+}
+
+function tp_user_show_forget($data) {
+    $values = isset($data['write']['value_forget']) ? $data['write']['value_forget'] : array();
+    if (isset($data['write']['success'])) {
+        ?>
+        <div class="user_forget"><h2>Ссылка для восстановления пароля выслана на Ваш E-mail</h2></div>
+        <?php
+        return;
+    }
+    ?><div class="user_forget">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" value="user" name="writemodule" />
+            <input type="hidden" value="forget" name="action" />
+            <div class="block">
+                <div class="head">Данные для восстановления пароля</div>
+                <div class="data">
+                    <div class="title">E-mail:<?php input_error($data, 'email', 'forget'); ?></div>
+                    <div class="value">
+                        <input name="email" value="<?php input_val($data, $values, 'email', 'edit') ?>">
+                    </div>
+                </div>
+            </div>
+            <div class="block"><input type="submit" class="submit" value="Восстановить" /></div>
+        </form>
+    </div><?php
+}
+
 function tp_user_edit_profile($data) {
     $user = Users::getByIdLoaded(CurrentUser::$id);
     $values = $user->data;

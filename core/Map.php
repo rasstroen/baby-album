@@ -4,7 +4,7 @@
  * @author mchubar
  */
 class Map {
-  
+
     public static $map = array(
         'index' => array(
             '' => 'index',
@@ -25,6 +25,9 @@ class Map {
         ),
         'c' => array(
             '%s' => 'email_confirmation',
+        ),
+        'f' => array(
+            '%s' => 'pass_restore',
         ),
         'albums' => array(
             '' => 'feed_albums',
