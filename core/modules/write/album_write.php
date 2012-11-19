@@ -133,7 +133,7 @@ class album_write extends write {
                     throw new Exception('У Вас уже есть такое событие, и добавлять несколько копий этого события бессмысленно');
             }
 
-            $query = 'INSERT INTO `album_events` SET id=NULL';
+            $query = 'INSERT INTO `album_events` SET id=NULL,createTime='.time().'';
             Database::query($query);
             $event_id = Database::lastInsertId();
         }else {
@@ -221,6 +221,7 @@ class album_write extends write {
 
         $old = Database::sql2row('SELECT pic_small,pic_normal,pic_big,pic_orig FROM `album_events` WHERE `id`=' . $event_id);
         list($small, $normal, $big, $orig) = array_values($old);
+
         if (isset($_FILES['photo']) && $_FILES['photo']['tmp_name']) {
             if (!$_FILES['photo']['error']) {
                 $result = ImageStore::store($_FILES['photo']['tmp_name'], array('pic_small' => '200x200x0', 'pic_normal' => '450x450x1', 'pic_big' => '1680x1680x1', 'pic_orig' => '0x0x1'), Config::MEDIA_TYPE_PHOTO
@@ -239,7 +240,7 @@ class album_write extends write {
             }
         }
 
-        if (isset($_FILES['photo']) && $_FILES['photo']['error']) {
+        if (isset($_FILES['photo']) && ($_FILES['photo']['error']!=4)&& $_FILES['photo']['error']) {
             $error['photo'] = 'Недопустимый формат файла';
             Site::passWrite('error_', $error);
             Site::passWrite('value', $_POST);
