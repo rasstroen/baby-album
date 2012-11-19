@@ -175,7 +175,7 @@ class album_write extends write {
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',' . Database::escape(trim($_POST[$eventName])) . ',NULL,NULL)';
                         break;
                     case 'weight':
-                        $v = ($_POST[$eventName]*1000)/1000;
+                        $v = ($_POST[$eventName] * 1000) / 1000;
                         if ($v > 200)
                             $v = $v / 1000;
                         $q[] = '(' . $event_id . ',' . $field['field_id'] . ',' . Database::escape(trim($v)) . ',NULL,NULL)';
@@ -237,6 +237,13 @@ class album_write extends write {
                 Site::passWrite('value', $_POST);
                 return false;
             }
+        }
+
+        if (isset($_FILES['photo']) && $_FILES['photo']['error']) {
+            $error['photo'] = 'Недопустимый формат файла';
+            Site::passWrite('error_', $error);
+            Site::passWrite('value', $_POST);
+            return false;
         }
 
         header('Location: /album/' . $album_id . '/event/' . $event_id);

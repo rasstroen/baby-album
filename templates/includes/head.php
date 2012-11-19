@@ -3,6 +3,7 @@
 <meta name="description" content="<?php echo isset($config['description']) ? $config['description'] : 'детский фотоальбом онлайн'; ?>">
 <meta name="keywords" content="<?php echo isset($config['keywords']) ? $config['keywords'] : 'детский альбом онлайн'; ?>">
 <meta name='yandex-verification' content='796cf6969934ac1b' />
+<meta name="verify-reformal" content="8ba5b062ce9034d54bf00223" />
 <?php
 echo "\n<!--css-->\n";
 foreach ($config['css'] as $css) {

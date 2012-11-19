@@ -1,6 +1,6 @@
 <?php
 
-$dev_mode = false;
+$dev_mode = 1;
 $core_path = 'core/';
 ini_set('display_errors', $dev_mode );
 require_once $core_path . 'config.php';

@@ -36,5 +36,24 @@ style="border:0;" height="31" width="88" alt="Рейтинг@Mail.ru" /></a></p>
 </noscript>
 <!-- end of Top100 code -->
 
-<div class="copyright">© balbum.ru, 2013, <a href="/agreement">Пользовательское соглашение</a> </div>
+<div class="copyright">© balbum.ru, 2012-2013, <a href="/agreement">Пользовательское соглашение</a> </div>
+<script type="text/javascript">
+    var reformalOptions = {
+        project_id: 85704,
+        project_host: "balbum.reformal.ru",
+        tab_orientation: "left",
+        tab_indent: "50%",
+        tab_bg_color: "#ff8cb8",
+        tab_border_color: "#ffffff",
+        tab_image_url: "http://tab.reformal.ru/T9GC0LfRi9Cy0Ysg0Lgg0L%252FRgNC10LTQu9C%252B0LbQtdC90LjRjw==/ffffff/5a751dfaebac066a89e0cea4935e1a85/left/0/tab.png",
+        tab_border_width: 1
+    };
+
+    (function() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript'; script.async = true;
+        script.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'media.reformal.ru/widgets/v3/reformal.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+    })();
+</script><noscript><a href="http://reformal.ru"><img src="http://media.reformal.ru/reformal.png" /></a><a href="http://balbum.reformal.ru">Oтзывы и предложения для Детские альбомы на balbum.ru</a></noscript>
 

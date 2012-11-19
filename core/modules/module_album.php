@@ -64,7 +64,7 @@ class module_album extends module {
 
         $data['age_days'] = getAgeInDays($data['album']['birthDate']);
         $age_end_days = $data['age_days']->days;
-        $suggest = Database::sql2array('SELECT SQL_CALC_FOUND_ROWS LE.id, LE.`age_start_days` , LE.`age_end_days` , LE.title, LE.template_id, LE.description
+        $suggest = Database::sql2array('SELECT SQL_CALC_FOUND_ROWS LE.id, LE.`age_start_days` , LE.`age_end_days` ,LE.multiple, LE.title, LE.template_id, LE.description
 FROM `lib_events` LE
 ORDER BY `age_start_days` , `age_end_days` LIMIT ' . $cond->getLimit());
         $eid = array();
@@ -265,17 +265,19 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
     }
 
     function getAlbumEvents() {
-
         $album_id = array_values(Site::$request_uri_array);
         $album_id = (int) $album_id[1];
         if (!$album_id) {
             header('Location: /');
             exit(0);
         }
+        $atime = isset($_GET['atime']) && $_GET['atime'];
+
         $opts = array(
             'where' => array(
                 'AE.`album_id`=' . $album_id
-            )
+            ),
+            'historical' => !$atime,
         );
         $out = $this->_list($opts);
         $out['album'] = Database::sql2row('SELECT * FROM `album` WHERE `id`=' . $album_id);
@@ -291,7 +293,10 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $per_page = min(100, max(1, (int) $per_page));
 
         $cond = new Conditions();
-        $cond->setSorting(array('createTime' => array('order' => 'desc', 'title' => 'по дате')), array('createTime' => array('order' => 'desc', 'title' => 'по дате')));
+        if (isset($opts['historical']) && $opts['historical']) {
+            $cond->setSorting(array('eventTime' => array('order' => 'desc', 'title' => 'по исторической дате')), array('eventTime' => array('order' => 'desc', 'title' => 'по исторической дате')));
+        }else
+            $cond->setSorting(array('createTime' => array('order' => 'desc', 'title' => 'по дате')), array('createTime' => array('order' => 'desc', 'title' => 'по дате')));
         $cond->setPaging(100000, $per_page);
 
         $where = array('1');

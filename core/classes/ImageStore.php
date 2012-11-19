@@ -20,6 +20,7 @@ class ImageStore {
         $url = 'http://img.pis.ec/rpc.php?method=upload&project_id=' . $media_type_id . '&' . implode('&', $sizes_) . '&remove_old=' . implode('&', $remove_old);
 
         $result = self::curl($url, $path_to_exists_image, true);
+       
         return $result;
     }
 
@@ -42,7 +43,7 @@ class ImageStore {
         curl_setopt($ch, CURLOPT_POST, 1);
         if ($post)
             curl_setopt($ch, CURLOPT_POSTFIELDS, array('file' => '@' . $path_to_exists_image));
-        $content = curl_exec($ch);
+        $content = curl_exec($ch);        
         $data = json_decode(($content), 1);
         return $data;
     }

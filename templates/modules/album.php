@@ -114,19 +114,19 @@ function _th_draw_event_field($field) {
         case 'weight':// вес
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo sprintf('%2.2f',$field['value_int']); ?> килограммов</div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo sprintf('%2.2f', $field['value_int']); ?> килограммов</div></div><?php
             }
             break;
         case 'height':// рост
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo (int)$field['value_int'] ?> сантиметров</div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo (int) $field['value_int'] ?> сантиметров</div></div><?php
             }
             break;
         case 'eyecolor':// рост
             if ($field['value_int']) {
                 echo "\n";
-                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[(int)$field['value_int']] ?></div></div><?php
+                ?><div class="ft"><span><?php echo $field['event_field_title']; ?></span><div class="add t_<?php echo $field['type_name']; ?>"><?php echo Config::$eyecolors[(int) $field['value_int']] ?></div></div><?php
             }
             break;
         default:
@@ -212,7 +212,10 @@ function tp_album_edit_event($data) {
     </div><?php
     }
 
+    $tilt_counter = 0;
+
     function _th_draw_event_in_list($event, $opts = array()) {
+        global $tilt_counter;
         $self = (CurrentUser::$id == $event['user_id']);
         $user = Users::getByIdLoaded($event['user_id']);
             ?>
@@ -226,11 +229,11 @@ function tp_album_edit_event($data) {
                 <?php if ($self) { ?><div class="edit"><a href="/album/<?php echo $event['album_id']; ?>/event/<?php echo $event['id']; ?>/edit">редактировать</a></div><?php } ?>
                 <div class="lnk">из альбома <a href="/album/<?php echo $event['album_id']; ?>"><?php echo $event['child_name']; ?></a></div>
             </div>
-            <div class="time"><?php echo $event['eventTime']; ?></div>
+            <div class="time"><?php echo (isset($opts['atime']) && $opts['atime']) ? date('Y-m-d', $event['createTime']) : $event['eventTime']; ?></div>
         </div>
         <div class="body">
             <?php if ($event['pic_orig']) { ?>
-                <div class="img">
+                <div class="img tilt-<?php echo ($tilt_counter++ % 2) ?>">
                     <a href="<?php echo $event['pic_big']; ?>">
                         <img src="<?php echo $event['pic_small']; ?>">
                     </a>
@@ -335,6 +338,9 @@ function tp_album_list_suggested_events($data) {
                     ?><a href="/album/<?php echo $data['album']['id'] ?>/event/new/<?php echo $suggest['id']; ?>">"<?php echo $suggest['title']; ?>"</a><?php
         } else {
                     ?><a href="/album/<?php echo $data['album']['id'] ?>/event/<?php echo $exists; ?>/edit">"<?php echo $suggest['title']; ?>"</a><?php
+            if ($suggest['multiple']) { // можно еще раз событие
+                        ?><a href="/album/<?php echo $data['album']['id'] ?>/event/new/<?php echo $suggest['id']; ?>">создать ещё одно</a><?php
+            }
         }
                 ?>
 
@@ -511,7 +517,7 @@ function tp_album_edit_item($data) {
                     album_id:$('input[name="album_id"]').val()};
 
                 $.post('/', params, function(data){
-                    
+
                 },"json");
             })
         })
@@ -552,6 +558,27 @@ function tp_album_list_list_of_event($data) {
 
     function tp_album_list_events($data) {
             ?>
+    <div id="album_head" class="album_head">
+        <?php
+        if (isset($_GET['atime']) && $_GET['atime']) {
+            // в порядке добавления фото
+            ?>
+            <ul class="time_machine">
+                <li><a href="?atime=1" class="active">по добавлению</a></li>
+                <li><a href="?atime=0">исторически</a></li>
+            </ul>
+            <?php
+        } else {
+            // исторический порядок
+            ?>
+            <ul class="time_machine">
+                <li><a href="?atime=1" class="active">по добавлению</a></li>
+                <li><a href="?atime=0">исторически</a></li>
+            </ul>
+            <?php
+        }
+        ?>
+    </div>
     <div id="album" class="album">
         <?php
         $self = (CurrentUser::$id == $data['album']['user_id']);
@@ -566,7 +593,7 @@ function tp_album_list_list_of_event($data) {
         ?><div class="album">
             <?php
             foreach ($data['events'] as $event) {
-                _th_draw_event_in_list($event);
+                _th_draw_event_in_list($event, array('atime' => isset($_GET['atime']) && $_GET['atime']));
             }
             ?>
         </div>
