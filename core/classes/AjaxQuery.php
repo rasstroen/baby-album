@@ -38,9 +38,11 @@ class AjaxQuery {
         $plus = ($_POST['plus'] === 'true');
         if ($event_id > 0)
             if (CurrentUser::$id) {
-                if ($plus)
+                if ($plus) {
+                    Badges::progressAction(CurrentUser::$id, Badges::ACTION_TYPE_LIKE);
                     Database::query('INSERT INTO `event_likes` SET user_id=' . CurrentUser::$id . ', event_id=' . $event_id . ', `time`=' . time() . '
                 ON DUPLICATE KEY UPDATE `time`=' . time());
+                }
                 else
                     Database::query('DELETE FROM `event_likes` WHERE user_id=' . CurrentUser::$id . ' AND event_id=' . $event_id);
             }

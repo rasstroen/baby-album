@@ -229,7 +229,7 @@ CREATE TABLE `event_likes` (
 
 LOCK TABLES `event_likes` WRITE;
 /*!40000 ALTER TABLE `event_likes` DISABLE KEYS */;
-INSERT INTO `event_likes` VALUES (2,43,1352471262),(1,43,1352471266),(1,34,1352533192),(3,45,1353076570),(4,43,1353177011);
+INSERT INTO `event_likes` VALUES (1,43,1352471266),(1,34,1352533192),(3,45,1353076570),(4,43,1353177011),(6,43,1353324597),(2,43,1353324600);
 /*!40000 ALTER TABLE `event_likes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -447,11 +447,13 @@ CREATE TABLE `user` (
   `avatar_normal` int(10) unsigned NOT NULL,
   `role` int(11) NOT NULL DEFAULT '10',
   `hash` varchar(32) NOT NULL,
+  `points` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `nickname` (`nickname`),
   KEY `role` (`role`),
-  KEY `hash` (`hash`)
+  KEY `hash` (`hash`),
+  KEY `points` (`points`)
 ) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -461,7 +463,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (34,'8a2606cdba28a7479a2635d6b2a6a88f','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,1352744801,'katary',239,240,20,''),(43,'d9fa63b8124e37eaa99ebbc2f10e5260','amuhc@yandex.ru','202cb962ac59075b964b07152d234b70',1352469577,1353304537,'папа',226,227,20,''),(44,'989e9b9ea01bdcbdb246aa2d39f7a136','varmelised@gmail.com','d0335e543b4f4bea401641ad91826f85',1352807209,1352812457,'varmelised',0,0,10,'3f85c8483a5dd1aa4ab09049bad26aae'),(45,'7494e82687866b59b570e44bc14d7834','rybanv@ya.ru','6b00c0a7200481af7a90d6a7aacb0947',1353075773,1353077223,'ryba',261,262,10,'');
+INSERT INTO `user` VALUES (34,'8a2606cdba28a7479a2635d6b2a6a88f','baka_neko@mail.ru','cca47b4a5300169cd21659ed39165f24',1352363450,1352744801,'katary',239,240,20,'',0),(43,'317f2e6dafb4fd99bcd2455c44f57772','amuhc@yandex.ru','202cb962ac59075b964b07152d234b70',1352469577,1353324600,'папа',226,227,20,'',200),(44,'989e9b9ea01bdcbdb246aa2d39f7a136','varmelised@gmail.com','d0335e543b4f4bea401641ad91826f85',1352807209,1352812457,'varmelised',0,0,10,'3f85c8483a5dd1aa4ab09049bad26aae',0),(45,'7494e82687866b59b570e44bc14d7834','rybanv@ya.ru','6b00c0a7200481af7a90d6a7aacb0947',1353075773,1353077223,'ryba',261,262,10,'',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -489,6 +491,95 @@ LOCK TABLES `user_album` WRITE;
 /*!40000 ALTER TABLE `user_album` DISABLE KEYS */;
 INSERT INTO `user_album` VALUES (45,3,1),(43,1,2);
 /*!40000 ALTER TABLE `user_album` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_badges`
+--
+
+DROP TABLE IF EXISTS `user_badges`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_badges` (
+  `user_id` int(10) unsigned NOT NULL,
+  `badge_type_id` int(10) unsigned NOT NULL,
+  `badge_id` int(10) unsigned NOT NULL,
+  `update_time` int(10) unsigned NOT NULL,
+  `progress` int(10) unsigned NOT NULL,
+  `gained_time` int(10) unsigned NOT NULL,
+  `accepted_time` int(10) unsigned NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `points_gained` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`user_id`,`badge_type_id`,`badge_id`),
+  KEY `time` (`update_time`),
+  KEY `gained_time` (`gained_time`),
+  KEY `progress` (`progress`),
+  KEY `accepted_time` (`accepted_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_badges`
+--
+
+LOCK TABLES `user_badges` WRITE;
+/*!40000 ALTER TABLE `user_badges` DISABLE KEYS */;
+INSERT INTO `user_badges` VALUES (43,60,700,1353324609,2,1353324609,0,'За лайк чужой фотографии',100);
+/*!40000 ALTER TABLE `user_badges` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_badges_actions`
+--
+
+DROP TABLE IF EXISTS `user_badges_actions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_badges_actions` (
+  `user_id` int(11) NOT NULL,
+  `badge_type_id` int(11) NOT NULL,
+  `progress_set` int(11) NOT NULL,
+  `progress_add` int(11) NOT NULL,
+  `processed` tinyint(3) unsigned NOT NULL,
+  `time` int(10) unsigned NOT NULL,
+  KEY `user_id` (`user_id`,`processed`),
+  KEY `time` (`time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_badges_actions`
+--
+
+LOCK TABLES `user_badges_actions` WRITE;
+/*!40000 ALTER TABLE `user_badges_actions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_badges_actions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_points_log`
+--
+
+DROP TABLE IF EXISTS `user_points_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_points_log` (
+  `user_id` int(10) unsigned NOT NULL,
+  `points` int(11) NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `time` int(11) NOT NULL,
+  KEY `user_id` (`user_id`,`time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_points_log`
+--
+
+LOCK TABLES `user_points_log` WRITE;
+/*!40000 ALTER TABLE `user_points_log` DISABLE KEYS */;
+INSERT INTO `user_points_log` VALUES (43,100,'За лайк чужой фотографии',1353324609);
+/*!40000 ALTER TABLE `user_points_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -550,4 +641,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2012-11-19  9:55:51
+-- Dump completed on 2012-11-19 15:32:13

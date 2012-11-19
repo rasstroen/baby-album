@@ -93,7 +93,7 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT ' . $cond->getLimit());
         $query = 'SELECT * FROM `album` WHERE `id`=' . $album_id;
         $data['album'] = Database::sql2row($query);
 
-        if(!$data['album'])
+        if (!$data['album'])
             throw new Exception('Нет такого альбома');
 
         foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
