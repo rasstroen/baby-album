@@ -138,8 +138,7 @@ function _th_draw_albums_profile_list($albums) {
 }
 
 function tp_user_show_points($data) {
-    ?>
-    <div class="user_show_points rounded_3_shadow">
+    ?><div class="user_show_points rounded_3_shadow">
         <div class="cur">У Вас <?php echo $data['data']['points'] ?> баллов</div>
         <div class="list">
             <?php foreach ($data['history'] as $line) {
@@ -153,18 +152,17 @@ function tp_user_show_points($data) {
             }
             ?>
         </div>
-    </div>
-    <?php
-}
+    </div><?php
+    }
 
-function tp_user_show_profile_small($data) {
-    $udata = $data['data'];
-    $user = $data['user'];
-    if (CurrentUser::$id == $user->id)
-        $self = true;
-    else
-        $self = false;
-    ?>
+    function tp_user_show_profile_small($data) {
+        $udata = $data['data'];
+        $user = $data['user'];
+        if (CurrentUser::$id == $user->id)
+            $self = true;
+        else
+            $self = false;
+            ?>
     <div class="show_profile_small">
         <div class="block credentials">
             <img src="<?php echo $user->getAvatar(false) ?>" />

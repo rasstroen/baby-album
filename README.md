@@ -1,1 +1,3 @@
-Baby Album Beta
+--смотреть конкурентов--
+http://www.albomix.ru
+http://albumka.ru/
