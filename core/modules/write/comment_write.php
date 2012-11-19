@@ -58,6 +58,12 @@ class comment_write extends write {
 
             Database::query('UPDATE `album_events` SET `comments_count` =
                     (SELECT COUNT(1) FROM `comments` WHERE `object_type`=' . Config::COMMENT_OBJECT_ALBUM_EVENT . ' AND `object_id`=' . $event_id . ') WHERE `id`=' . $event_id);
+
+            $owner_id = (int) Database::sql2single('SELECT `creator_id` FROM album_events WHERE `id`=' . $event_id);
+            if ($owner_id !== CurrentUser::$id) {
+                Badges::progressAction($user_id, Badges::ACTION_TYPE_COMMENT);
+                Badges::progressAction($owner_id, Badges::ACTION_TYPE_COMMENTED);
+            }
         }
     }
 

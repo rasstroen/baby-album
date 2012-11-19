@@ -161,7 +161,7 @@ class user_write extends write {
         if (!trim($_POST['password']))
             $error['password'] = 'Слишком короткий пароль';
 
-        if(!isset($_POST['agree']))
+        if (!isset($_POST['agree']))
             $error['agree'] = 'Примите условия пользовательского соглашения';
 
         if (count($error)) {
@@ -190,6 +190,7 @@ class user_write extends write {
                     return;
                 }
                 $this->sendRegisterEmail($data['email'], '', $uid . '-' . $data['hash']);
+                Badges::progressAction($uid, Badges::ACTION_TYPE_REGISTER);
             } catch (Exception $e) {
                 $error['email'] = 'E-mail уже используется, укажите другой';
                 Site::passWrite('error_register', $error);
