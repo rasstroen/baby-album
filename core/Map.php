@@ -61,7 +61,10 @@ class Map {
         'u' => array(
             '%s' => array(
                 '' => 'user_profile',
-                'edit' => 'user_profile_edit'
+                'edit' => 'user_profile_edit',
+                'points' => array(
+                    '' => 'user_points'
+                ),
             )
         ),
         'admin' => array(

@@ -114,6 +114,24 @@ class PagesConfig {
                 ),
             ),
         ),
+        'user_points' => array(
+            'title' => 'Baby Album User',
+            'layout' => 'three_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'left' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'profile_small'),
+                ),
+                'content' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'points'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'user_profile' => array(
             'title' => 'Baby Album User',
             'layout' => 'three_columns',
@@ -281,7 +299,7 @@ class PagesConfig {
             ),
             'blocks' => array(
                 'content' => array(
-                     array('name' => 'text', 'action' => 'show', 'mode' => 'agreement'),
+                    array('name' => 'text', 'action' => 'show', 'mode' => 'agreement'),
                 ),
             ),
         ),

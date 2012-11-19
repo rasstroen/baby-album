@@ -137,6 +137,26 @@ function _th_draw_albums_profile_list($albums) {
     ?></div><?php
 }
 
+function tp_user_show_points($data) {
+    ?>
+    <div class="user_show_points rounded_3_shadow">
+        <div class="cur">У Вас <?php echo $data['data']['points'] ?> баллов</div>
+        <div class="list">
+            <?php foreach ($data['history'] as $line) {
+                ?>
+                <div class="line">
+                    <span class="time"><?php echo date('Y-m-d H:i', $line['time']); ?></span>
+                    <span class="points"><?php echo $line['points']; ?></span>
+                    <span class="mes"><?php echo $line['message']; ?></span>
+                </div>
+                <?php
+            }
+            ?>
+        </div>
+    </div>
+    <?php
+}
+
 function tp_user_show_profile_small($data) {
     $udata = $data['data'];
     $user = $data['user'];
@@ -150,8 +170,11 @@ function tp_user_show_profile_small($data) {
             <img src="<?php echo $user->getAvatar(false) ?>" />
         </div>
         <div class="info">
-            <i>зарегистрирован</i><span><?php echo date('d.m.Y', $user->data['registerTime']) ?></span>
-            <i>последний раз был</i><span><?php echo date('d.m.Y', $user->data['lastAccessTime']) ?></span>
+            <i>зарегистрирован</i><span><?php echo date('d.m.Y', $user->data['registerTime']); ?></span>
+            <i>последний раз был</i><span><?php echo date('d.m.Y', $user->data['lastAccessTime']); ?></span>
+            <?php if ($self) { ?>
+                <i>бонусов накоплено</i><span><a href="/u/<?php echo $user->id; ?>/points"><?php echo $user->data['points']; ?></a></span>
+            <?php } ?>
         </div>
     </div>
     <?php

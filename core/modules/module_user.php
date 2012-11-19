@@ -28,6 +28,9 @@ class module_user extends module {
                     case 'static_auth':
                         return $this->showStaticAuth();
                         break;
+                    case 'points':
+                        return $this->showPoints();
+                        break;
                 }
                 break;
         }
@@ -52,7 +55,7 @@ class module_user extends module {
         list($id, $hash) = explode('-', $hash);
         $data['success'] = false;
         if ($hash) {
-            $success = Database::sql2single('SELECT id FROM `user` WHERE `id`=' . $id . ' AND (`hash`=\'changing\' OR `hash`=' . Database::escape($hash).')');
+            $success = Database::sql2single('SELECT id FROM `user` WHERE `id`=' . $id . ' AND (`hash`=\'changing\' OR `hash`=' . Database::escape($hash) . ')');
             if ($success) {
                 CurrentUser::set_cookie($success);
                 Database::query('UPDATE `user` SET hash=\'changing\' WHERE id=' . $success);
@@ -75,6 +78,24 @@ class module_user extends module {
             }
         }
         return $data;
+    }
+
+    function showPoints() {
+        $user_id = array_values(Site::$request_uri_array);
+        $user_id = $user_id[1];
+        if (!$user_id) {
+            header('Location: /');
+            exit(0);
+        }
+        if ($user_id != CurrentUser::$id) {
+            header('Location: /');
+            exit(0);
+        }
+        $user = Users::getByIdLoaded($user_id);
+        $out['data'] = $user->data;
+        Site::passTitle($user->data['nickname'] . ' — бонусы пользователя');
+        $out['history'] = Database::sql2array('SELECT * FROM `user_points_log` WHERE `user_id`=' . $user_id . ' ORDER BY `time` DESC');
+        return $out;
     }
 
     function showProfile() {
