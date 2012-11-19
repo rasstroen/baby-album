@@ -12,7 +12,9 @@ global $i;
 
 function _th_draw_comments($comments, $level = 1) {
     global $i;
+    if(CurrentUser::$id)
     $user = Users::getByIdLoaded(CurrentUser::$id);
+    else $user = array();
     foreach ($comments as $comment) {
         $comment_user = $comment['user'];
         ?>
@@ -65,8 +67,14 @@ function _th_draw_comments($comments, $level = 1) {
 
 function _th_draw_comment_leave_form($data) {
     $object_id = isset($data['object_id']) ? $data['object_id'] : 0;
-    if (!CurrentUser::$authorized)
+    if (!CurrentUser::$authorized){
+    ?>
+    <div class="comments">
+        <?php _th_draw_comments($data['comments']); ?>
+    </div>
+    <?php
         return;
+	}
     $user = Users::getByIdLoaded(CurrentUser::$id);
     ?>
     <div class="comment_form">
