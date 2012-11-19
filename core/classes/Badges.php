@@ -166,7 +166,7 @@ class Badges {
         list($progress_set, $progress_add) = self::preprocessAction($user_id, $action_type, $progress);
 
         Database::query('INSERT INTO `user_badges_actions` SET
-            `user_id`=' . CurrentUser::$id . ',
+            `user_id`=' . $user_id . ',
             `badge_type_id`=' . $action_type . ',
             `progress_set`=' . $progress_set . ',
             `progress_add`=' . $progress_add . ',
