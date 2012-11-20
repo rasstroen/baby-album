@@ -607,3 +607,30 @@ ul.menu li.current a{color: #ebebeb; text-decoration: none;}
 .event_one_show .head{}
 .event_one_show .body{}
 .event_one_show .foot{}
+
+
+.user_badges{position: relative;
+                 background-color: #F0F1F2;
+                 border: 1px solid #E0E0E0;
+                 border-radius: 3px 3px 3px 3px;
+                 margin:10px;
+                 box-shadow: 0 1px 3px #E0E0E0;
+                 overflow: hidden;}
+
+.user_badges .badge{position: relative; display: inline-block;width:100px;overflow: hidden;height:140px;margin:3px;}
+.user_badges .badge{background: url(/static/img/star.png) center center no-repeat}
+.user_badges .badge .title{position: absolute;top:0px;width:100px;height:20px;text-align: center;line-height: 20px;font-size:12px;}
+.user_badges .badge .points{position: absolute;bottom:0px;width:100px;height:20px;text-align: center;line-height: 20px;font-size:12px;}
+.user_badges .badge.badge_state_current{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50); /* IE 5.5+*/
+    -moz-opacity: 0.5; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 0.5; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 0.5;
+}
+.user_badges .badge.badge_state_current:hover{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100); /* IE 5.5+*/
+    -moz-opacity: 1; /* Mozilla 1.6 и ниже */
+    -khtml-opacity: 1; /* Konqueror 3.1, Safari 1.1 */
+    opacity: 1;
+}
+.user_badges .badge.badge_state_finished{}
