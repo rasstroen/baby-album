@@ -79,12 +79,18 @@ class Badges {
                 'title' => 'Мне нравится',
                 'title_for' => 'За лайк чужой фотографии',
                 'points' => 100,
-                'repeat' => 1,
+                'repeat' => 5,
             ),
             701 => array(
                 'title' => 'Мне очень нравится',
-                'title_for' => 'За лайк 10 чужих фотографи1',
-                'points' => 100,
+                'title_for' => 'За лайк 10 чужих фотографий',
+                'points' => 200,
+                'repeat' => 10,
+            ),
+            702 => array(
+                'title' => 'Мне дико нравится',
+                'title_for' => 'За лайк 100 чужих фотографий',
+                'points' => 500,
                 'repeat' => 10,
             ),
         ),
@@ -133,14 +139,14 @@ class Badges {
         return array_shift(array_keys(self::$badges[$action_type]));
     }
 
-    public static function getBadgesLine($action_type, $progress) {
+    public static function getBadgesLine($action_type, $progress, $full = false) {
         $ret = array();
         if (!isset(self::$badges[$action_type]))
             return $ret;
         if (!count(self::$badges[$action_type]))
             return $ret;
         foreach (self::$badges[$action_type] as $id => $badge) {
-            if ($badge['repeat'] <= $progress)
+            if ($full || ($badge['repeat'] <= $progress))
                 $ret[$id] = $badge;
         }
         return $ret;
@@ -183,7 +189,43 @@ class Badges {
     }
 
     public static function getUserAllBadges($user_id) {
-
+        $user_badges = Database::sql2array('SELECT * FROM `user_badges` WHERE `user_id`=' . $user_id, 'badge_id');
+        foreach ($user_badges as $user_badge) {
+            $progress = $user_badge['progress'];
+            $next = false;
+            foreach (self::$badges[$user_badge['badge_type_id']] as $id => $rows) {
+                if (!$next) {
+                    if ($rows['repeat'] > $progress) {
+                        $next = true;
+                        $user_badges_prepared[$id] = array(
+                            'user_id' => $user_id,
+                            'badge_type_id' => $user_badge['badge_type_id'],
+                            'badge_id' => $id,
+                            'update_time' => 0,
+                            'progress' => $progress,
+                            'left' => $rows['repeat'] - $progress,
+                            'gained_time' => 0,
+                            'accepted_time' => 0,
+                            'message' => $rows['title_for'],
+                            'points_gained' => $rows['points'],
+                        );
+                    }
+                }
+            }
+            $user_badges_prepared[$user_badge['badge_id']] = $user_badge;
+        }
+        $badges = self::$badges;
+        $out = array();
+        foreach ($badges as $action_type_id => $badges_at) {
+            foreach ($badges_at as $key => $badge_at) {
+                $out[$key] = $badge_at;
+                if (isset($user_badges_prepared[$key])) {
+                    $out[$key]['user_data'] = $user_badges_prepared[$key];
+                }else
+                    $out[$key]['user_data'] = false;
+            }
+        }
+        return $out;
     }
 
     private static function addPoints($user_id, $points_count, $message) {
@@ -196,7 +238,7 @@ class Badges {
         Database::query('UPDATE `user` SET `points`=`points`-' . $points_count . ' WHERE `id`=' . $user_id);
     }
 
-    public static function addBadge($user_id, $badge_type_id, $badge_id) {
+    public static function addBadge($user_id, $badge_type_id, $badge_id, $total_progress) {
 
         Database::query('START TRANSACTION');
         $target_badge = self::$badges[$badge_type_id][$badge_id];
@@ -210,11 +252,41 @@ class Badges {
             `badge_type_id`=' . $badge_type_id . ',
             `badge_id`=' . $badge_id . ',
             `gained_time`=' . time() . ',
+                `progress` = ' . $total_progress . ',
             `accepted_time` =0,
             `message` =' . Database::escape($message) . ',
             `points_gained`=' . $points_gained . '
                 ON DUPLICATE KEY UPDATE
-             `gained_time`=' . time() . '');
+             `user_id`=' . $user_id . ',
+            `badge_type_id`=' . $badge_type_id . ',
+            `badge_id`=' . $badge_id . ',
+            `gained_time`=' . time() . ',
+                `progress` = ' . $total_progress . ',
+            `accepted_time` =0,
+            `message` =' . Database::escape($message) . ',
+            `points_gained`=' . $points_gained . '');
+        Database::query('COMMIT');
+        return $badge_id;
+    }
+
+    public static function addBadgeStored($user_id, $badge_type_id, $badge_id, $progress) {
+        Database::query('START TRANSACTION');
+        $target_badge = self::$badges[$badge_type_id][$badge_id];
+        $points_gained = $target_badge['points'];
+        $message = $target_badge['title_for'];
+
+        Database::query('INSERT INTO `user_badges` SET
+            `user_id`=' . $user_id . ',
+            `badge_type_id`=' . $badge_type_id . ',
+            `badge_id`=' . $badge_id . ',
+            `update_time`=' . time() . ',
+            `progress` = ' . $progress . ',
+            `gained_time`=0,
+            `accepted_time` =0,
+            `message` =' . Database::escape($message) . ',
+            `points_gained`=0
+                ON DUPLICATE KEY UPDATE
+            `progress` = ' . $progress);
         Database::query('COMMIT');
         return $badge_id;
     }

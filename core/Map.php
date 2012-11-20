@@ -65,6 +65,9 @@ class Map {
                 'points' => array(
                     '' => 'user_points'
                 ),
+                'badges' => array(
+                    '' => 'user_badges'
+                )
             )
         ),
         'admin' => array(

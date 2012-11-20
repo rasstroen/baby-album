@@ -152,17 +152,22 @@ function tp_user_show_points($data) {
             }
             ?>
         </div>
-    </div><?php
-    }
+    </div>
+    <?php
+}
 
-    function tp_user_show_profile_small($data) {
-        $udata = $data['data'];
-        $user = $data['user'];
-        if (CurrentUser::$id == $user->id)
-            $self = true;
-        else
-            $self = false;
-            ?>
+function tp_user_show_badges($data) {
+
+}
+
+function tp_user_show_profile_small($data) {
+    $udata = $data['data'];
+    $user = $data['user'];
+    if (CurrentUser::$id == $user->id)
+        $self = true;
+    else
+        $self = false;
+    ?>
     <div class="show_profile_small">
         <div class="block credentials">
             <img src="<?php echo $user->getAvatar(false) ?>" />
@@ -173,6 +178,9 @@ function tp_user_show_points($data) {
             <?php if ($self) { ?>
                 <i>бонусов накоплено</i><span><a href="/u/<?php echo $user->id; ?>/points"><?php echo $user->data['points']; ?></a></span>
             <?php } ?>
+
+            <i>награды</i><span><a href="/u/<?php echo $user->id; ?>/badges">смотреть</a></span>
+
         </div>
     </div>
     <?php

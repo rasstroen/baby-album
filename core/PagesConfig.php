@@ -114,6 +114,24 @@ class PagesConfig {
                 ),
             ),
         ),
+        'user_badges' => array(
+            'title' => 'Baby Album User',
+            'layout' => 'three_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'left' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'profile_small'),
+                ),
+                'content' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'badges'),
+                ),
+                'sidebar' => array(
+                ),
+            ),
+        ),
         'user_points' => array(
             'title' => 'Baby Album User',
             'layout' => 'three_columns',

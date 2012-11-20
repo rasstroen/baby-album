@@ -35,20 +35,30 @@ if (!is_running_process(basename(__FILE__))) {
                 }
                 echo "SETTING TOTAL PROGRESS " . $total_progress . "\n";
                 // calculating all badges in line
-                $existingBadges = Badges::getBadgesLine($action['badge_type_id'], $total_progress);
+                $existingBadges = Badges::getBadgesLine($action['badge_type_id'], $total_progress, $full = true);
+                $found_next = false;
                 foreach ($existingBadges as $id => $existingBadge) {
                     // нет такого или есть, но прогресс не позволял получить
-                    if (!isset($current[$id]) || !$current[$id]['gained_time']) {
-                        echo "BADGE RECEIVED:" . $id;
-                        $last_badge_id = Badges::addBadge($action['user_id'], $action['badge_type_id'], $id);
+                    if ($total_progress >= $existingBadge['repeat']) {
+                        if (!isset($current[$id]) || (!$current[$id]['gained_time'])) {
+                            echo "BADGE RECEIVED:" . $id;
+                            $last_badge_id = Badges::addBadge($action['user_id'], $action['badge_type_id'], $id , $total_progress);
+                        }
+                    }
+                    if (!$found_next && ($total_progress < $existingBadge['repeat'])) {
+                        $found_next = true;
+                        echo "NEXT BADGE " . $id . " TO STORE \n";
+                        $last_badge_id = $id;
                     }
                 }
                 // updating progress
                 if (!$last_badge_id) {
                     // не было прогресса по этому бейджу
+                    echo "NEW BADGE TO STORE\n";
                     $last_badge_id = Badges::getFirstBadgeId($action['badge_type_id']);
                 }
-                Database::query('UPDATE `user_badges` SET `update_time`=' . time() . ',`progress`=' . $total_progress . ' WHERE `user_id`=' . $action['user_id'] . ' AND `badge_id`=' . $last_badge_id);
+
+                Badges::addBadgeStored($action['user_id'], $action['badge_type_id'], $last_badge_id, $total_progress);
                 // deleting row
                 Database::query('DELETE FROM `user_badges_actions` WHERE `user_id`=' . $action['user_id'] . ' AND `badge_type_id`=' . $action['badge_type_id'] . ' AND `time`=' . $action['time']);
                 // if it's no any badge - add badge

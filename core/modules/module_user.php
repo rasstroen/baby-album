@@ -31,9 +31,28 @@ class module_user extends module {
                     case 'points':
                         return $this->showPoints();
                         break;
+                    case 'badges':
+                        return $this->showBadges();
+                        break;
                 }
                 break;
         }
+    }
+
+    function showBadges() {
+        $user_id = array_values(Site::$request_uri_array);
+        $user_id = $user_id[1];
+        if (!$user_id) {
+            header('Location: /');
+            exit(0);
+        }
+
+        $user = Users::getByIdLoaded($user_id);
+
+        $data = array('badges' => array());
+        $data['badges'] = Badges::getUserAllBadges($user_id);
+        dpr($data);
+        return $data;
     }
 
     function showForget() {
