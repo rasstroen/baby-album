@@ -1,5 +1,41 @@
 <?php
 
+function _th_event_baby_age($event) {
+
+
+    list($year, $month, $day) = explode('-', $event['birthDate']);
+    list($datetime_event_y, $datetime_event_m, $datetime_event_d) = explode('-', $event['eventTime']);
+    $datetime = new DateTime();
+    $datetime->setDate($year, $month, $day);
+    $datetime_event = new DateTime();
+    $datetime_event->setDate($datetime_event_y, $datetime_event_m, $datetime_event_d);
+
+    $data['age_days'] = $datetime->diff($datetime_event, $absolute = false);
+
+
+
+    $years = $data['age_days']->y;
+    $months = $data['age_days']->m;
+    $days = $data['age_days']->d;
+    $q = array();
+    if ($years)
+        $q[] = $years . ' ' . declOfNum($years, array('год', 'года', 'лет'));
+    if ($months)
+        $q[] = $months . ' ' . declOfNum($months, array('месяц', 'месяца', 'месяцев'));
+    if (($months && $days) || ($years && $days))
+        $q[] = 'и';
+    if ($days)
+        $q[] = $days . ' ' . declOfNum($days, array('день', 'дня', 'дней'));
+    if (!count($q))
+        $q = array('1 день');
+
+    if ($data['age_days']->invert) {
+        ?>Тут я ещё в животике!<?php
+    } else {
+        ?>Тут мне <?php echo implode(' ', $q); ?><?php
+    }
+}
+
 function getTemplateFields($template_id) {
     $query = 'SELECT * FROM `lib_event_templates` LET
         LEFT JOIN `lib_event_templates_fields` LETF ON LET.id=LETF.template_id
@@ -170,6 +206,7 @@ function tp_album_show_event($data) {
                 ?> <div class="additional"><?php echo $additional_fields; ?></div><?php
     }
             ?>
+            <div class="baby-age"><?php echo _th_event_baby_age($event); ?></div>
         </div>
         <div class="foot">
 
@@ -262,7 +299,7 @@ function tp_album_edit_event($data) {
                     </div>
                 <?php }
                 ?>
-
+                <div class="baby-age"><?php echo _th_event_baby_age($event); ?></div>
             </div>
         </div>
         <div class="foot">
@@ -591,11 +628,11 @@ function tp_album_list_list_of_event($data) {
             <?php
         }
         ?><div class="album">
-            <?php
-            foreach ($data['events'] as $event) {
-                _th_draw_event_in_list($event, array('atime' => isset($_GET['atime']) && $_GET['atime']));
-            }
-            ?>
+        <?php
+        foreach ($data['events'] as $event) {
+            _th_draw_event_in_list($event, array('atime' => isset($_GET['atime']) && $_GET['atime']));
+        }
+        ?>
         </div>
     </div>
     <?php

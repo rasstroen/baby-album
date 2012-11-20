@@ -67,6 +67,20 @@ body{
     text-align: center;
 }
 
+.baby-age{
+    background-color: #F6F7F8;
+    color:#666;
+    border: 1px solid #F0F0F0;
+    border-radius: 3px 3px 3px 3px;
+    margin:10px 0px 0px 0px;
+    max-width: 100px;
+    box-shadow: 0 1px 3px #E0E0E0;
+    overflow: hidden;
+    padding: 5px;
+    text-align: left;
+    width: auto;
+}
+
 .rounded_5_shadow{
     background-color: #F0F1F2;
     border: 1px solid #E0E0E0;

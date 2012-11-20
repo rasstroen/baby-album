@@ -42,7 +42,7 @@ if (!is_running_process(basename(__FILE__))) {
                     if ($total_progress >= $existingBadge['repeat']) {
                         if (!isset($current[$id]) || (!$current[$id]['gained_time'])) {
                             echo "BADGE RECEIVED:" . $id;
-                            $last_badge_id = Badges::addBadge($action['user_id'], $action['badge_type_id'], $id , $total_progress);
+                            $last_badge_id = Badges::addBadge($action['user_id'], $action['badge_type_id'], $id, $total_progress);
                         }
                     }
                     if (!$found_next && ($total_progress < $existingBadge['repeat'])) {
