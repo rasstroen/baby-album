@@ -160,7 +160,10 @@ function tp_user_show_badges($data) {
     foreach ($data['badges'] as $badge_id => $badge) {
         $state = 'none';
         $progress = 0;
-        if (isset($badge['user_data'])) {
+        $title = $badge['title'];
+        $descr = $badge['title_for'];
+        $points = $badge['points'];
+        if (isset($badge['points'])) {
             if ($badge['user_data']['gained_time']) {
                 $state = 'finished';
                 $progress = (int) $badge['user_data']['progress'];
@@ -170,8 +173,13 @@ function tp_user_show_badges($data) {
             }
         }
         ?>
-        <div class="badge badge_type<?php echo $badge_id; ?> badge_state_<?php echo $state; ?>">
-            <div class="progress"><?php echo $progress; ?></div>
+        <div class="user_badges">
+            <div class="badge badge_type<?php echo $badge_id; ?> badge_state_<?php echo $state; ?>">
+                <div class="progress"><?php echo $progress; ?></div>
+                <div class="title"><?php echo $title; ?></div>
+                <div class="descr"><?php echo $descr; ?></div>
+                <div class="points"><?php echo $points; ?></div>
+            </div>
         </div>
         <?php
     }
