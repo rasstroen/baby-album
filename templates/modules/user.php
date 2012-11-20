@@ -157,7 +157,24 @@ function tp_user_show_points($data) {
 }
 
 function tp_user_show_badges($data) {
-
+    foreach ($data['badges'] as $badge_id => $badge) {
+        $state = 'none';
+        $progress = 0;
+        if (isset($badge['user_data'])) {
+            if ($badge['user_data']['gained_time']) {
+                $state = 'finished';
+                $progress = (int) $badge['user_data']['progress'];
+            } else {
+                $state = 'current';
+                $progress = (int) $badge['user_data']['progress'];
+            }
+        }
+        ?>
+        <div class="badge badge_type<?php echo $badge_id; ?> badge_state_<?php echo $state; ?>">
+            <div class="progress"><?php echo $progress; ?></div>
+        </div>
+        <?php
+    }
 }
 
 function tp_user_show_profile_small($data) {

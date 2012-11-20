@@ -51,7 +51,6 @@ class module_user extends module {
 
         $data = array('badges' => array());
         $data['badges'] = Badges::getUserAllBadges($user_id);
-        dpr($data);
         return $data;
     }
 
