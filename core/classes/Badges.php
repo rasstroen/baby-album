@@ -52,7 +52,7 @@ class Badges {
         ),
         self::ACTION_TYPE_ADD_THEMED_EVENT => array(
             400 => array(
-                'title' => 'Добавление темизированного события',
+                'title' => 'Добавление особого события',
                 'title_for' => 'За добавление особого события',
                 'points' => 100,
                 'repeat' => 1,

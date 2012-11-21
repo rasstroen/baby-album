@@ -173,7 +173,7 @@ function tp_user_show_badges($data) {
                 $progress = (int) $badge['user_data']['progress'];
             }
         }
-        ?><div class="badge badge_type<?php echo $badge_id; ?> badge_state_<?php echo $state; ?>">
+        ?><div title="<?php echo $descr; ?>" alt="<?php echo $descr; ?>" class="badge badge_type<?php echo $badge_id; ?> badge_state_<?php echo $state; ?>">
                 <!--div class="progress"><?php echo $progress; ?></div-->
                 <div class="title"><?php echo $title; ?></div>
                 <!--div class="descr"><?php echo $descr; ?></div-->
