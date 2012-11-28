@@ -404,7 +404,10 @@ class PagesConfig {
                 'header' => array(
                     array('name' => 'user', 'action' => 'show', 'mode' => 'top_menu'),
                     array('name' => 'user', 'action' => 'show', 'mode' => 'static_auth'),
-                )
+                ),
+                'footer'=>array(
+                    array('name' => 'sape', 'action' => 'show', 'mode' => 'links'),
+                ),
             ),
         ),
         'one_column' => array(
@@ -422,7 +425,10 @@ class PagesConfig {
             'blocks' => array(
                 'header' => array(
                     array('name' => 'user', 'action' => 'show', 'mode' => 'top_menu'),
-                )
+                ),
+                'footer'=>array(
+                    array('name' => 'sape', 'action' => 'show', 'mode' => 'links'),
+                ),
             ),
         ),
         'three_columns' => array(
@@ -440,8 +446,11 @@ class PagesConfig {
             'blocks' => array(
                 'header' => array(
                     array('name' => 'user', 'action' => 'show', 'mode' => 'top_menu'),
-                    array('name' => 'user', 'action' => 'show', 'mode' => 'static_auth'),
-                )
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'static_auth'), 
+                ),
+                'footer'=>array(
+                    array('name' => 'sape', 'action' => 'show', 'mode' => 'links'),
+                ),
             ),
         ),
     );
