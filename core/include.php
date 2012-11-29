@@ -8,6 +8,7 @@ $includePathes = array(
     $core_path . 'classes',
     $core_path . 'classes/user',
     $core_path . 'classes/mail',
+    $core_path . 'classes/amazon',
 );
 
 function getBdayToAge($bday, $case) {
@@ -69,11 +70,16 @@ function getAgeInYears($birth_date) {
 require_once 'Log.php';
 set_include_path(get_include_path() . PATH_SEPARATOR . implode(PATH_SEPARATOR, $includePathes));
 
-function __autoload($className) {
-    Log::timingplus('autoload');
-    require_once($className . '.php');
-    Log::timingplus('autoload');
-    Log::logHtml('class loaded [' . $className . ']');
+$autoload = isset($autoload) ? false : true;
+if ($autoload) {
+    function __autoload($className) {
+        Log::timingplus('autoload');
+        require_once($className . '.php');
+        Log::timingplus('autoload');
+        Log::logHtml('class loaded [' . $className . ']');
+    }
+}else{
+    
 }
 
 function sort_by_post_time($a, $b) {

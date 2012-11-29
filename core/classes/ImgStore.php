@@ -23,9 +23,9 @@ class ImgStore {
     //
     const ROOT_FOLDER = '/home/images/';
 
-    private static $server_urls = array(
+    public static $server_urls = array(
         self::SERVER_ORIG => 'http://st.balbum.ru/',
-        self::SERVER_AMAZONS3 => 'https://s3-eu-west-1.amazonaws.com/baby-album/',
+        self::SERVER_AMAZONS3 => 'https://s3-eu-west-1.amazonaws.com/balbum/',
     );
 
     public static function resize($orig_file_path, $settings, $target_file_path) {
@@ -201,9 +201,8 @@ class ImgStore {
      * @param type $size
      * @return string url картинки
      */
-    public static function getUrl($image_id, $size) {
-        $cachebreaker = time();
-
+    public static function getUrl($image_id, $size, $cachebreaker = 'c') {
+        $cachebreaker = $cachebreaker ? '?' . $cachebreaker : '';
         $data = Database::sql2row('SELECT `error_code`,`server_id`,`deleted`,`ready` FROM `images` WHERE `image_id`=' . $image_id . ' AND `size_id`=' . $size);
         if (!$data)
             return self::$server_urls[self::SERVER_ORIG] . '404/' . $size . '.jpg?nofound';
@@ -214,7 +213,8 @@ class ImgStore {
         if ($data['error_code'])
             return self::$server_urls[self::SERVER_ORIG] . '502/' . $size . '.jpg?error' . $data['error_code'];
         $md5 = md5($image_id . $size);
-        $url = self::$server_urls[$data['server_id']] . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/' . $image_id . '.jpg?' . $cachebreaker;
+
+        $url = self::$server_urls[$data['server_id']] . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/' . $image_id . '.jpg' . $cachebreaker;
 
         return $url;
     }

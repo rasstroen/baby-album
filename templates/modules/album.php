@@ -271,7 +271,7 @@ function tp_album_edit_event($data) {
         <div class="body">
             <?php if ($event['pic_orig']) { ?>
                 <div class="img tilt-<?php echo ($tilt_counter++ % 2) ?>">
-                    <a href="<?php echo $event['pic_big']; ?>">
+                    <a href="<?php echo $event['pic_orig']; ?>">
                         <img src="<?php echo $event['pic_small']; ?>">
                     </a>
                 </div><div class="right">
@@ -387,9 +387,9 @@ function tp_album_list_suggested_events($data) {
     }
             ?>
         <script>var album_id = <?php echo $album_id; ?>;
-    $(function(){
-        init_hide_unhide();
-    })
+            $(function(){
+                init_hide_unhide();
+            })
         </script>
     </div><?php
 }
@@ -463,16 +463,16 @@ function tp_album_edit_item($data) {
                     <input name="birthDate" value="<?php input_val($data, $values, 'birthDate', 'edit') ?>">
                 </div>
                 <script>
-            $('input[name="birthDate"]').datepicker({
-                dateFormat:"yy-mm-dd",
-                timeFormat: 'hh:mm',
-                timeText: 'Время',
-                hourText: 'Часы',
-                minuteText: 'Минуты',
-                secondText: 'Секунды',
-                currentText: 'Сегодня',
-                closeText: 'Закрыть'
-            });
+                    $('input[name="birthDate"]').datepicker({
+                        dateFormat:"yy-mm-dd",
+                        timeFormat: 'hh:mm',
+                        timeText: 'Время',
+                        hourText: 'Часы',
+                        minuteText: 'Минуты',
+                        secondText: 'Секунды',
+                        currentText: 'Сегодня',
+                        closeText: 'Закрыть'
+                    });
                 </script>
             </div>
             <div class="data">
@@ -545,19 +545,19 @@ function tp_album_edit_item($data) {
         </div>
     </div>
     <script>
-    $(function(){
-    $('.add_direct').click(function(){
-        var params =  {
-            method:'add_album_relation',
-            role:$('.family.add.direct').find('select').val(),
-            nick:$('.family.add.direct').find('.nickname').val(),
-            album_id:$('input[name="album_id"]').val()};
+        $(function(){
+            $('.add_direct').click(function(){
+                var params =  {
+                    method:'add_album_relation',
+                    role:$('.family.add.direct').find('select').val(),
+                    nick:$('.family.add.direct').find('.nickname').val(),
+                    album_id:$('input[name="album_id"]').val()};
 
-        $.post('/', params, function(data){
+                $.post('/', params, function(data){
 
-        },"json");
-    })
-    })
+                },"json");
+            })
+        })
     </script>
 
     <?php
