@@ -19,17 +19,12 @@ class User {
     }
 
     function getAvatar($small = true) {
+        $image_id = $this->data['avatar'];
         if ($small) {
-            $sizekey = 'avatar_small';
-            $image_id = $this->data[$sizekey];
+            return ImgStore::getUrl($image_id, Config::SIZES_AVATAR_SMALL);
         } else {
-            $sizekey = 'avatar_normal';
+            return ImgStore::getUrl($image_id, Config::SIZES_AVATAR_NORMAL);
         }
-        $image_id = $this->data[$sizekey];
-        if (!$image_id)
-            return '/static/img/avatar_' . ($small ? 'small' : 'big') . '.jpg';
-        $sub = substr(md5($image_id), 1, 4);
-        return Config::img_prefix . Config::MEDIA_TYPE_AVATAR . '/' . $sizekey . '/' . $sub . '/' . $image_id . '.jpg';
     }
 
     function __construct($id, $data = false) {

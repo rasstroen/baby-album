@@ -14,7 +14,7 @@ class CurrentUser {
             $album = Database::sql2row('SELECT * FROM `album` WHERE `id`=' . $rel['album_id']);
             $sizekey = 'pic_small';
             $sub = substr(md5($album[$sizekey]), 1, 4);
-            $link = Config::img_prefix . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $album[$sizekey] . '.jpg';
+            //$link = Config::img_prefix . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $album[$sizekey] . '.jpg';
             $kem = Config::$family_kem[$rel['family_role']];
             $notifications[] = array(
                 'img' => $link,

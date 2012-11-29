@@ -17,7 +17,7 @@ if (!is_running_process(basename(__FILE__))) {
             sleep(1);
             $sleeps++;
             log_('sleep');
-            if($sleeps>10){
+            if ($sleeps > 60*60) {
                 log_('exit');
                 exit(0);
             }

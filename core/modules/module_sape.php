@@ -13,6 +13,7 @@ class module_sape extends module {
         require_once($_SERVER['DOCUMENT_ROOT'] . '/' . _SAPE_USER . '/sape.php');
         $sape = new SAPE_client(array('charset' => 'UTF-8', 'force_show_code' => false));
         $i = 0;
+        $data = array();
         while ($i < 6 && ($r = $sape->return_links()) != '') {
             $i++;
             $data['links'][] = $r;

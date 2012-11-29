@@ -67,13 +67,8 @@ class user_write extends write {
 
     function edit() {
         if (isset($_FILES['userpic']) && !$_FILES['userpic']['error']) {
-            $result = ImageStore::store($_FILES['userpic']['tmp_name'], array('avatar_small' => '50x50x0', 'avatar_normal' => '100x100x0',), Config::MEDIA_TYPE_AVATAR);
-            foreach ($result['result']['file'] as $key => $file) {
-                if (isset($file['ID'])) {
-                    $id = $file['ID'];
-                    Database::query('UPDATE `user` SET `' . $key . '`=' . $id . ' WHERE `id`=' . CurrentUser::$id);
-                }
-            }
+            $result = ImgStore::upload($_FILES['userpic']['tmp_name'], Config::$sizes[Config::T_SIZE_AVATAR]);
+            Database::query('UPDATE `user` SET `avatar`=' . $result . ' WHERE `id`=' . CurrentUser::$id);
         }
         $error = array();
         if (isset($_POST['old'])) {

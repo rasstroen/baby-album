@@ -46,21 +46,11 @@ class album_write extends write {
 
         $family = min(2, max(1, $family));
 
-        $old = Database::sql2row('SELECT pic_small,pic_normal,pic_big,pic_orig FROM `album` WHERE `id`=' . $album_id);
-        if ($old)
-            list($small, $normal, $big, $orig) = array_values($old);
-        else
-            list($small, $normal, $big, $orig) = array(false, false, false, false);
+       
         if (isset($_FILES['cover']) && $_FILES['cover']['tmp_name']) {
             if (!$_FILES['cover']['error']) {
-                $result = ImageStore::store($_FILES['cover']['tmp_name'], array('pic_small' => '100x100x0', 'pic_normal' => '200x200x0', 'pic_big' => '450x450x1', 'pic_orig' => '0x0x1'), Config::MEDIA_TYPE_ALBUM_COVER
-                                , array($small, $normal, $big, $orig));
-                foreach ($result['result']['file'] as $key => $file) {
-                    if (isset($file['ID'])) {
-                        $id = $file['ID'];
-                        Database::query('UPDATE `album` SET `' . $key . '`=' . $id . ' WHERE `id`=' . $album_id);
-                    }
-                }
+                $result = ImgStore::upload($_FILES['cover']['tmp_name'], Config::$sizes[Config::T_SIZE_ALBUM_COVER]);
+                Database::query('UPDATE `album` SET `picture`=' . $result . ' WHERE `id`=' . $album_id);
             } else {
                 $error['photo'] = 'Недопустимый формат файла';
                 Site::passWrite('error_edit', $error);
@@ -222,19 +212,11 @@ class album_write extends write {
             $event_id = $event_id ? $event_id : Database::lastInsertId();
         }
 
-        $old = Database::sql2row('SELECT pic_small,pic_normal,pic_big,pic_orig FROM `album_events` WHERE `id`=' . $event_id);
-        list($small, $normal, $big, $orig) = array_values($old);
-
         if (isset($_FILES['photo']) && $_FILES['photo']['tmp_name']) {
             if (!$_FILES['photo']['error']) {
-                $result = ImageStore::store($_FILES['photo']['tmp_name'], array('pic_small' => '200x200x0', 'pic_normal' => '450x450x1', 'pic_big' => '1680x1680x1', 'pic_orig' => '0x0x1'), Config::MEDIA_TYPE_PHOTO
-                                , array($small, $normal, $big, $orig));
-                foreach ($result['result']['file'] as $key => $file) {
-                    if (isset($file['ID'])) {
-                        $id = $file['ID'];
-                        Database::query('UPDATE `album_events` SET `' . $key . '`=' . $id . ' WHERE `id`=' . $event_id);
-                    }
-                }
+
+                $result = ImgStore::upload($_FILES['photo']['tmp_name'], Config::$sizes[Config::T_SIZE_PICTURE]);
+                Database::query('UPDATE `album_events` SET `picture`=' . $result . ' WHERE `id`=' . $event_id);
                 Badges::progressAction(CurrentUser::$id, Badges::ACTION_TYPE_ADD_PHOTO);
             } else {
                 $error['photo'] = 'Недопустимый формат файла';

@@ -8,7 +8,7 @@ function _th_event_baby_age($event) {
     $datetime = new DateTime();
     $datetime->setDate($year, $month, $day);
     $datetime_event = new DateTime();
-    $datetime_event->setDate($datetime_event_y, $datetime_event_m, $datetime_event_d);
+    @$datetime_event->setDate($datetime_event_y, $datetime_event_m, $datetime_event_d);
 
     $data['age_days'] = $datetime->diff($datetime_event, $absolute = false);
 
@@ -387,9 +387,9 @@ function tp_album_list_suggested_events($data) {
     }
             ?>
         <script>var album_id = <?php echo $album_id; ?>;
-            $(function(){
-                init_hide_unhide();
-            })
+    $(function(){
+        init_hide_unhide();
+    })
         </script>
     </div><?php
 }
@@ -463,16 +463,16 @@ function tp_album_edit_item($data) {
                     <input name="birthDate" value="<?php input_val($data, $values, 'birthDate', 'edit') ?>">
                 </div>
                 <script>
-                    $('input[name="birthDate"]').datepicker({
-                        dateFormat:"yy-mm-dd",
-                        timeFormat: 'hh:mm',
-                        timeText: 'Время',
-                        hourText: 'Часы',
-                        minuteText: 'Минуты',
-                        secondText: 'Секунды',
-                        currentText: 'Сегодня',
-                        closeText: 'Закрыть'
-                    });
+            $('input[name="birthDate"]').datepicker({
+                dateFormat:"yy-mm-dd",
+                timeFormat: 'hh:mm',
+                timeText: 'Время',
+                hourText: 'Часы',
+                minuteText: 'Минуты',
+                secondText: 'Секунды',
+                currentText: 'Сегодня',
+                closeText: 'Закрыть'
+            });
                 </script>
             </div>
             <div class="data">
@@ -545,19 +545,19 @@ function tp_album_edit_item($data) {
         </div>
     </div>
     <script>
-        $(function(){
-            $('.add_direct').click(function(){
-                var params =  {
-                    method:'add_album_relation',
-                    role:$('.family.add.direct').find('select').val(),
-                    nick:$('.family.add.direct').find('.nickname').val(),
-                    album_id:$('input[name="album_id"]').val()};
+    $(function(){
+    $('.add_direct').click(function(){
+        var params =  {
+            method:'add_album_relation',
+            role:$('.family.add.direct').find('select').val(),
+            nick:$('.family.add.direct').find('.nickname').val(),
+            album_id:$('input[name="album_id"]').val()};
 
-                $.post('/', params, function(data){
+        $.post('/', params, function(data){
 
-                },"json");
-            })
-        })
+        },"json");
+    })
+    })
     </script>
 
     <?php
@@ -628,11 +628,11 @@ function tp_album_list_list_of_event($data) {
             <?php
         }
         ?><div class="album">
-        <?php
-        foreach ($data['events'] as $event) {
-            _th_draw_event_in_list($event, array('atime' => isset($_GET['atime']) && $_GET['atime']));
-        }
-        ?>
+            <?php
+            foreach ($data['events'] as $event) {
+                _th_draw_event_in_list($event, array('atime' => isset($_GET['atime']) && $_GET['atime']));
+            }
+            ?>
         </div>
     </div>
     <?php

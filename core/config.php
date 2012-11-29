@@ -11,10 +11,37 @@ class Config {
     const GLOBAL_EMAIL_PWD = 'Lazer2000';
     const GLOBAL_EMAIL_SERVER = 'smtp.gmail.com';
     //
-    const MEDIA_TYPE_AVATAR = 3;
-    const MEDIA_TYPE_PHOTO = 4;
-    const MEDIA_TYPE_ALBUM_COVER = 5;
+    const T_SIZE_AVATAR = 1;
+    const T_SIZE_PICTURE = 2;
+    const T_SIZE_ALBUM_COVER = 3;
+    const SIZES_AVATAR_SMALL = 10;
+    const SIZES_AVATAR_NORMAL = 20;
+    const SIZES_PICTURE_SMALL = 30;
+    const SIZES_PICTURE_NORMAL = 40;
+    const SIZES_PICTURE_BIG = 50;
+    const SIZES_ALBUM_COVER_SMALL = 30;
+    const SIZES_ALBUM_COVER_NORMAL = 40;
+    const SIZES_ALBUM_COVER_BIG = 50;
+
+    public static $sizes = array(
+        self::T_SIZE_AVATAR => array(
+            self::SIZES_AVATAR_SMALL => '50x50x0',
+            self::SIZES_AVATAR_NORMAL => '100x100x0',
+        ),
+        self::T_SIZE_ALBUM_COVER => array(
+            self::SIZES_ALBUM_COVER_SMALL => '150x150x0',
+            self::SIZES_ALBUM_COVER_NORMAL => '230x230x0',
+            self::SIZES_ALBUM_COVER_BIG => '450x450x1',
+        ),
+        self::T_SIZE_PICTURE => array(
+            self::SIZES_PICTURE_SMALL => '200x200x0',
+            self::SIZES_PICTURE_NORMAL => '450x450x1',
+            self::SIZES_PICTURE_BIG => '980x980x1',
+        ),
+    );
+
     //
+
     const USER_ROLE_UNVERIFIED = 0;
     const USER_ROLE_VERIFIED = 10;
     const USER_ROLE_ADMIN = 50;

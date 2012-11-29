@@ -52,11 +52,10 @@ class module_album extends module {
         $album_id = (int) $album_id[1];
         $query = 'SELECT * FROM `album` WHERE `id`=' . $album_id . ' AND `user_id`=' . CurrentUser::$id;
         $data['album'] = Database::sql2row($query);
-        foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
-            $sub = substr(md5($data['album'][$sizekey]), 1, 4);
-            $url = Config::img_prefix . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
-            $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
-        }
+        $image_id = $data['album']['picture'];
+        foreach (Config::$sizes[Config::T_SIZE_ALBUM_COVER] as $size => $dimensions)
+            $data['album']['picture_' . $size] = ImgStore::getUrl($image_id, $size);
+
 
         $cond = new Conditions();
         $cond->setPaging(99999, $per_page);
@@ -96,10 +95,15 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT ' . $cond->getLimit());
         if (!$data['album'])
             throw new Exception('Нет такого альбома');
 
-        foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
-            $sub = substr(md5($data['album'][$sizekey]), 1, 4);
-            $url = Config::img_prefix . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
-            $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
+        foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_big') as $sizekey) {
+            $sizes = array(
+                'pic_small' => Config::SIZES_ALBUM_COVER_SMALL,
+                'pic_normal' => Config::SIZES_ALBUM_COVER_NORMAL,
+                'pic_big' => Config::SIZES_ALBUM_COVER_BIG,
+                'pic_orig' => 0,
+            );
+
+            $data['album'][$sizekey] = $data['album']['picture'] ? ImgStore::getUrl($data['album']['picture'], $sizes[$sizekey]) : '';
         }
         if ($data['album']['user_id'] == CurrentUser::$id) {
             $data['age_days'] = getAgeInDays($data['album']['birthDate']);
@@ -135,9 +139,13 @@ ORDER BY `age_start_days` , `age_end_days` LIMIT 4');
         $data['album'] = Database::sql2row($query);
         if ($data['album']) {
             foreach (array('pic_small', 'pic_normal', 'pic_big', 'pic_orig') as $sizekey) {
-                $sub = substr(md5($data['album'][$sizekey]), 1, 4);
-                $url = Config::img_prefix . Config::MEDIA_TYPE_ALBUM_COVER . '/' . $sizekey . '/' . $sub . '/' . $data['album'][$sizekey] . '.jpg';
-                $data['album'][$sizekey] = $data['album'][$sizekey] ? $url : '';
+                $sizes = array(
+                    'pic_small' => Config::SIZES_ALBUM_COVER_SMALL,
+                    'pic_normal' => Config::SIZES_ALBUM_COVER_NORMAL,
+                    'pic_big' => Config::SIZES_ALBUM_COVER_BIG,
+                    'pic_orig' => 0,
+                );
+                $data['album'][$sizekey] = $data['album']['picture'] ? ImgStore::getUrl($data['album']['picture'], $sizes[$sizekey]) : '';
             }
         }
         $data['album']['family'] = Database::sql2single('SELECT `family_role` FROM `album_family` WHERE `album_id`=' . $album_id . ' and `user_id`=' . CurrentUser::$id);
@@ -344,19 +352,11 @@ ORDER BY ' . $order . ' LIMIT ' . $limit . '';
             $event['user'] = isset($users[$event['user_id']]) ? $users[$event['user_id']]->data : array();
             $event['template_id'] = $event['template_id'] ? $event['template_id'] : 1;
 
-            $sub = substr(md5($event['pic_small']), 1, 4);
-            $small = Config::img_prefix . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_small' . '/' . $sub . '/' . $event['pic_small'] . '.jpg';
-            $sub = substr(md5($event['pic_normal']), 1, 4);
-            $normal = Config::img_prefix . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_normal' . '/' . $sub . '/' . $event['pic_normal'] . '.jpg';
-            $sub = substr(md5($event['pic_big']), 1, 4);
-            $big = Config::img_prefix . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_big' . '/' . $sub . '/' . $event['pic_big'] . '.jpg';
-            $sub = substr(md5($event['pic_orig']), 1, 4);
-            $orig = Config::img_prefix . Config::MEDIA_TYPE_PHOTO . '/' . 'pic_orig' . '/' . $sub . '/' . $event['pic_orig'] . '.jpg';
-
-            $event['pic_small'] = $event['pic_small'] ? $small : false;
-            $event['pic_normal'] = $event['pic_normal'] ? $normal : false;
-            $event['pic_big'] = $event['pic_big'] ? $big : false;
-            $event['pic_orig'] = $event['pic_orig'] ? $orig : false;
+            $image_id = $event['picture'];
+            $event['pic_small'] = $image_id ? ImgStore::getUrl($image_id, Config::SIZES_PICTURE_SMALL) : false;
+            $event['pic_normal'] = $image_id ? ImgStore::getUrl($image_id, Config::SIZES_PICTURE_NORMAL) : false;
+            $event['pic_big'] = $image_id ? ImgStore::getUrl($image_id, Config::SIZES_PICTURE_BIG) : false;
+            $event['pic_orig'] = $image_id ? ImgStore::getUrl($image_id, 0) : false;
         }
 
         $cond->setPaging(Database::sql2single('SELECT FOUND_ROWS()'), $per_page);
