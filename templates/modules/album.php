@@ -269,9 +269,9 @@ function tp_album_edit_event($data) {
             <div class="time"><?php echo (isset($opts['atime']) && $opts['atime']) ? date('Y-m-d', $event['createTime']) : $event['eventTime']; ?></div>
         </div>
         <div class="body">
-            <?php if ($event['pic_orig']) { ?>
+            <?php if ($event['pic_big']) { ?>
                 <div class="img tilt-<?php echo ($tilt_counter++ % 2) ?>">
-                    <a href="<?php echo $event['pic_orig']; ?>">
+                    <a href="<?php echo $event['pic_big']; ?>">
                         <img src="<?php echo $event['pic_small']; ?>">
                     </a>
                 </div><div class="right">

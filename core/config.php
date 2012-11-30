@@ -19,9 +19,9 @@ class Config {
     const SIZES_PICTURE_SMALL = 30;
     const SIZES_PICTURE_NORMAL = 40;
     const SIZES_PICTURE_BIG = 50;
-    const SIZES_ALBUM_COVER_SMALL = 30;
-    const SIZES_ALBUM_COVER_NORMAL = 40;
-    const SIZES_ALBUM_COVER_BIG = 50;
+    const SIZES_ALBUM_COVER_SMALL = 60;
+    const SIZES_ALBUM_COVER_NORMAL = 70;
+    const SIZES_ALBUM_COVER_BIG = 80;
 
     public static $sizes = array(
         self::T_SIZE_AVATAR => array(

@@ -46,7 +46,7 @@ class album_write extends write {
 
         $family = min(2, max(1, $family));
 
-       
+
         if (isset($_FILES['cover']) && $_FILES['cover']['tmp_name']) {
             if (!$_FILES['cover']['error']) {
                 $result = ImgStore::upload($_FILES['cover']['tmp_name'], Config::$sizes[Config::T_SIZE_ALBUM_COVER]);
@@ -180,8 +180,6 @@ class album_write extends write {
             }
         }
 
-
-
         if (count($error)) {
             Site::passWrite('error_', $error);
             Site::passWrite('value', $_POST);
@@ -217,6 +215,9 @@ class album_write extends write {
 
                 $result = ImgStore::upload($_FILES['photo']['tmp_name'], Config::$sizes[Config::T_SIZE_PICTURE]);
                 Database::query('UPDATE `album_events` SET `picture`=' . $result . ' WHERE `id`=' . $event_id);
+                $old_image_id = Database::sql2single('SELECT `picture` FROM `album_events` WHERE `id`=' . $event_id);
+                if ($old_image_id)
+                    Database::query('UPDATE `images` SET `deleted`=1 WHERE `image_id`=' . $old_image_id);
                 Badges::progressAction(CurrentUser::$id, Badges::ACTION_TYPE_ADD_PHOTO);
             } else {
                 $error['photo'] = 'Недопустимый формат файла';

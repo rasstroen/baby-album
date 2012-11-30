@@ -20,6 +20,7 @@ class ImgStore {
     // server list
     const SERVER_ORIG = 1;
     const SERVER_AMAZONS3 = 2;
+    const SERVER_PRIVATE = 3;
     //
     const ROOT_FOLDER = '/home/images/';
 
@@ -161,7 +162,10 @@ class ImgStore {
         $image_id = Database::lastInsertId();
         // перемещаем файл туда, где он должен лежать
         $file_path = self::getFileLocalPath($image_id, 0);
-        move_uploaded_file($tmp_name, $file_path);
+        if (!move_uploaded_file($tmp_name, $file_path)) {
+            Database::query('DELETE FROM `images` WHERE `id`=' . $image_id);
+            throw new Exception('Cant move uploaded file ' . $tmp_name . ' to ' . $file_path);
+        }
         // выставляем `image_id`. этот же image_id будет у всех ресайженных копиях этого изображения
         Database::query('UPDATE `images` SET `image_id`=`id` WHERE `id`=' . $image_id);
         $sql = array();
@@ -205,13 +209,13 @@ class ImgStore {
         $cachebreaker = $cachebreaker ? '?' . $cachebreaker : '';
         $data = Database::sql2row('SELECT `error_code`,`server_id`,`deleted`,`ready` FROM `images` WHERE `image_id`=' . $image_id . ' AND `size_id`=' . $size);
         if (!$data)
-            return self::$server_urls[self::SERVER_ORIG] . '404/' . $size . '.jpg?nofound';
+            return self::$server_urls[self::SERVER_ORIG] . '404/' . $size . '.png?nofound';
         if ($data['deleted'])
-            return self::$server_urls[self::SERVER_ORIG] . '404/' . $size . '.jpg?deleted';
+            return self::$server_urls[self::SERVER_ORIG] . '404/' . $size . '.png?deleted';
         if (!$data['ready'])
-            return self::$server_urls[self::SERVER_ORIG] . '415/' . $size . '.jpg?unready' . $cachebreaker;
+            return self::$server_urls[self::SERVER_ORIG] . '415/' . $size . '.png?unready' . $cachebreaker;
         if ($data['error_code'])
-            return self::$server_urls[self::SERVER_ORIG] . '502/' . $size . '.jpg?error' . $data['error_code'];
+            return self::$server_urls[self::SERVER_ORIG] . '502/' . $size . '.png?error' . $data['error_code'];
         $md5 = md5($image_id . $size);
 
         $url = self::$server_urls[$data['server_id']] . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/' . $image_id . '.jpg' . $cachebreaker;

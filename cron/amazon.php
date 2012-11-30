@@ -29,16 +29,13 @@ if (!is_running_process(basename(__FILE__))) {
         );
     }
 
-
-
-
     while (true) {
         $query = 'SELECT * FROM `images` WHERE
             `server_id`=1 AND
             `ready`=1 AND
             `private`=0 AND
             `deleted`=0 AND
-            (`width`>900 OR `height`>900)
+            (`width`>1200 OR `height`>1200)
             ORDER BY `add_time` , `amazon_stored_time`
             LIMIT 10';
         $to_export = Database::sql2array($query);
