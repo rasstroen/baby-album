@@ -6,7 +6,7 @@ list($image_id, $size) = explode('-', $end);
 $image_id = (int) $image_id;
 $size = (int) $size;
 
-if ($image_id && $size) {
+if ($image_id) {
     $core_path = 'core/';
     require_once $core_path . 'config.php';
     require_once $core_path . 'include.php';

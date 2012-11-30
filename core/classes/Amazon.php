@@ -23,6 +23,14 @@ class Amazon {
                 ));
     }
 
+    public static function delete($dest) {
+        self::init();
+        $s3 = self::$s3;
+        /* @var $s3 AmazonS3 */
+        $result = $s3->delete_object(self::$bucket_name, $dest);
+        return $result->status;
+    }
+
     public static function store($source, $dest) {
         self::init();
         $s3 = self::$s3;

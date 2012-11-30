@@ -212,10 +212,9 @@ class album_write extends write {
 
         if (isset($_FILES['photo']) && $_FILES['photo']['tmp_name']) {
             if (!$_FILES['photo']['error']) {
-
+                $old_image_id = Database::sql2single('SELECT `picture` FROM `album_events` WHERE `id`=' . $event_id);
                 $result = ImgStore::upload($_FILES['photo']['tmp_name'], Config::$sizes[Config::T_SIZE_PICTURE]);
                 Database::query('UPDATE `album_events` SET `picture`=' . $result . ' WHERE `id`=' . $event_id);
-                $old_image_id = Database::sql2single('SELECT `picture` FROM `album_events` WHERE `id`=' . $event_id);
                 if ($old_image_id)
                     Database::query('UPDATE `images` SET `deleted`=1 WHERE `image_id`=' . $old_image_id);
                 Badges::progressAction(CurrentUser::$id, Badges::ACTION_TYPE_ADD_PHOTO);

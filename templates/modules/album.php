@@ -271,7 +271,7 @@ function tp_album_edit_event($data) {
         <div class="body">
             <?php if ($event['pic_big']) { ?>
                 <div class="img tilt-<?php echo ($tilt_counter++ % 2) ?>">
-                    <a href="<?php echo $event['pic_big']; ?>">
+                    <a href="<?php echo $event['pic_orig']; ?>">
                         <img src="<?php echo $event['pic_small']; ?>">
                     </a>
                 </div><div class="right">
