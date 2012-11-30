@@ -225,7 +225,7 @@ class user_write extends write {
         $mailer = new MailSender();
         $r = $mailer->mail(Config::GLOBAL_EMAIL, $email, 'Восстановление пароля на balbum.ru', $body);
         if (!$r)
-            throw new Exception('mailing error');
+            throw new Exception('mailing error ' . Config::GLOBAL_EMAIL . '-' . $email);
         return $r;
     }
 

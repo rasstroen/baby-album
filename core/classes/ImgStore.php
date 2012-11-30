@@ -23,10 +23,12 @@ class ImgStore {
     const SERVER_PRIVATE = 3;
     //
     const ROOT_FOLDER = '/home/images/';
+    const ROOT_PRIVATE_FOLDER = '/home/images_private/';
 
     public static $server_urls = array(
         self::SERVER_ORIG => 'http://st.balbum.ru/',
         self::SERVER_AMAZONS3 => 'https://s3-eu-west-1.amazonaws.com/balbum/',
+        self::SERVER_PRIVATE => 'http://pc.balbum.ru/',
     );
 
     public static function resize($orig_file_path, $settings, $target_file_path) {
@@ -114,9 +116,9 @@ class ImgStore {
         return $props;
     }
 
-    public static function getFileLocalPath($image_id, $size_id) {
-        $md5 = md5($image_id . $size_id);
-        $path = self::ROOT_FOLDER . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/';
+    public static function getFileLocalPath($image_id, $size_id, $private = false) {
+        $md5 = md5($image_id . $size_id . ($private ? 'private' : ''));
+        $path = (!$private ? self::ROOT_FOLDER : self::ROOT_PRIVATE_FOLDER) . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/';
         @mkdir($path, 0777, true);
         $file_name = $path . $image_id . '.jpg';
         return $file_name;
@@ -207,7 +209,7 @@ class ImgStore {
      */
     public static function getUrl($image_id, $size, $cachebreaker = 'c') {
         $cachebreaker = $cachebreaker ? '?' . $cachebreaker : '';
-        $data = Database::sql2row('SELECT `error_code`,`server_id`,`deleted`,`ready` FROM `images` WHERE `image_id`=' . $image_id . ' AND `size_id`=' . $size);
+        $data = Database::sql2row('SELECT `error_code`,`server_id`,`deleted`,`ready`,`private_real` FROM `images` WHERE `image_id`=' . $image_id . ' AND `size_id`=' . $size);
         if (!$data)
             return self::$server_urls[self::SERVER_ORIG] . '404/' . $size . '.png?nofound';
         if ($data['deleted'])
@@ -216,9 +218,14 @@ class ImgStore {
             return self::$server_urls[self::SERVER_ORIG] . '415/' . $size . '.png?unready' . $cachebreaker;
         if ($data['error_code'])
             return self::$server_urls[self::SERVER_ORIG] . '502/' . $size . '.png?error' . $data['error_code'];
-        $md5 = md5($image_id . $size);
+        $md5 = md5($image_id . $size . ($data['private_real'] ? 'private' : ''));
 
-        $url = self::$server_urls[$data['server_id']] . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/' . $image_id . '.jpg' . $cachebreaker;
+        if ($data['private_real']) {
+            $url = self::$server_urls[$data['server_id']] . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/' . $image_id . '-' . $size . '.jpg' . $cachebreaker;
+        } else {
+            $url = self::$server_urls[$data['server_id']] . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/' . $image_id . '.jpg' . $cachebreaker;
+        }
+
 
         return $url;
     }
