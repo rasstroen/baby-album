@@ -71,7 +71,7 @@ if (!is_running_process(basename(__FILE__))) {
 
                 if ($amazon_fetch) {
                     // fetch from amazon
-                    $fetch_url = ImgStore::getUrl($image['image_id'], $image['size_id']);
+                    $fetch_url = ImgStore::getUrl($image['image_id'], $image['size_id'], 0);
                     $real_private_path = ImgStore::getFileLocalPath($image['image_id'], $image['size_id'], $private = true);
                     log_('fetching ' . $fetch_url . ' to ' . $real_private_path);
                     file_put_contents($real_private_path, file_get_contents($fetch_url));
