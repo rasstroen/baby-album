@@ -188,7 +188,7 @@ function tp_album_show_event($data) {
                     <a href="<?php echo $event['pic_big']; ?>">
                         <img src="<?php echo $event['pic_normal']; ?>">
                     </a>
-                    <a class="orig" href="<?php echo $event['pic_orig']; ?>">оригинал</a>
+                    <!--a class="orig" href="<?php echo $event['pic_orig']; ?>">оригинал</a-->
                 </div>
             <?php } ?>
             <?php if ($event['description']) { ?>

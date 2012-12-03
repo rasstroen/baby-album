@@ -8,6 +8,8 @@ require_once $core_path . 'include.php';
 
 if (isset($_POST['x'])) {
     echo date('Y-m-d H:i:s') . "\n";
+    //$props = ImgStore::getImageProperties($_FILES['photo']['tmp_name'], $full = true);
+    //dpe($props);
     $image_id = ImgStore::upload($_FILES['photo']['tmp_name'], array(1 => '100x100x0', 2 => '500x500x1', 3 => '250x250x1'));
     echo date('Y-m-d H:i:s') . "\n";
     echo '<img src="' . ImgStore::getUrl($image_id, 0) . '">' . "\n";

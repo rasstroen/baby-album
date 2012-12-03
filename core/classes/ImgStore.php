@@ -87,11 +87,13 @@ class ImgStore {
      * deleted - удаленное изображение. пропадет из таблицы при реальном физическом удалении
      * error_code - код ошибки при обработке/ресайзе
      */
-    private static function getImageProperties($tmp_name) {
+    public static function getImageProperties($tmp_name, $full = false) {
         $props_ = getimagesize($tmp_name);
         $ex = @exif_read_data($tmp_name);
         if ($ex)
             $props_+=$ex;
+        if ($full)
+            return $props_;
         // mime
         $props['mime'] = $props_['mime'];
         // width
@@ -105,7 +107,7 @@ class ImgStore {
         // camera model
         $props['model'] = isset($props_['Model']) ? $props_['Model'] : '';
         // orientation
-        $props['orientation'] = isset($props_['Orientation']) ? $props_['Orientation'] : ($props['height'] > $props['height'] ? 1 : 6);
+        $props['orientation'] = isset($props_['Orientation']) ? $props_['Orientation'] : 0;
         // time of photo
         $props['photo_time'] = isset($props_['DateTimeOriginal']) ? $props_['DateTimeOriginal'] : 0;
         // programm
@@ -124,6 +126,30 @@ class ImgStore {
         return $file_name;
     }
 
+    public static function resample($width_orig, $height_orig, $source, $dest, $orientation) {
+        // Resample
+        if (!in_array($orientation, array(3, 6, 8)))
+            return true;
+        $image_p = imagecreatetruecolor($width_orig, $height_orig);
+        $image = imagecreatefromjpeg($source);
+        imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width_orig, $height_orig, $width_orig, $height_orig);
+        // Fix Orientation
+        switch ($orientation) {
+            case 3:
+                $image_p = imagerotate($image_p, 180, 0);
+                break;
+            case 6:
+                $image_p = imagerotate($image_p, -90, 0);
+                break;
+            case 8:
+                $image_p = imagerotate($image_p, 90, 0);
+                break;
+        }
+        // Output
+        imagejpeg($image_p, $dest, 100);
+        return true;
+    }
+
     /**
      * Скармливаем загруженный оригинал картинки, сохраняем на диске, добавляем в очередь на
      * обработку, отдаем уникальный id картинки. В дальнейшем url до картинки можно будет получить
@@ -138,6 +164,9 @@ class ImgStore {
         // получаем информацию об изображении
         $time = time();
         $props = self::getImageProperties($tmp_name);
+        // поворачиваем, если это нужно
+        self::resample($props['width'], $props['height'], $tmp_name, $tmp_name, $props['orientation']);
+
         // добавляем запись для оригинального изображения
         Database::query('INSERT INTO `images` SET
             `size_id`=0,
