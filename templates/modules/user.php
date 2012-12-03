@@ -124,11 +124,13 @@ function tp_user_edit_profile($data) {
                     <div class="value">
                         <?php
                         $vk_txt = 'не привязан';
+                        $vk_url = 'https://oauth.vk.com/authorize?client_id=' . Config::APP_ID_VK . '&redirect_uri=http://balbum.ru/connect/vk&scope=photos,notify,groups,offline&display=page';
                         if ($values['vk_id']) {
-                            $vk_txt = $value['vk_name'] ? $value['vk_name'] : 'http://vk.com/id' . $values['vk_id'];
+                            $vk_url = 'http://vk.com/id' . $values['vk_id'];
+                            $vk_txt = $values['vk_name'] ? $values['vk_name'] : 'http://vk.com/id' . $values['vk_id'];
                         }
                         ?>
-                        <span class="vk"><a onclick="change_vk_profile()"><?php echo $vk_txt; ?></a></span>
+                        <span class="vk"><a href="<?php echo $vk_url; ?>" onclick="change_vk_profile()"><?php echo $vk_txt; ?></a></span>
                     </div>
                 </div>
 
@@ -216,7 +218,7 @@ function tp_user_show_badges($data) {
             }
         }
         ?><div title="<?php echo $descr; ?>" alt="<?php echo $descr; ?>" class="badge badge_type<?php echo $badge_id; ?> badge_state_<?php echo $state; ?>">
-                                                        <!--div class="progress"><?php echo $progress; ?></div-->
+                                                                    <!--div class="progress"><?php echo $progress; ?></div-->
                 <div class="title"><?php echo $title; ?></div>
                 <!--div class="descr"><?php echo $descr; ?></div-->
                 <div class="points"><?php echo $points; ?></div>
