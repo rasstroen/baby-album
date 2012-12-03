@@ -9,6 +9,9 @@ class Map {
         'index' => array(
             '' => 'index',
         ),
+        'connect' => array(
+            'vk' => 'connect_vk',
+        ),
         'event' => array(
             '%d' => array(
                 '' => 'list_of_event', // все эвенты данного типа

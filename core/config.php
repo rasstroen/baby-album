@@ -1,7 +1,11 @@
 <?php
 
 class Config {
+    // social
 
+    const APP_ID_VK = '3273664';
+    const APP_SECRET_VK = 'Cm9qOMSZYvLKglfM021D';
+    //
     const img_prefix = 'http://img.balbum.ru/';
     //
     const COMMENT_OBJECT_ALBUM_EVENT = 1;

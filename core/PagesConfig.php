@@ -334,6 +334,19 @@ class PagesConfig {
                 ),
             ),
         ),
+        'connect_vk' => array(
+            'title' => 'Присоединение аккаунта',
+            'layout' => 'two_columns',
+            'css' => array(
+            ),
+            'js' => array(
+            ),
+            'blocks' => array(
+                'content' => array(
+                    array('name' => 'user', 'action' => 'show', 'mode' => 'connect_vk'),
+                ),
+            ),
+        ),
         'publication' => array(
             'title' => 'Публикация',
             'layout' => 'two_columns',
@@ -395,6 +408,7 @@ class PagesConfig {
                 array('href' => 'http://code.jquery.com/ui/1.8.24/jquery-ui.min.js'),
                 array('href' => '/static/js/jquery-ui-timepicker-addon.js'),
                 array('href' => '/static/js/like.js'),
+                array('href' => '/static/js/social.js'),
             ),
             'css' => array(
                 array('href' => '/static/css/style.css'),
@@ -417,6 +431,7 @@ class PagesConfig {
                 array('href' => 'http://code.jquery.com/ui/1.8.24/jquery-ui.min.js'),
                 array('href' => '/static/js/jquery-ui-timepicker-addon.js'),
                 array('href' => '/static/js/like.js'),
+                array('href' => '/static/js/social.js'),
             ),
             'css' => array(
                 array('href' => '/static/css/style.css'),
@@ -438,6 +453,7 @@ class PagesConfig {
                 array('href' => 'http://code.jquery.com/ui/1.8.24/jquery-ui.min.js'),
                 array('href' => '/static/js/jquery-ui-timepicker-addon.js'),
                 array('href' => '/static/js/like.js'),
+                array('href' => '/static/js/social.js'),
             ),
             'css' => array(
                 array('href' => '/static/css/style.css'),

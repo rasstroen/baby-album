@@ -4,6 +4,32 @@
  *
  * @author mchubar
  */
+function tp_user_show_connect_vk($data) {
+    ?>
+    <div class="user_connect_vk">
+        <?php
+        if ($data && $data['name']) {
+            ?>
+            <h3>Вы успешно привязали этот аккаунт к своему профилю:</h3>
+            <div class="pic">
+                <img src="<?php echo $data['pic']; ?>">
+            </div>
+            <div class="name">
+                <?php echo $data['name']; ?>
+            </div>
+            <?php
+        } else {
+            ?>
+            <span class="error">
+                <?php echo $data['error']; ?>
+            </span>
+            <?php
+        }
+        ?>
+    </div>
+    <?php
+}
+
 function tp_user_show_pass_restore($data) {
 
     if (isset($data['write']['success'])) {
@@ -92,6 +118,22 @@ function tp_user_edit_profile($data) {
                 </div>
             </div>
             <div class="block">
+                <div class="head">Социальные сети</div>
+                <div class="data">
+                    <div class="title">Вконтакте</div>
+                    <div class="value">
+                        <?php
+                        $vk_txt = 'не привязан';
+                        if ($values['vk_id']) {
+                            $vk_txt = $value['vk_name'] ? $value['vk_name'] : 'http://vk.com/id' . $values['vk_id'];
+                        }
+                        ?>
+                        <span class="vk"><a onclick="change_vk_profile()"><?php echo $vk_txt; ?></a></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="block">
                 <div class="head">Фотография профиля</div>
                 <div class="data">
                     <div class="title">
@@ -174,7 +216,7 @@ function tp_user_show_badges($data) {
             }
         }
         ?><div title="<?php echo $descr; ?>" alt="<?php echo $descr; ?>" class="badge badge_type<?php echo $badge_id; ?> badge_state_<?php echo $state; ?>">
-                <!--div class="progress"><?php echo $progress; ?></div-->
+                                                        <!--div class="progress"><?php echo $progress; ?></div-->
                 <div class="title"><?php echo $title; ?></div>
                 <!--div class="descr"><?php echo $descr; ?></div-->
                 <div class="points"><?php echo $points; ?></div>

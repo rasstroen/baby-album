@@ -121,15 +121,16 @@ class ImgStore {
     public static function getFileLocalPath($image_id, $size_id, $private = false) {
         $md5 = md5($image_id . $size_id . ($private ? 'private' : ''));
         $path = (!$private ? self::ROOT_FOLDER : self::ROOT_PRIVATE_FOLDER) . substr($md5, 0, 2) . '/' . substr($md5, 3, 3) . '/';
-        @mkdir($path, 0777, true);
+        mkdir($path, 0777, true);
         $file_name = $path . $image_id . '.jpg';
         return $file_name;
     }
 
     public static function resample($width_orig, $height_orig, $source, $dest, $orientation) {
         // Resample
+        $dg90 = false;
         if (!in_array($orientation, array(3, 6, 8)))
-            return true;
+            return array($width_orig, $height_orig, $source);
         $image_p = imagecreatetruecolor($width_orig, $height_orig);
         $image = imagecreatefromjpeg($source);
         imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width_orig, $height_orig, $width_orig, $height_orig);
@@ -139,15 +140,20 @@ class ImgStore {
                 $image_p = imagerotate($image_p, 180, 0);
                 break;
             case 6:
+                $dg90 = true;
                 $image_p = imagerotate($image_p, -90, 0);
                 break;
             case 8:
+                $dg90 = true;
                 $image_p = imagerotate($image_p, 90, 0);
                 break;
         }
         // Output
         imagejpeg($image_p, $dest, 100);
-        return true;
+        if ($dg90)
+            return array($height_orig, $width_orig, $dest);
+        else
+            return array($width_orig, $height_orig, $dest);
     }
 
     /**
@@ -165,8 +171,10 @@ class ImgStore {
         $time = time();
         $props = self::getImageProperties($tmp_name);
         // поворачиваем, если это нужно
-        self::resample($props['width'], $props['height'], $tmp_name, $tmp_name, $props['orientation']);
+        list($props['width'], $props['height'], $tmp_name) = self::resample($props['width'], $props['height'], $tmp_name, $tmp_name . '.tmp', $props['orientation']);
 
+        if (!$props['width'] = (int) $props['width'])
+            throw new Exception('Cant get image width');
         // добавляем запись для оригинального изображения
         Database::query('INSERT INTO `images` SET
             `size_id`=0,
@@ -193,9 +201,11 @@ class ImgStore {
         $image_id = Database::lastInsertId();
         // перемещаем файл туда, где он должен лежать
         $file_path = self::getFileLocalPath($image_id, 0);
-        if (!move_uploaded_file($tmp_name, $file_path)) {
+        if (!rename($tmp_name, $file_path)) {
             Database::query('DELETE FROM `images` WHERE `id`=' . $image_id);
-            throw new Exception('Cant move uploaded file ' . $tmp_name . ' to ' . $file_path);
+            throw new Exception('Cant rename file ' . $tmp_name . ' to ' . $file_path);
+        } else {
+            chmod($file_path, 0666);
         }
         // выставляем `image_id`. этот же image_id будет у всех ресайженных копиях этого изображения
         Database::query('UPDATE `images` SET `image_id`=`id` WHERE `id`=' . $image_id);
