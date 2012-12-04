@@ -5,6 +5,11 @@ class Config {
 
     const APP_ID_VK = '3273664';
     const APP_SECRET_VK = 'Cm9qOMSZYvLKglfM021D';
+    const APP_ID_FB = '387908197958951';
+    const APP_SECRET_FB = 'd58b9af39d0220f1ad00ec506b1f9923';
+    const APP_ID_OK = '125893376';
+    const APP_KEY_OK = 'CBAMPBIIABABABABA';
+    const APP_SECRET_OK = '081ED639EAA842F186162D45';
     //
     const img_prefix = 'http://img.balbum.ru/';
     //

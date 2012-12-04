@@ -11,6 +11,11 @@ class Map {
         ),
         'connect' => array(
             'vk' => 'connect_vk',
+            'fb' => 'connect_fb',
+            'ok' => 'connect_ok',
+        ),
+        'update' => array(
+            'fb' => 'update_fb',
         ),
         'event' => array(
             '%d' => array(
@@ -97,8 +102,8 @@ class Map {
                 $page_name = Map::getSubpageConfiguration($url_array, $subparams);
             }
         }
-        if (!$page_name){
-            header('404 Not Found',1,404);
+        if (!$page_name) {
+            header('404 Not Found', 1, 404);
             return;
         }
 

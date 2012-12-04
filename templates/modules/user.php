@@ -4,11 +4,63 @@
  *
  * @author mchubar
  */
+function tp_user_show_connect_fb($data) {
+    ?>
+    <div class="user_connect user_connect_fb">
+        <?php
+        if ($data && isset($data['name'])) {
+            ?>
+            <h3>Вы успешно привязали этот аккаунт к своему профилю:</h3>
+            <div class="pic">
+                <img src="<?php echo $data['pic']; ?>">
+            </div>
+            <div class="name">
+                <?php echo $data['name']; ?>
+            </div>
+            <?php
+        } else {
+            ?>
+            <span class="error">
+                <?php echo $data['error']; ?>
+            </span>
+            <?php
+        }
+        ?>
+    </div>
+    <?php
+}
+
+function tp_user_show_connect_ok($data) {
+    ?>
+    <div class="user_connect user_connect_ok">
+        <?php
+        if ($data && isset($data['name'])) {
+            ?>
+            <h3>Вы успешно привязали этот аккаунт к своему профилю:</h3>
+            <!--div class="pic">
+                <img src="<?php echo $data['pic']; ?>">
+            </div-->
+            <div class="name">
+                <?php echo $data['name']; ?>
+            </div>
+            <?php
+        } else {
+            ?>
+            <span class="error">
+                <?php echo $data['error']; ?>
+            </span>
+            <?php
+        }
+        ?>
+    </div>
+    <?php
+}
+
 function tp_user_show_connect_vk($data) {
     ?>
-    <div class="user_connect_vk">
+    <div class="user_connect user_connect_vk">
         <?php
-        if ($data && $data['name']) {
+        if ($data && isset($data['name'])) {
             ?>
             <h3>Вы успешно привязали этот аккаунт к своему профилю:</h3>
             <div class="pic">
@@ -124,16 +176,58 @@ function tp_user_edit_profile($data) {
                     <div class="value">
                         <?php
                         $vk_txt = 'не привязан';
-                        $vk_url = 'https://oauth.vk.com/authorize?client_id=' . Config::APP_ID_VK . '&redirect_uri=http://balbum.ru/connect/vk&scope=photos,notify,groups,offline&display=page';
+                        $vk_url = 'https://oauth.vk.com/authorize?client_id=' . Config::APP_ID_VK . '&redirect_uri=http://balbum.ru/connect/vk&scope=friends,photos,notify,groups,offline&display=page';
                         if ($values['vk_id']) {
                             $vk_url = 'http://vk.com/id' . $values['vk_id'];
                             $vk_txt = $values['vk_name'] ? $values['vk_name'] : 'http://vk.com/id' . $values['vk_id'];
                         }
                         ?>
-                        <span class="vk"><a href="<?php echo $vk_url; ?>" onclick="change_vk_profile()"><?php echo $vk_txt; ?></a></span>
+                        <span class="vk"><a href="<?php echo $vk_url; ?>" ><?php echo $vk_txt; ?></a></span>
+                        <?php if ($values['vk_id']) {
+                            ?>
+                            <span class="vk_change"><a href="#" onclick="change_vk_profile()">изменить</a></span>
+                        <?php }
+                        ?>
                     </div>
                 </div>
-
+                <div class="data">
+                    <div class="title">Facebook</div>
+                    <div class="value">
+                        <?php
+                        $fb_txt = 'не привязан';
+                        $fb_url = 'https://www.facebook.com/dialog/oauth?client_id=' . Config::APP_ID_FB . '&redirect_uri=http://balbum.ru/connect/fb&scope=offline_access,user_photos,user_checkins,user_groups&response_type=code';
+                        if ($values['fb_id']) {
+                            $fb_url = 'http://facebook.com/profile.php?id=' . $values['fb_id'];
+                            $fb_txt = $values['fb_name'] ? $values['fb_name'] : 'http://facebook.com/profile.php?id=' . $values['fb_id'];
+                        }
+                        ?>
+                        <span class="fb"><a href="<?php echo $fb_url; ?>" ><?php echo $fb_txt; ?></a></span>
+                        <?php if ($values['fb_id']) {
+                            ?>
+                            <span class="fb_change"><a href="#" onclick="change_fb_profile()">изменить</a></span>
+                        <?php }
+                        ?>
+                    </div>
+                </div>
+                <div class="data">
+                    <div class="title">Одноклассники</div>
+                    <div class="value">
+                        <?php
+                        $ok_txt = 'не привязан';
+                        $ok_url = 'http://www.odnoklassniki.ru/oauth/authorize?client_id=' . Config::APP_ID_OK . '&scope=PHOTO CONTENT&response_type=code&redirect_uri=http://balbum.ru/connect/ok';
+                        if ($values['ok_id']) {
+                            $ok_url = 'http://www.odnoklassniki.ru/profile/' . $values['ok_id'];
+                            $ok_txt = $values['ok_name'] ? $values['ok_name'] : 'http://www.odnoklassniki.ru/profile/' . $values['ok_id'];
+                        }
+                        ?>
+                        <span class="ok"><a href="<?php echo $ok_url; ?>" ><?php echo $ok_txt; ?></a></span>
+                        <?php if ($values['ok_id']) {
+                            ?>
+                            <span class="ok_change"><a href="#" onclick="change_ok_profile()">изменить</a></span>
+                        <?php }
+                        ?>
+                    </div>
+                </div>
             </div>
             <div class="block">
                 <div class="head">Фотография профиля</div>
@@ -218,7 +312,7 @@ function tp_user_show_badges($data) {
             }
         }
         ?><div title="<?php echo $descr; ?>" alt="<?php echo $descr; ?>" class="badge badge_type<?php echo $badge_id; ?> badge_state_<?php echo $state; ?>">
-                                                                    <!--div class="progress"><?php echo $progress; ?></div-->
+                                                                                                                                                <!--div class="progress"><?php echo $progress; ?></div-->
                 <div class="title"><?php echo $title; ?></div>
                 <!--div class="descr"><?php echo $descr; ?></div-->
                 <div class="points"><?php echo $points; ?></div>
@@ -247,6 +341,36 @@ function tp_user_show_profile_small($data) {
             <?php } ?>
 
             <i>награды</i><span><a href="/u/<?php echo $user->id; ?>/badges">смотреть</a></span>
+
+            <?php
+            if ($udata['vk_id']) {
+                $vk_url = 'http://vk.com/id' . $udata['vk_id'];
+                $vk_txt = $udata['vk_name'] ? $udata['vk_name'] : 'http://vk.com/id' . $udata['vk_id'];
+                ?>
+                <noindex>
+                    <i>вконтакте</i><span><a href="<?php echo $vk_url; ?>"><?php echo $vk_txt; ?></a></span>
+                </noindex>
+            <?php } ?>
+
+            <?php
+            if ($udata['fb_id']) {
+                $fb_url = 'http://facebook.com/profile.php?id=' . $udata['fb_id'];
+                $fb_txt = $udata['fb_name'] ? $udata['fb_name'] : 'http://facebook.com/profile.php?id=' . $udata['fb_id'];
+                ?>
+                <noindex>
+                    <i>facebook</i><span><a href="<?php echo $fb_url; ?>"><?php echo $fb_txt; ?></a></span>
+                </noindex>
+            <?php } ?>
+
+            <?php
+            if ($udata['ok_id']) {
+                $ok_url = 'http://odnoklassniki.ru/profile/' . $udata['ok_id'];
+                $ok_txt = $udata['ok_name'] ? $udata['ok_name'] : 'http://odnoklassniki.ru/profile/' . $udata['ok_id'];
+                ?>
+                <noindex>
+                    <i>Одноклассники</i><span><a href="<?php echo $ok_url; ?>"><?php echo $ok_txt; ?></a></span>
+                </noindex>
+            <?php } ?>
 
         </div>
     </div>
@@ -278,7 +402,11 @@ function tp_user_show_profile($data) {
             }
             ?>
             <?php if ($self) {
-                ?><div class="add"><a href="/album/0/edit">Добавить альбом</a></div><?php }
+                ?><div class="add"><a href="/album/0/edit">Добавить альбом</a></div><?php
+        if ($udata['vk_id']) {
+                    ?><div class="add"><a href="/album/vk/edit">Скопировать фотографии из Вконтакте</a></div><?php
+        }
+    }
             ?>
         </div>
     </div>

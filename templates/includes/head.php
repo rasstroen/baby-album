@@ -28,6 +28,8 @@
         })();
 <?php
 echo 'var vk_app_id = ' . Config::APP_ID_VK . ';';
+echo 'var fb_app_id = ' . Config::APP_ID_FB . ';';
+echo 'var ok_app_id = ' . Config::APP_ID_OK . ';';
 ?>
     </script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
